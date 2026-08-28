@@ -1,60 +1,257 @@
-const express = require("express");
-const mongoose = require("mongoose");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-const app = express();
-app.use(express.json());
+    <title>University Portal</title>
 
-// --------------------------------------
-// MongoDB connection with DB path
-// --------------------------------------
-const dbPath = "mongodb+srv://vishalse7488_db_user:<db_password>@vishal.ffztckf.mongodb.net/?appName=vishal"
-// Change "mydatabase" to your DB name
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-mongoose
-  .connect(dbPath, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("✅ MongoDB Connected at:", dbPath))
-  .catch((err) => console.error("❌ MongoDB Error:", err));
+        body {
+            background: #f4f6f9;
+            min-height: 100vh;
+        }
 
-// --------------------------------------
-// Simple schema + model example
-// --------------------------------------
-const ItemSchema = new mongoose.Schema({
-  name: String,
-  createdAt: { type: Date, default: Date.now },
-});
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
 
-const Item = mongoose.model("Item", ItemSchema);
+        header h1 {
+            margin-bottom: 5px;
+        }
 
-// --------------------------------------
-// Routes
-// --------------------------------------
-app.get("/", (req, res) => {
-  res.send("MongoDB server running ✔️");
-});
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
 
-// Create item
-app.post("/items", async (req, res) => {
-  try {
-    const item = await Item.create(req.body);
-    res.status(201).json(item);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
 
-// Get all items
-app.get("/items", async (req, res) => {
-  const items = await Item.find();
-  res.json(items);
-});
+        .card h2 {
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
 
-// --------------------------------------
-// Start the server
-// --------------------------------------
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #172d6b;
+        }
+
+        #itemsList {
+            margin-top: 10px;
+        }
+
+        .item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1e3a8a;
+        }
+
+        .item strong {
+            font-size: 18px;
+        }
+
+        .item small {
+            display: block;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .empty {
+            color: #777;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>University Portal</h1>
+    <p>Student Management System</p>
+</header>
+
+<div class="container">
+
+    <!-- Add Item -->
+    <div class="card">
+
+        <h2>Add Item</h2>
+
+        <input
+            type="text"
+            id="itemName"
+            placeholder="Enter item name"
+        >
+
+        <button onclick="addItem()">
+            Add Item
+        </button>
+
+    </div>
+
+    <!-- All Items -->
+    <div class="card">
+
+        <h2>All Items</h2>
+
+        <div id="itemsList"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+    // --------------------------------------
+    // Get saved items
+    // --------------------------------------
+
+    let items = JSON.parse(
+        localStorage.getItem("universityItems")
+    ) || [];
+
+
+    // --------------------------------------
+    // Add Item
+    // --------------------------------------
+
+    function addItem() {
+
+        const nameInput = document.getElementById("itemName");
+
+        const name = nameInput.value.trim();
+
+        if (name === "") {
+            alert("Please enter item name");
+            return;
+        }
+
+        const item = {
+
+            id: Date.now(),
+
+            name: name,
+
+            createdAt: new Date().toISOString()
+
+        };
+
+        items.push(item);
+
+        localStorage.setItem(
+            "universityItems",
+            JSON.stringify(items)
+        );
+
+        nameInput.value = "";
+
+        displayItems();
+
+    }
+
+
+    // --------------------------------------
+    // Display all items
+    // --------------------------------------
+
+    function displayItems() {
+
+        const itemsList =
+            document.getElementById("itemsList");
+
+        if (items.length === 0) {
+
+            itemsList.innerHTML =
+                '<div class="empty">No items found</div>';
+
+            return;
+
+        }
+
+        itemsList.innerHTML = "";
+
+        items.forEach(item => {
+
+            const div = document.createElement("div");
+
+            div.className = "item";
+
+            const date =
+                new Date(item.createdAt).toLocaleString();
+
+            div.innerHTML = `
+                <strong>${escapeHTML(item.name)}</strong>
+                <small>Created: ${date}</small>
+            `;
+
+            itemsList.appendChild(div);
+
+        });
+
+    }
+
+
+    // --------------------------------------
+    // Security helper
+    // --------------------------------------
+
+    function escapeHTML(text) {
+
+        const div = document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+
+    }
+
+
+    // --------------------------------------
+    // Load items when page opens
+    // --------------------------------------
+
+    displayItems();
+
+</script>
+
+</body>
+</html>
