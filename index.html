@@ -4,254 +4,235 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>University Portal</title>
+    <title>University Portal - Login</title>
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            background: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #89f7fe, #66a6ff);
             min-height: 100vh;
-        }
 
-        header {
-            background: #1e3a8a;
-            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
             padding: 20px;
-            text-align: center;
         }
 
-        header h1 {
-            margin-bottom: 5px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 900px;
-            margin: 30px auto;
-        }
-
-        .card {
+        .login-container {
             background: white;
-            padding: 25px;
-            margin-bottom: 20px;
+            padding: 40px 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
 
-        .card h2 {
-            margin-bottom: 20px;
-            color: #1e3a8a;
-        }
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 
-        input {
+            text-align: center;
+
             width: 100%;
-            padding: 13px;
+            max-width: 360px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 12px;
+
+            margin-bottom: 15px;
+
             border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 16px;
+            border-radius: 6px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        .input-box:focus {
+            border-color: #4CAF50;
         }
 
         button {
-            padding: 12px 20px;
-            background: #1e3a8a;
+            background-color: #4CAF50;
             color: white;
+
+            padding: 12px 15px;
+
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
+
             cursor: pointer;
+
+            width: 100%;
+
             font-size: 16px;
         }
 
         button:hover {
-            background: #172d6b;
+            background-color: #45a049;
         }
 
-        #itemsList {
-            margin-top: 10px;
+        .register-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
         }
 
-        .item {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #1e3a8a;
+        .register-text a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
         }
 
-        .item strong {
-            font-size: 18px;
+        .register-text a:hover {
+            text-decoration: underline;
         }
 
-        .item small {
-            display: block;
-            color: #666;
-            margin-top: 5px;
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        .empty {
-            color: #777;
-            text-align: center;
-            padding: 20px;
+        .error {
+            color: #d32f2f;
+        }
+
+        .success {
+            color: #2e7d32;
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <h1>University Portal</h1>
-    <p>Student Management System</p>
-</header>
+    <div class="login-container">
 
-<div class="container">
+        <h2>University Portal</h2>
 
-    <!-- Add Item -->
-    <div class="card">
+        <form id="loginForm">
 
-        <h2>Add Item</h2>
+            <input
+                type="email"
+                id="email"
+                class="input-box"
+                placeholder="Email"
+                required
+            >
 
-        <input
-            type="text"
-            id="itemName"
-            placeholder="Enter item name"
-        >
+            <input
+                type="password"
+                id="password"
+                class="input-box"
+                placeholder="Password"
+                required
+            >
 
-        <button onclick="addItem()">
-            Add Item
-        </button>
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <div class="register-text">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </div>
+
+        <p id="message"></p>
 
     </div>
 
-    <!-- All Items -->
-    <div class="card">
 
-        <h2>All Items</h2>
+    <script>
 
-        <div id="itemsList"></div>
+        const loginForm = document.getElementById("loginForm");
 
-    </div>
-
-</div>
-
-<script>
-
-    // --------------------------------------
-    // Get saved items
-    // --------------------------------------
-
-    let items = JSON.parse(
-        localStorage.getItem("universityItems")
-    ) || [];
+        const message = document.getElementById("message");
 
 
-    // --------------------------------------
-    // Add Item
-    // --------------------------------------
+        loginForm.addEventListener("submit", function(event) {
 
-    function addItem() {
-
-        const nameInput = document.getElementById("itemName");
-
-        const name = nameInput.value.trim();
-
-        if (name === "") {
-            alert("Please enter item name");
-            return;
-        }
-
-        const item = {
-
-            id: Date.now(),
-
-            name: name,
-
-            createdAt: new Date().toISOString()
-
-        };
-
-        items.push(item);
-
-        localStorage.setItem(
-            "universityItems",
-            JSON.stringify(items)
-        );
-
-        nameInput.value = "";
-
-        displayItems();
-
-    }
+            event.preventDefault();
 
 
-    // --------------------------------------
-    // Display all items
-    // --------------------------------------
+            const email =
+                document.getElementById("email").value.trim();
 
-    function displayItems() {
+            const password =
+                document.getElementById("password").value;
 
-        const itemsList =
-            document.getElementById("itemsList");
 
-        if (items.length === 0) {
+            if (email === "" || password === "") {
 
-            itemsList.innerHTML =
-                '<div class="empty">No items found</div>';
+                message.textContent =
+                    "⚠️ Please fill all fields.";
 
-            return;
+                message.className = "error";
 
-        }
+                return;
+            }
 
-        itemsList.innerHTML = "";
 
-        items.forEach(item => {
+            /*
+                Demo Login
 
-            const div = document.createElement("div");
+                Change these credentials according
+                to your requirement.
+            */
 
-            div.className = "item";
+            const demoEmail = "admin@gmail.com";
 
-            const date =
-                new Date(item.createdAt).toLocaleString();
+            const demoPassword = "123456";
 
-            div.innerHTML = `
-                <strong>${escapeHTML(item.name)}</strong>
-                <small>Created: ${date}</small>
-            `;
 
-            itemsList.appendChild(div);
+            if (
+                email === demoEmail &&
+                password === demoPassword
+            ) {
+
+                message.textContent =
+                    "✅ Login successful!";
+
+                message.className = "success";
+
+
+                // Save login information
+                localStorage.setItem(
+                    "userEmail",
+                    email
+                );
+
+
+                // Redirect to dashboard
+                setTimeout(function() {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                }, 500);
+
+
+            } else {
+
+                message.textContent =
+                    "❌ Invalid email or password.";
+
+                message.className = "error";
+
+            }
 
         });
 
-    }
-
-
-    // --------------------------------------
-    // Security helper
-    // --------------------------------------
-
-    function escapeHTML(text) {
-
-        const div = document.createElement("div");
-
-        div.textContent = text;
-
-        return div.innerHTML;
-
-    }
-
-
-    // --------------------------------------
-    // Load items when page opens
-    // --------------------------------------
-
-    displayItems();
-
-</script>
+    </script>
 
 </body>
 </html>
