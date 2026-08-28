@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>University Portal - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #89f7fe, #66a6ff);
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+            text-align: center;
+
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 12px;
+
+            margin-bottom: 15px;
+
+            border: 1px solid #ccc;
+            border-radius: 6px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        .input-box:focus {
+            border-color: #4CAF50;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+
+            padding: 12px 15px;
+
+            border: none;
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            width: 100%;
+
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .register-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .register-text a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .error {
+            color: #d32f2f;
+        }
+
+        .success {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h2>University Portal</h2>
+
+        <form id="loginForm">
+
+            <input
+                type="email"
+                id="email"
+                class="input-box"
+                placeholder="Email"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                class="input-box"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <div class="register-text">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </div>
+
+        <p id="message"></p>
+
+    </div>
+
+
+    <script>
+
+        const loginForm = document.getElementById("loginForm");
+
+        const message = document.getElementById("message");
+
+
+        loginForm.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+
+            if (email === "" || password === "") {
+
+                message.textContent =
+                    "⚠️ Please fill all fields.";
+
+                message.className = "error";
+
+                return;
+            }
+
+
+            /*
+                Demo Login
+
+                Change these credentials according
+                to your requirement.
+            */
+
+            const demoEmail = "admin@gmail.com";
+
+            const demoPassword = "123456";
+
+
+            if (
+                email === demoEmail &&
+                password === demoPassword
+            ) {
+
+                message.textContent =
+                    "✅ Login successful!";
+
+                message.className = "success";
+
+
+                // Save login information
+                localStorage.setItem(
+                    "userEmail",
+                    email
+                );
+
+
+                // Redirect to dashboard
+                setTimeout(function() {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                }, 500);
+
+
+            } else {
+
+                message.textContent =
+                    "❌ Invalid email or password.";
+
+                message.className = "error";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
