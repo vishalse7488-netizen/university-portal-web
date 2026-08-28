@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - University Portal</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+            margin: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            font-family:
+                'Poppins',
+                'Segoe UI',
+                sans-serif;
+
+        }
+
+
+        .signup-box {
+
+            width: 100%;
+
+            max-width: 380px;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(255,255,255,0.15);
+
+            backdrop-filter: blur(12px);
+
+            -webkit-backdrop-filter: blur(12px);
+
+            box-shadow:
+                0 20px 40px
+                rgba(0,0,0,0.25);
+
+            color: #fff;
+
+            animation:
+                fadeIn 0.8s ease;
+
+        }
+
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-20px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        .signup-box h3 {
+
+            text-align: center;
+
+            margin-top: 0;
+
+            margin-bottom: 25px;
+
+            font-weight: 600;
+
+            font-size: 25px;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+        }
+
+
+        .form-control {
+
+            width: 100%;
+
+            border-radius: 10px;
+
+            border: none;
+
+            outline: none;
+
+            padding: 12px;
+
+            font-size: 15px;
+
+            background: #fff;
+
+            color: #333;
+
+        }
+
+
+        .form-control:focus {
+
+            box-shadow:
+                0 0 8px
+                rgba(255,255,255,0.6);
+
+        }
+
+
+        .btn-custom {
+
+            width: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff512f,
+                    #dd2476
+                );
+
+            color: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            font-size: 16px;
+
+            font-weight: 500;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            margin-top: 5px;
+
+        }
+
+
+        .btn-custom:hover {
+
+            transform:
+                translateY(-2px);
+
+            opacity: 0.9;
+
+        }
+
+
+        .msg {
+
+            background:
+                rgba(0,0,0,0.3);
+
+            padding: 9px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            margin-bottom: 15px;
+
+            font-size: 14px;
+
+            display: none;
+
+        }
+
+
+        .success {
+
+            display: block;
+
+            color: #d4ffd8;
+
+        }
+
+
+        .error {
+
+            display: block;
+
+            color: #ffd0d0;
+
+        }
+
+
+        .footer-text {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            font-size: 14px;
+
+        }
+
+
+        .footer-text a {
+
+            color: #ffeaa7;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+
+        .footer-text a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            .signup-box {
+
+                padding: 28px 22px;
+
+            }
+
+
+            .signup-box h3 {
+
+                font-size: 23px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="signup-box">
+
+        <h3>Create Account</h3>
+
+
+        <!-- Message -->
+
+        <div id="message" class="msg"></div>
+
+
+        <!-- Registration Form -->
+
+        <form id="signupForm">
+
+
+            <!-- Name -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    placeholder="Enter your name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Create a password"
+                    minlength="6"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Confirm Password -->
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    class="form-control"
+                    placeholder="Confirm your password"
+                    minlength="6"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Sign Up -->
+
+            <button
+                type="submit"
+                class="btn-custom"
+            >
+                Sign Up
+            </button>
+
+
+        </form>
+
+
+        <!-- Login -->
+
+        <div class="footer-text">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        const signupForm =
+            document.getElementById("signupForm");
+
+
+        const message =
+            document.getElementById("message");
+
+
+
+        signupForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById("name")
+                    .value
+                    .trim();
+
+
+                const email =
+                    document.getElementById("email")
+                    .value
+                    .trim();
+
+
+                const password =
+                    document.getElementById("password")
+                    .value;
+
+
+                const confirmPassword =
+                    document.getElementById("confirmPassword")
+                    .value;
+
+
+
+                // Check all fields
+
+                if (
+                    name === "" ||
+                    email === "" ||
+                    password === "" ||
+                    confirmPassword === ""
+                ) {
+
+                    showMessage(
+                        "⚠️ Please fill all fields.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                // Password length
+
+                if (password.length < 6) {
+
+                    showMessage(
+                        "⚠️ Password must be at least 6 characters.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                // Confirm password
+
+                if (password !== confirmPassword) {
+
+                    showMessage(
+                        "❌ Passwords do not match.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                /*
+                 * Demo Registration
+                 *
+                 * User data localStorage me save hoga.
+                 */
+
+                const users =
+                    JSON.parse(
+                        localStorage.getItem("users")
+                    ) || [];
+
+
+
+                // Check existing email
+
+                const existingUser =
+                    users.find(
+                        user =>
+                            user.email.toLowerCase() ===
+                            email.toLowerCase()
+                    );
+
+
+
+                if (existingUser) {
+
+                    showMessage(
+                        "❌ This email is already registered.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                // Create user
+
+                const newUser = {
+
+                    name: name,
+
+                    email: email,
+
+                    password: password
+
+                };
+
+
+
+                users.push(newUser);
+
+
+
+                // Save user
+
+                localStorage.setItem(
+                    "users",
+                    JSON.stringify(users)
+                );
+
+
+
+                // Success
+
+                showMessage(
+                    "✅ Account created successfully!",
+                    "success"
+                );
+
+
+
+                // Clear form
+
+                signupForm.reset();
+
+
+
+                // Login page par redirect
+
+                setTimeout(function() {
+
+                    window.location.href =
+                        "login.html";
+
+                }, 1200);
+
+            }
+        );
+
+
+
+        function showMessage(text, type) {
+
+            message.textContent = text;
+
+            message.className =
+                "msg " + type;
+
+        }
+
+    </script>
+
+
+</body>
+</html>
