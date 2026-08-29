@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Create Account - University Portal</title>
+    <title>School Page - Notice Board</title>
+
 
     <style>
 
@@ -13,189 +16,511 @@
             box-sizing: border-box;
         }
 
+
         body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+
+            font-family: Arial, sans-serif;
+
             margin: 0;
 
-            background: linear-gradient(
-                135deg,
-                #667eea,
-                #764ba2
-            );
-
-            font-family:
-                'Poppins',
-                'Segoe UI',
-                sans-serif;
-        }
-
-        .signup-box {
-            width: 100%;
-            max-width: 380px;
-            padding: 35px;
-
-            border-radius: 15px;
-
-            background: rgba(255,255,255,0.15);
-
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-
-            box-shadow:
-                0 20px 40px
-                rgba(0,0,0,0.25);
-
-            color: #fff;
-
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            background: #f4f6f8;
 
         }
 
-        .signup-box h3 {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 25px;
-            font-weight: 600;
-            font-size: 25px;
-        }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+        /* =========================
+           TOP NAVBAR
+        ========================= */
 
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 14px;
-            font-weight: 500;
-        }
+        .navbar {
 
-        .form-control {
-            width: 100%;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-
-            padding: 12px;
-            font-size: 15px;
-
-            background: #fff;
-            color: #333;
-        }
-
-        .form-control:focus {
-            box-shadow:
-                0 0 8px
-                rgba(255,255,255,0.6);
-        }
-
-        .btn-custom {
-            width: 100%;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #ff512f,
-                    #dd2476
-                );
+            background: #007BFF;
 
             color: white;
 
-            border: none;
-            border-radius: 10px;
+            padding: 15px 20px;
 
-            padding: 12px;
+            display: flex;
 
-            font-size: 16px;
-            font-weight: 500;
+            justify-content: space-between;
 
-            cursor: pointer;
+            align-items: center;
+
+            position: relative;
+
+            min-height: 60px;
+
+        }
+
+
+        .navbar h1 {
+
+            font-size: 18px;
+
+            margin: 0;
+
+            max-width: 40%;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+        .center-title {
+
+            position: absolute;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .logout {
+
+            color: white;
+
+            text-decoration: none;
+
+            background: #dc3545;
+
+            padding: 8px 15px;
+
+            border-radius: 5px;
+
             transition: 0.3s;
 
-            margin-top: 5px;
+            cursor: pointer;
+
         }
 
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
+
+        .logout:hover {
+
+            background: #c82333;
+
         }
 
-        .btn-custom:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+
+        /* =========================
+           SECONDARY MENU
+        ========================= */
+
+        .menu-bar {
+
+            background: #0056b3;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 10px 15px;
+
+            gap: 30px;
+
         }
 
-        .msg {
-            background: rgba(0,0,0,0.3);
 
-            padding: 9px;
+        .menu-bar a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            transition: 0.3s;
+
+        }
+
+
+        .menu-bar a:hover {
+
+            color: #FFD700;
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+
+            width: calc(100% - 30px);
+
+            max-width: 1000px;
+
+            margin: 40px auto;
+
+            background: white;
+
+            padding: 25px;
 
             border-radius: 8px;
 
-            text-align: center;
+            box-shadow:
+                0 6px 18px
+                rgba(0,0,0,0.08);
 
-            margin-bottom: 15px;
-
-            font-size: 14px;
-
-            display: none;
         }
 
-        .success {
-            display: block;
-            color: #d4ffd8;
+
+        /* =========================
+           SCHOOL HEADER
+        ========================= */
+
+        .school-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
         }
 
-        .error {
-            display: block;
-            color: #ffd0d0;
+
+        .school-header h2 {
+
+            margin: 0;
+
+            color: #333;
+
         }
 
-        .footer-text {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 14px;
-        }
 
-        .footer-text a {
-            color: #ffeaa7;
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+
+            display: inline-block;
+
+            background: #007BFF;
+
+            color: white;
+
+            padding: 8px 14px;
+
+            border-radius: 6px;
+
             text-decoration: none;
-            font-weight: 600;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
         }
 
-        .footer-text a:hover {
-            text-decoration: underline;
+
+        .btn:hover {
+
+            background: #005bb5;
+
         }
+
+
+        .btn-danger {
+
+            background: #dc3545;
+
+            margin-left: 8px;
+
+        }
+
+
+        .btn-danger:hover {
+
+            background: #c82333;
+
+        }
+
+
+        /* =========================
+           NOTICES
+        ========================= */
+
+        .notices {
+
+            margin-top: 20px;
+
+        }
+
+
+        .notice {
+
+            border-left: 4px solid #007BFF;
+
+            padding: 12px 16px;
+
+            background: #fbfdff;
+
+            margin-bottom: 12px;
+
+            border-radius: 4px;
+
+            box-shadow:
+                0 2px 5px
+                rgba(0,0,0,0.04);
+
+        }
+
+
+        .notice strong {
+
+            color: #222;
+
+            font-size: 17px;
+
+        }
+
+
+        .notice em {
+
+            color: #007BFF;
+
+            font-style: normal;
+
+            font-weight: 500;
+
+        }
+
+
+        .loading {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #555;
+
+        }
+
+
+        .no-notice {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #777;
+
+            background: #f8f9fa;
+
+            border-radius: 8px;
+
+        }
+
+
+        .error-message {
+
+            text-align: center;
+
+            padding: 15px;
+
+            color: #dc3545;
+
+            background: #fff0f0;
+
+            border-radius: 8px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding: 12px 15px;
+
+            }
+
+
+            .navbar h1 {
+
+                font-size: 14px;
+
+                max-width: 45%;
+
+            }
+
+
+            .center-title {
+
+                font-size: 18px;
+
+            }
+
+
+            .logout {
+
+                padding: 7px 10px;
+
+                font-size: 13px;
+
+            }
+
+
+            .menu-bar {
+
+                flex-direction: column;
+
+                gap: 10px;
+
+                padding: 12px;
+
+            }
+
+
+            .menu-bar a {
+
+                font-size: 14px;
+
+            }
+
+
+            .container {
+
+                margin: 20px auto;
+
+                padding: 18px;
+
+            }
+
+
+            .school-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .school-header h2 {
+
+                font-size: 22px;
+
+            }
+
+
+            .btn {
+
+                font-size: 14px;
+
+                padding: 8px 11px;
+
+            }
+
+        }
+
 
         @media (max-width: 450px) {
 
-            body {
+            .navbar {
+
+                flex-wrap: wrap;
+
+                gap: 10px;
+
+            }
+
+
+            .navbar h1 {
+
+                max-width: 60%;
+
+            }
+
+
+            .center-title {
+
+                position: static;
+
+                transform: none;
+
+                width: 100%;
+
+                text-align: center;
+
+                order: 3;
+
+                font-size: 18px;
+
+                margin-top: 5px;
+
+            }
+
+
+            .navbar .logout {
+
+                margin-left: auto;
+
+            }
+
+
+            .container {
+
+                width: calc(100% - 20px);
+
                 padding: 15px;
+
             }
 
-            .signup-box {
-                padding: 28px 22px;
+
+            .school-header > div {
+
+                width: 100%;
+
             }
 
-            .signup-box h3 {
-                font-size: 23px;
+
+            .school-header .btn {
+
+                display: block;
+
+                text-align: center;
+
+                width: 100%;
+
+                margin: 5px 0 !important;
+
+            }
+
+
+            .notice {
+
+                font-size: 14px;
+
+                line-height: 1.5;
+
             }
 
         }
@@ -204,401 +529,549 @@
 
 </head>
 
+
 <body>
 
-<div class="signup-box">
 
-    <h3>Create Account</h3>
+    <!-- =========================
+         TOP NAVBAR
+    ========================= -->
 
-    <div id="message" class="msg"></div>
+    <div class="navbar">
 
-    <form id="signupForm">
+        <h1 id="welcomeText">
+            Welcome 👋
+        </h1>
 
-        <div class="form-group">
 
-            <label for="name">
-                Name
-            </label>
-
-            <input
-                type="text"
-                id="name"
-                class="form-control"
-                placeholder="Enter your name"
-                required
-            >
-
+        <div class="center-title">
+            Notice Board
         </div>
 
 
-        <div class="form-group">
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                class="form-control"
-                placeholder="Enter your email"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                class="form-control"
-                placeholder="Create a password"
-                minlength="6"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="confirmPassword">
-                Confirm Password
-            </label>
-
-            <input
-                type="password"
-                id="confirmPassword"
-                class="form-control"
-                placeholder="Confirm your password"
-                minlength="6"
-                required
-            >
-
-        </div>
-
-
-        <button
-            type="submit"
-            id="signupButton"
-            class="btn-custom"
+        <a
+            href="#"
+            class="logout"
+            id="logoutButton"
         >
-            Sign Up
-        </button>
-
-    </form>
-
-
-    <div class="footer-text">
-
-        Already have an account?
-
-        <a href="login.html">
-            Login
+            Logout
         </a>
 
     </div>
 
-</div>
+
+    <!-- =========================
+         MENU BAR
+    ========================= -->
+
+    <div class="menu-bar">
+
+        <a href="dashboard.html">
+            Menu
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="location.html">
+            Location
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="contact.html">
+            Contact Us
+        </a>
+
+    </div>
 
 
-<!-- Firebase -->
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
 
-<script type="module">
-
-    import { initializeApp }
-        from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
-    import {
-        getAuth,
-        createUserWithEmailAndPassword
-    }
-        from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-
-    import {
-        getFirestore,
-        doc,
-        setDoc,
-        serverTimestamp
-    }
-        from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+    <div class="container">
 
 
-    // Firebase configuration
+        <div class="school-header">
 
-    const firebaseConfig = {
-
-        apiKey: "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
-
-        authDomain:
-            "university-portal-2107e.firebaseapp.com",
-
-        projectId:
-            "university-portal-2107e",
-
-        storageBucket:
-            "university-portal-2107e.firebasestorage.app",
-
-        messagingSenderId:
-            "50848903813",
-
-        appId:
-            "1:50848903813:web:8296090d0d9268cfd2efec",
-
-        measurementId:
-            "G-LKTX7C7F0E"
-
-    };
+            <h2>
+                School Page
+            </h2>
 
 
-    // Initialize Firebase
+            <div>
 
-    const app =
-        initializeApp(firebaseConfig);
-
-
-    // Firebase Authentication
-
-    const auth =
-        getAuth(app);
+                <a
+                    href="dashboard.html"
+                    class="btn"
+                >
+                    Back to Dashboard
+                </a>
 
 
-    // Firestore Database
+                <a
+                    href="#"
+                    class="btn btn-danger"
+                    id="logoutButton2"
+                >
+                    Logout
+                </a>
 
-    const db =
-        getFirestore(app);
+            </div>
 
-
-    // Form
-
-    const signupForm =
-        document.getElementById("signupForm");
-
-    const message =
-        document.getElementById("message");
-
-    const signupButton =
-        document.getElementById("signupButton");
+        </div>
 
 
-    // Show message
+        <p style="color:#555; margin-top:12px;">
 
-    function showMessage(text, type) {
+            Welcome to the school section.
+            Below are the latest notices / announcements.
 
-        message.textContent = text;
-
-        message.className =
-            "msg " + type;
-
-    }
+        </p>
 
 
-    // Register
+        <!-- =========================
+             FIRESTORE NOTICES
+        ========================= -->
 
-    signupForm.addEventListener(
-        "submit",
-        async function(event) {
+        <div
+            class="notices"
+            id="noticesContainer"
+        >
 
-            event.preventDefault();
+            <div class="loading">
+                Loading notices...
+            </div>
 
-
-            const name =
-                document.getElementById("name")
-                .value
-                .trim();
-
-
-            const email =
-                document.getElementById("email")
-                .value
-                .trim();
+        </div>
 
 
-            const password =
-                document.getElementById("password")
-                .value;
+    </div>
 
 
-            const confirmPassword =
-                document.getElementById("confirmPassword")
-                .value;
+    <!-- =========================
+         FIREBASE
+    ========================= -->
+
+    <script type="module">
 
 
-            // Validation
+        /* =====================================
+           FIREBASE SDK
+        ===================================== */
 
-            if (
-                name === "" ||
-                email === "" ||
-                password === "" ||
-                confirmPassword === ""
-            ) {
+        import {
+            initializeApp
+        } from
+        "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-                showMessage(
-                    "⚠️ Please fill all fields.",
-                    "error"
-                );
 
-                return;
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from
+        "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            query,
+            orderBy
+        } from
+        "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+        /* =====================================
+           FIREBASE CONFIG
+        ===================================== */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+
+        };
+
+
+        /* =====================================
+           INITIALIZE FIREBASE
+        ===================================== */
+
+        const app =
+            initializeApp(firebaseConfig);
+
+
+        /* =====================================
+           AUTHENTICATION
+        ===================================== */
+
+        const auth =
+            getAuth(app);
+
+
+        /* =====================================
+           FIRESTORE
+        ===================================== */
+
+        const db =
+            getFirestore(app);
+
+
+        /* =====================================
+           HTML ELEMENTS
+        ===================================== */
+
+        const welcomeText =
+            document.getElementById("welcomeText");
+
+
+        const noticesContainer =
+            document.getElementById("noticesContainer");
+
+
+        const logoutButton =
+            document.getElementById("logoutButton");
+
+
+        const logoutButton2 =
+            document.getElementById("logoutButton2");
+
+
+        /* =====================================
+           CHECK LOGIN
+        ===================================== */
+
+        onAuthStateChanged(
+            auth,
+            async (user) => {
+
+                if (!user) {
+
+                    // User login nahi hai
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                // Logged-in user's email
+
+                const email =
+                    user.email || "User";
+
+
+                welcomeText.textContent =
+                    "Welcome, " +
+                    email +
+                    " 👋";
+
+
+                // Firestore se notices load
+
+                loadNotices();
 
             }
+        );
 
 
-            if (password.length < 6) {
+        /* =====================================
+           LOAD NOTICES FROM FIRESTORE
+        ===================================== */
 
-                showMessage(
-                    "⚠️ Password must be at least 6 characters.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (password !== confirmPassword) {
-
-                showMessage(
-                    "❌ Passwords do not match.",
-                    "error"
-                );
-
-                return;
-
-            }
-
+        async function loadNotices() {
 
             try {
 
-                signupButton.disabled = true;
 
-                signupButton.textContent =
-                    "Creating Account...";
+                noticesContainer.innerHTML = `
+
+                    <div class="loading">
+                        Loading notices...
+                    </div>
+
+                `;
 
 
-                // Create Firebase Authentication account
+                /*
+                 * Firestore collection:
+                 *
+                 * school_notices
+                 */
 
-                const userCredential =
-                    await createUserWithEmailAndPassword(
-                        auth,
-                        email,
-                        password
+                const noticesRef =
+                    collection(
+                        db,
+                        "school_notices"
                     );
 
 
-                const user =
-                    userCredential.user;
+                /*
+                 * Newest notice first
+                 */
+
+                const noticesQuery =
+                    query(
+                        noticesRef,
+                        orderBy(
+                            "createdAt",
+                            "desc"
+                        )
+                    );
 
 
-                // Save user profile in Firestore
+                const snapshot =
+                    await getDocs(
+                        noticesQuery
+                    );
 
-                await setDoc(
-                    doc(db, "users", user.uid),
-                    {
 
-                        uid: user.uid,
+                /* =========================
+                   NO NOTICES
+                ========================= */
 
-                        name: name,
+                if (snapshot.empty) {
 
-                        email: email,
+                    noticesContainer.innerHTML = `
 
-                        createdAt:
-                            serverTimestamp()
+                        <div class="no-notice">
+
+                            📢 No notices available.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                /* =========================
+                   CLEAR LOADING
+                ========================= */
+
+                noticesContainer.innerHTML = "";
+
+
+                /* =========================
+                   DISPLAY NOTICES
+                ========================= */
+
+                snapshot.forEach(
+                    (docSnapshot) => {
+
+                        const data =
+                            docSnapshot.data();
+
+
+                        const title =
+                            data.title ||
+                            "Notice";
+
+
+                        const message =
+                            data.message ||
+                            "";
+
+
+                        const date =
+                            data.date ||
+                            "";
+
+
+                        const notice =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        notice.className =
+                            "notice";
+
+
+                        notice.innerHTML = `
+
+                            <strong>
+                                ${escapeHTML(title)}
+                            </strong>
+
+                            <br>
+
+                            ${escapeHTML(message)}
+
+                            ${
+                                date
+                                ?
+                                `<br>
+                                 <em>
+                                    ${escapeHTML(date)}
+                                 </em>`
+                                :
+                                ""
+                            }
+
+                        `;
+
+
+                        noticesContainer.appendChild(
+                            notice
+                        );
 
                     }
                 );
 
 
-                showMessage(
-                    "✅ Account created successfully!",
-                    "success"
-                );
-
-
-                signupForm.reset();
-
-
-                // Login page
-
-                setTimeout(() => {
-
-                    window.location.href =
-                        "login.html";
-
-                }, 1500);
-
-
             } catch (error) {
 
                 console.error(
-                    "Firebase Error:",
+                    "Firestore Error:",
                     error
                 );
 
 
-                if (
-                    error.code ===
-                    "auth/email-already-in-use"
-                ) {
+                noticesContainer.innerHTML = `
 
-                    showMessage(
-                        "❌ This email is already registered.",
-                        "error"
-                    );
+                    <div class="error-message">
 
-                }
+                        ❌ Notices load nahi ho paaye.
 
-                else if (
-                    error.code ===
-                    "auth/invalid-email"
-                ) {
+                        <br><br>
 
-                    showMessage(
-                        "❌ Invalid email address.",
-                        "error"
-                    );
+                        ${escapeHTML(error.message)}
 
-                }
+                    </div>
 
-                else if (
-                    error.code ===
-                    "auth/weak-password"
-                ) {
-
-                    showMessage(
-                        "❌ Password is too weak.",
-                        "error"
-                    );
-
-                }
-
-                else {
-
-                    showMessage(
-                        "❌ Registration failed: " +
-                        error.message,
-                        "error"
-                    );
-
-                }
-
-
-                signupButton.disabled = false;
-
-                signupButton.textContent =
-                    "Sign Up";
+                `;
 
             }
 
         }
-    );
 
-</script>
+
+        /* =====================================
+           HTML SECURITY
+        ===================================== */
+
+        function escapeHTML(text) {
+
+            return String(text)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =====================================
+           LOGOUT
+        ===================================== */
+
+        async function logout() {
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                console.error(
+                    "Logout Error:",
+                    error
+                );
+
+                alert(
+                    "Logout failed. Please try again."
+                );
+
+            }
+
+        }
+
+
+        logoutButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                logout();
+
+            }
+        );
+
+
+        logoutButton2.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                logout();
+
+            }
+        );
+
+
+    </script>
+
 
 </body>
+
 </html>
