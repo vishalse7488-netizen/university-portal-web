@@ -1,72 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>University Portal - Login</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(120deg, #89f7fe, #66a6ff);
+
+            font-family:
+                'Segoe UI',
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #89f7fe,
+                    #66a6ff
+                );
+
             min-height: 100vh;
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
 
             padding: 20px;
+
         }
 
+
         .login-container {
+
             background: white;
+
             padding: 40px 30px;
+
             border-radius: 12px;
 
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.2);
 
             text-align: center;
 
             width: 100%;
+
             max-width: 360px;
+
         }
+
 
         .login-container h2 {
+
             margin-bottom: 25px;
+
             color: #333;
+
         }
 
+
         .input-box {
+
             width: 100%;
+
             padding: 12px;
 
             margin-bottom: 15px;
 
-            border: 1px solid #ccc;
+            border:
+                1px solid #ccc;
+
             border-radius: 6px;
 
             font-size: 15px;
+
             outline: none;
+
         }
+
 
         .input-box:focus {
-            border-color: #4CAF50;
+
+            border-color:
+                #4CAF50;
+
+            box-shadow:
+                0 0 5px
+                rgba(76,175,80,0.25);
+
         }
 
+
         button {
-            background-color: #4CAF50;
+
+            background-color:
+                #4CAF50;
+
             color: white;
 
             padding: 12px 15px;
 
             border: none;
+
             border-radius: 6px;
 
             cursor: pointer;
@@ -74,165 +131,645 @@
             width: 100%;
 
             font-size: 16px;
+
+            transition: 0.3s;
+
         }
+
 
         button:hover {
-            background-color: #45a049;
+
+            background-color:
+                #45a049;
+
         }
+
+
+        button:disabled {
+
+            background-color:
+                #9e9e9e;
+
+            cursor: not-allowed;
+
+        }
+
 
         .register-text {
+
             margin-top: 20px;
+
             font-size: 14px;
+
             color: #555;
+
         }
+
 
         .register-text a {
+
             color: #4CAF50;
+
             text-decoration: none;
+
             font-weight: 600;
+
         }
+
 
         .register-text a:hover {
+
             text-decoration: underline;
+
         }
+
 
         #message {
+
             margin-top: 15px;
+
             font-size: 14px;
+
             font-weight: 500;
+
+            min-height: 20px;
+
         }
+
 
         .error {
-            color: #d32f2f;
+
+            color:
+                #d32f2f;
+
         }
 
+
         .success {
-            color: #2e7d32;
+
+            color:
+                #2e7d32;
+
         }
+
+
+        /* Forgot password */
+
+        .forgot-password {
+
+            display: block;
+
+            margin-top: 12px;
+
+            font-size: 13px;
+
+            color: #1976d2;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+        }
+
+
+        .forgot-password:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .login-container {
+
+                padding:
+                    30px 20px;
+
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
     <div class="login-container">
 
-        <h2>University Portal</h2>
+
+        <h2>
+            University Portal
+        </h2>
+
+
+        <!-- Login Form -->
 
         <form id="loginForm">
+
+
+            <!-- Email -->
 
             <input
                 type="email"
                 id="email"
                 class="input-box"
                 placeholder="Email"
+                autocomplete="email"
                 required
             >
+
+
+            <!-- Password -->
 
             <input
                 type="password"
                 id="password"
                 class="input-box"
                 placeholder="Password"
+                autocomplete="current-password"
                 required
             >
 
-            <button type="submit">
+
+            <!-- Login -->
+
+            <button
+                type="submit"
+                id="loginButton"
+            >
                 Login
             </button>
 
+
         </form>
 
+
+        <!-- Forgot Password -->
+
+        <a
+            href="#"
+            class="forgot-password"
+            id="forgotPassword"
+        >
+            Forgot Password?
+        </a>
+
+
+        <!-- Register -->
+
         <div class="register-text">
+
             Don't have an account?
-            <a href="register.html">Register</a>
+
+            <a href="register.html">
+                Register
+            </a>
+
         </div>
 
+
+        <!-- Message -->
+
         <p id="message"></p>
+
 
     </div>
 
 
-    <script>
 
-        const loginForm = document.getElementById("loginForm");
+    <!-- ==========================================
+         FIREBASE LOGIN
+    =========================================== -->
 
-        const message = document.getElementById("message");
-
-
-        loginForm.addEventListener("submit", function(event) {
-
-            event.preventDefault();
+    <script type="module">
 
 
-            const email =
-                document.getElementById("email").value.trim();
+        // Firebase App
 
-            const password =
-                document.getElementById("password").value;
+        import {
+            initializeApp
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
-            if (email === "" || password === "") {
+        // Firebase Authentication
 
-                message.textContent =
-                    "⚠️ Please fill all fields.";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            sendPasswordResetEmail
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-                message.className = "error";
 
-                return;
+
+        // ==========================================
+        // FIREBASE CONFIG
+        // ==========================================
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+
+        };
+
+
+
+        // ==========================================
+        // INITIALIZE FIREBASE
+        // ==========================================
+
+        const app =
+            initializeApp(
+                firebaseConfig
+            );
+
+
+        const auth =
+            getAuth(app);
+
+
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const loginForm =
+            document.getElementById(
+                "loginForm"
+            );
+
+
+        const emailInput =
+            document.getElementById(
+                "email"
+            );
+
+
+        const passwordInput =
+            document.getElementById(
+                "password"
+            );
+
+
+        const loginButton =
+            document.getElementById(
+                "loginButton"
+            );
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        const forgotPassword =
+            document.getElementById(
+                "forgotPassword"
+            );
+
+
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        loginForm.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    emailInput.value.trim();
+
+
+                const password =
+                    passwordInput.value;
+
+
+
+                // Check fields
+
+                if (
+                    email === "" ||
+                    password === ""
+                ) {
+
+                    showMessage(
+                        "⚠️ Please fill all fields.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+
+                // Disable button
+
+                loginButton.disabled =
+                    true;
+
+                loginButton.textContent =
+                    "Logging in...";
+
+
+
+                try {
+
+                    // ==================================
+                    // FIREBASE LOGIN
+                    // ==================================
+
+                    const userCredential =
+                        await
+                        signInWithEmailAndPassword(
+                            auth,
+                            email,
+                            password
+                        );
+
+
+                    const user =
+                        userCredential.user;
+
+
+
+                    // ==================================
+                    // SAVE USER EMAIL
+                    // ==================================
+
+                    localStorage.setItem(
+                        "userEmail",
+                        user.email
+                    );
+
+
+                    localStorage.setItem(
+                        "isLoggedIn",
+                        "true"
+                    );
+
+
+
+                    // ==================================
+                    // SUCCESS
+                    // ==================================
+
+                    showMessage(
+                        "✅ Login successful!",
+                        "success"
+                    );
+
+
+
+                    // Redirect
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "dashboard.html";
+
+                        },
+                        700
+                    );
+
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Firebase Login Error:",
+                        error
+                    );
+
+
+
+                    // ==================================
+                    // ERROR HANDLING
+                    // ==================================
+
+                    if (
+                        error.code ===
+                        "auth/invalid-credential"
+                    ) {
+
+                        showMessage(
+                            "❌ Invalid email or password.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else if (
+                        error.code ===
+                        "auth/user-not-found"
+                    ) {
+
+                        showMessage(
+                            "❌ No account found with this email.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else if (
+                        error.code ===
+                        "auth/wrong-password"
+                    ) {
+
+                        showMessage(
+                            "❌ Incorrect password.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else if (
+                        error.code ===
+                        "auth/invalid-email"
+                    ) {
+
+                        showMessage(
+                            "❌ Invalid email address.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else if (
+                        error.code ===
+                        "auth/too-many-requests"
+                    ) {
+
+                        showMessage(
+                            "⚠️ Too many attempts. Please try again later.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else {
+
+                        showMessage(
+                            "❌ Login failed. Please try again.",
+                            "error"
+                        );
+
+                    }
+
+
+                    // Enable button
+
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "Login";
+
+                }
+
             }
+        );
 
 
-            /*
-                Demo Login
 
-                Change these credentials according
-                to your requirement.
-            */
+        // ==========================================
+        // FORGOT PASSWORD
+        // ==========================================
 
-            const demoEmail = "admin@gmail.com";
+        forgotPassword.addEventListener(
+            "click",
+            async function(event) {
 
-            const demoPassword = "123456";
-
-
-            if (
-                email === demoEmail &&
-                password === demoPassword
-            ) {
-
-                message.textContent =
-                    "✅ Login successful!";
-
-                message.className = "success";
+                event.preventDefault();
 
 
-                // Save login information
-                localStorage.setItem(
-                    "userEmail",
-                    email
-                );
+                const email =
+                    emailInput.value.trim();
 
 
-                // Redirect to dashboard
-                setTimeout(function() {
 
-                    window.location.href =
-                        "dashboard.html";
+                if (email === "") {
 
-                }, 500);
+                    showMessage(
+                        "⚠️ First enter your email address.",
+                        "error"
+                    );
+
+                    emailInput.focus();
+
+                    return;
+
+                }
 
 
-            } else {
 
-                message.textContent =
-                    "❌ Invalid email or password.";
+                try {
 
-                message.className = "error";
+                    await
+                    sendPasswordResetEmail(
+                        auth,
+                        email
+                    );
+
+
+                    showMessage(
+                        "✅ Password reset email sent. Check your inbox.",
+                        "success"
+                    );
+
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+
+                    if (
+                        error.code ===
+                        "auth/user-not-found"
+                    ) {
+
+                        showMessage(
+                            "❌ No account found with this email.",
+                            "error"
+                        );
+
+                    }
+
+                    else {
+
+                        showMessage(
+                            "❌ Unable to send reset email.",
+                            "error"
+                        );
+
+                    }
+
+                }
 
             }
+        );
 
-        });
+
+
+        // ==========================================
+        // MESSAGE FUNCTION
+        // ==========================================
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            message.textContent =
+                text;
+
+            message.className =
+                type;
+
+        }
+
 
     </script>
 
+
 </body>
+
 </html>
