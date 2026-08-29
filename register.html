@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Create Account - University Portal</title>
 
@@ -204,6 +208,17 @@
         }
 
 
+        .btn-custom:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+        }
+
+
         .msg {
 
             background:
@@ -310,7 +325,10 @@
 
         <!-- Message -->
 
-        <div id="message" class="msg"></div>
+        <div
+            id="message"
+            class="msg"
+        ></div>
 
 
         <!-- Registration Form -->
@@ -408,6 +426,7 @@
             <button
                 type="submit"
                 class="btn-custom"
+                id="signupButton"
             >
                 Sign Up
             </button>
@@ -422,7 +441,7 @@
 
             Already have an account?
 
-            <a href="index.html">
+            <a href="login.html">
                 Login
             </a>
 
@@ -432,48 +451,153 @@
 
 
 
-    <script>
+    <!-- ==========================================
+         FIREBASE
+    =========================================== -->
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            createUserWithEmailAndPassword
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            doc,
+            setDoc
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+        // ==========================================
+        // YOUR FIREBASE CONFIG
+        // ==========================================
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+
+        };
+
+
+
+        // ==========================================
+        // INITIALIZE FIREBASE
+        // ==========================================
+
+        const app =
+            initializeApp(firebaseConfig);
+
+
+
+        // Firebase Authentication
+
+        const auth =
+            getAuth(app);
+
+
+
+        // Firestore
+
+        const db =
+            getFirestore(app);
+
+
+
+        // ==========================================
+        // FORM ELEMENTS
+        // ==========================================
 
         const signupForm =
-            document.getElementById("signupForm");
+            document.getElementById(
+                "signupForm"
+            );
 
 
         const message =
-            document.getElementById("message");
+            document.getElementById(
+                "message"
+            );
 
 
+        const signupButton =
+            document.getElementById(
+                "signupButton"
+            );
+
+
+
+        // ==========================================
+        // SIGN UP
+        // ==========================================
 
         signupForm.addEventListener(
             "submit",
-            function(event) {
+            async function(event) {
 
                 event.preventDefault();
 
 
+
+                // Get values
+
                 const name =
-                    document.getElementById("name")
-                    .value
-                    .trim();
+                    document.getElementById(
+                        "name"
+                    ).value.trim();
 
 
                 const email =
-                    document.getElementById("email")
-                    .value
-                    .trim();
+                    document.getElementById(
+                        "email"
+                    ).value.trim();
 
 
                 const password =
-                    document.getElementById("password")
-                    .value;
+                    document.getElementById(
+                        "password"
+                    ).value;
 
 
                 const confirmPassword =
-                    document.getElementById("confirmPassword")
-                    .value;
+                    document.getElementById(
+                        "confirmPassword"
+                    ).value;
 
 
 
-                // Check all fields
+                // ==================================
+                // VALIDATION
+                // ==================================
 
                 if (
                     name === "" ||
@@ -493,8 +617,6 @@
 
 
 
-                // Password length
-
                 if (password.length < 6) {
 
                     showMessage(
@@ -508,9 +630,10 @@
 
 
 
-                // Confirm password
-
-                if (password !== confirmPassword) {
+                if (
+                    password !==
+                    confirmPassword
+                ) {
 
                     showMessage(
                         "❌ Passwords do not match.",
@@ -523,102 +646,178 @@
 
 
 
-                /*
-                 * Demo Registration
-                 *
-                 * User data localStorage me save hoga.
-                 */
+                // Disable button
 
-                const users =
-                    JSON.parse(
-                        localStorage.getItem("users")
-                    ) || [];
+                signupButton.disabled = true;
+
+                signupButton.textContent =
+                    "Creating Account...";
 
 
 
-                // Check existing email
+                try {
 
-                const existingUser =
-                    users.find(
-                        user =>
-                            user.email.toLowerCase() ===
-                            email.toLowerCase()
+                    // ==================================
+                    // CREATE AUTH ACCOUNT
+                    // ==================================
+
+                    const userCredential =
+                        await
+                        createUserWithEmailAndPassword(
+                            auth,
+                            email,
+                            password
+                        );
+
+
+                    const user =
+                        userCredential.user;
+
+
+
+                    // ==================================
+                    // SAVE USER IN FIRESTORE
+                    // ==================================
+
+                    await setDoc(
+                        doc(
+                            db,
+                            "users",
+                            user.uid
+                        ),
+                        {
+
+                            name: name,
+
+                            email: email,
+
+                            uid: user.uid,
+
+                            createdAt:
+                                new Date()
+
+                        }
                     );
 
 
 
-                if (existingUser) {
+                    // ==================================
+                    // SUCCESS
+                    // ==================================
 
                     showMessage(
-                        "❌ This email is already registered.",
-                        "error"
+                        "✅ Account created successfully!",
+                        "success"
                     );
 
-                    return;
+
+                    signupForm.reset();
+
+
+
+                    // Redirect to login
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "login.html";
+
+                        },
+                        1500
+                    );
+
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Firebase Error:",
+                        error
+                    );
+
+
+
+                    // ==================================
+                    // ERROR HANDLING
+                    // ==================================
+
+                    if (
+                        error.code ===
+                        "auth/email-already-in-use"
+                    ) {
+
+                        showMessage(
+                            "❌ This email is already registered.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else if (
+                        error.code ===
+                        "auth/invalid-email"
+                    ) {
+
+                        showMessage(
+                            "❌ Invalid email address.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else if (
+                        error.code ===
+                        "auth/weak-password"
+                    ) {
+
+                        showMessage(
+                            "❌ Password is too weak.",
+                            "error"
+                        );
+
+                    }
+
+
+                    else {
+
+                        showMessage(
+                            "❌ Registration failed: " +
+                            error.message,
+                            "error"
+                        );
+
+                    }
+
+
+                    // Enable button
+
+                    signupButton.disabled =
+                        false;
+
+                    signupButton.textContent =
+                        "Sign Up";
 
                 }
-
-
-
-                // Create user
-
-                const newUser = {
-
-                    name: name,
-
-                    email: email,
-
-                    password: password
-
-                };
-
-
-
-                users.push(newUser);
-
-
-
-                // Save user
-
-                localStorage.setItem(
-                    "users",
-                    JSON.stringify(users)
-                );
-
-
-
-                // Success
-
-                showMessage(
-                    "✅ Account created successfully!",
-                    "success"
-                );
-
-
-
-                // Clear form
-
-                signupForm.reset();
-
-
-
-                // Login page par redirect
-
-                setTimeout(function() {
-
-                    window.location.href =
-                        "login.html";
-
-                }, 1200);
 
             }
         );
 
 
 
-        function showMessage(text, type) {
+        // ==========================================
+        // MESSAGE FUNCTION
+        // ==========================================
 
-            message.textContent = text;
+        function showMessage(
+            text,
+            type
+        ) {
+
+            message.textContent =
+                text;
 
             message.className =
                 "msg " + type;
@@ -629,4 +828,6 @@
 
 
 </body>
+
 </html>
+        
