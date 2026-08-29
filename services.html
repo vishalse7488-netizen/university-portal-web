@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Services - University Portal</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background: #f4f6f8;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+
+            background: #007BFF;
+
+            color: white;
+
+            padding: 15px 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            position: relative;
+
+            min-height: 60px;
+
+        }
+
+
+        .navbar h1 {
+
+            font-size: 18px;
+
+            margin: 0;
+
+            max-width: 40%;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+        }
+
+
+        .center-title {
+
+            position: absolute;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+        }
+
+
+        .logout {
+
+            color: white;
+
+            text-decoration: none;
+
+            background: #dc3545;
+
+            padding: 8px 15px;
+
+            border-radius: 5px;
+
+            transition: 0.3s;
+
+        }
+
+
+        .logout:hover {
+
+            background: #c82333;
+
+        }
+
+
+
+        /* ================= MENU BAR ================= */
+
+        .menu-bar {
+
+            background: #0056b3;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 10px;
+
+            gap: 30px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .menu-bar a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            transition: 0.3s;
+
+        }
+
+
+        .menu-bar a:hover {
+
+            color: #FFD700;
+
+            text-decoration: underline;
+
+        }
+
+
+        .menu-bar a.active {
+
+            color: #FFD700;
+
+            font-weight: bold;
+
+        }
+
+
+
+        /* ================= MAIN CONTENT ================= */
+
+        .content {
+
+            max-width: 900px;
+
+            width: calc(100% - 30px);
+
+            margin: 40px auto;
+
+            text-align: center;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 6px 18px
+                rgba(0, 0, 0, 0.1);
+
+        }
+
+
+        .content h2 {
+
+            color: #333;
+
+            margin-bottom: 10px;
+
+            font-size: 28px;
+
+        }
+
+
+        .content-description {
+
+            color: #666;
+
+            margin-bottom: 25px;
+
+            font-size: 15px;
+
+        }
+
+
+
+        /* ================= SERVICES GRID ================= */
+
+        .services-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 20px;
+
+        }
+
+
+        .service-card {
+
+            background: #007BFF;
+
+            color: white;
+
+            padding: 25px 15px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            min-height: 110px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            box-shadow:
+                0 4px 10px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .service-card:hover {
+
+            background: #0056b3;
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 8px 18px
+                rgba(0, 0, 0, 0.15);
+
+        }
+
+
+        .service-card a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            display: block;
+
+            width: 100%;
+
+        }
+
+
+        .service-icon {
+
+            font-size: 30px;
+
+            display: block;
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        /* ================= BACK BUTTON ================= */
+
+        .btn-back {
+
+            display: inline-block;
+
+            margin-top: 30px;
+
+            text-decoration: none;
+
+            background: #28a745;
+
+            color: white;
+
+            padding: 10px 20px;
+
+            border-radius: 6px;
+
+            transition: 0.3s;
+
+        }
+
+
+        .btn-back:hover {
+
+            background: #218838;
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 12px 10px;
+
+            }
+
+
+            .navbar h1 {
+
+                font-size: 12px;
+
+                max-width: 35%;
+
+            }
+
+
+            .center-title {
+
+                font-size: 17px;
+
+            }
+
+
+            .logout {
+
+                padding: 7px 10px;
+
+                font-size: 12px;
+
+            }
+
+
+            .menu-bar {
+
+                flex-direction: column;
+
+                gap: 10px;
+
+            }
+
+
+            .content {
+
+                margin: 20px auto;
+
+                padding: 20px 15px;
+
+            }
+
+
+            .content h2 {
+
+                font-size: 23px;
+
+            }
+
+
+            .services-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 12px;
+
+            }
+
+
+            .service-card {
+
+                min-height: 100px;
+
+                padding: 15px 8px;
+
+            }
+
+
+            .service-card a {
+
+                font-size: 14px;
+
+            }
+
+
+            .service-icon {
+
+                font-size: 25px;
+
+            }
+
+        }
+
+
+        @media (max-width: 350px) {
+
+            .services-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         TOP NAVBAR
+    ================================================== -->
+
+    <div class="navbar">
+
+
+        <h1 id="welcomeUser">
+
+            Welcome 👋
+
+        </h1>
+
+
+        <div class="center-title">
+
+            Notice Board
+
+        </div>
+
+
+        <a href="login.html"
+           class="logout"
+           id="logoutBtn">
+
+            Logout
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         MENU BAR
+    ================================================== -->
+
+    <div class="menu-bar">
+
+
+        <a href="dashboard.html">
+
+            Menu
+
+        </a>
+
+
+        <a href="services.html"
+           class="active">
+
+            Services
+
+        </a>
+
+
+        <a href="about.html">
+
+            About
+
+        </a>
+
+
+        <a href="location.html">
+
+            Location
+
+        </a>
+
+
+        <a href="feedback.html">
+
+            Feedback
+
+        </a>
+
+
+        <a href="contact.html">
+
+            Contact Us
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <div class="content">
+
+
+        <h2>
+
+            Our School Services
+
+        </h2>
+
+
+        <p class="content-description">
+
+            Select a service below to continue.
+
+        </p>
+
+
+
+        <div class="services-grid">
+
+
+            <!-- NEW ADMISSION -->
+
+            <div class="service-card">
+
+                <a href="Admission.html">
+
+                    <span class="service-icon">
+
+                        📝
+
+                    </span>
+
+                    New Admission
+
+                </a>
+
+            </div>
+
+
+
+            <!-- COMPLAINT -->
+
+            <div class="service-card">
+
+                <a href="complaint.html">
+
+                    <span class="service-icon">
+
+                        📢
+
+                    </span>
+
+                    Complaint
+
+                </a>
+
+            </div>
+
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="service-card">
+
+                <a href="attendance.html">
+
+                    <span class="service-icon">
+
+                        📅
+
+                    </span>
+
+                    Attendance
+
+                </a>
+
+            </div>
+
+
+
+            <!-- ASSIGNMENT -->
+
+            <div class="service-card">
+
+                <a href="assignment.html">
+
+                    <span class="service-icon">
+
+                        📚
+
+                    </span>
+
+                    Assignment
+
+                </a>
+
+            </div>
+
+
+
+            <!-- RESULT -->
+
+            <div class="service-card">
+
+                <a href="result.html">
+
+                    <span class="service-icon">
+
+                        📊
+
+                    </span>
+
+                    Result
+
+                </a>
+
+            </div>
+
+
+
+            <!-- HEALTH RECORD -->
+
+            <div class="service-card">
+
+                <a href="health-record.html">
+
+                    <span class="service-icon">
+
+                        🏥
+
+                    </span>
+
+                    Health Record
+
+                </a>
+
+            </div>
+
+
+
+            <!-- APPLICATION LETTER -->
+
+            <div class="service-card">
+
+                <a href="application-letter.html">
+
+                    <span class="service-icon">
+
+                        ✉️
+
+                    </span>
+
+                    Application Letter
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- BACK -->
+
+        <a href="dashboard.html"
+           class="btn-back">
+
+            ⬅ Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         FIREBASE
+    ================================================== -->
+
+    <script type="module">
+
+
+        /* ================= FIREBASE APP ================= */
+
+        import {
+            initializeApp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+
+        /* ================= FIRESTORE ================= */
+
+        import {
+            getFirestore
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+        /* ================= FIREBASE CONFIG ================= */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+
+        };
+
+
+
+        /* ================= INITIALIZE ================= */
+
+        const app =
+            initializeApp(firebaseConfig);
+
+
+        const db =
+            getFirestore(app);
+
+
+
+        console.log(
+            "Firebase connected successfully!"
+        );
+
+
+
+        /* ==================================================
+           LOGIN USER
+        ================================================== */
+
+        const userEmail =
+            localStorage.getItem("userEmail");
+
+
+
+        if (!userEmail) {
+
+            /*
+             * Agar login nahi hai,
+             * to login page par bhej do.
+             */
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+
+        else {
+
+            document.getElementById(
+                "welcomeUser"
+            ).textContent =
+                "Welcome, " +
+                userEmail +
+                " 👋";
+
+        }
+
+
+
+        /* ==================================================
+           LOGOUT
+        ================================================== */
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener(
+                "click",
+                function() {
+
+                    localStorage.removeItem(
+                        "userEmail"
+                    );
+
+                }
+            );
+
+
+    </script>
+
+
+</body>
+
+</html>
