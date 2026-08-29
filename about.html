@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About Us - University Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .navbar h1 {
+            font-size: 18px;
+            margin: 0;
+            max-width: 40%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .center-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            background: #dc3545;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            font-size: 15px;
+        }
+
+        .logout:hover {
+            background: #c82333;
+        }
+
+        /* ================= MENU ================= */
+
+        .menu-bar {
+            background: #0056b3;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .menu-bar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+            text-decoration: underline;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .content p {
+            color: #333;
+            line-height: 1.7;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        /* ================= SCHOOL INFO ================= */
+
+        .school-info {
+            background: #f8fbff;
+            border-left: 5px solid #007BFF;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 6px;
+        }
+
+        .school-info p {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .btn-back {
+            display: block;
+            width: fit-content;
+            margin: 25px auto 0;
+            text-decoration: none;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+        }
+
+        .btn-back:hover {
+            background: #218838;
+        }
+
+        /* ================= LOADING ================= */
+
+        #loading {
+            text-align: center;
+            color: #007BFF;
+            padding: 20px;
+        }
+
+        #errorMessage {
+            text-align: center;
+            color: #dc3545;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 12px 10px;
+            }
+
+            .navbar h1 {
+                font-size: 13px;
+                max-width: 35%;
+            }
+
+            .center-title {
+                font-size: 17px;
+            }
+
+            .logout {
+                padding: 7px 10px;
+                font-size: 13px;
+            }
+
+            .menu-bar {
+                gap: 10px;
+                padding: 12px 8px;
+            }
+
+            .menu-bar a {
+                font-size: 14px;
+            }
+
+            .content {
+                margin: 20px 10px;
+                padding: 20px 15px;
+            }
+
+            .content h2 {
+                font-size: 22px;
+            }
+
+            .content p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <div class="navbar">
+
+        <h1 id="welcomeUser">
+            Welcome 👋
+        </h1>
+
+        <div class="center-title">
+            University Portal
+        </div>
+
+        <button id="logoutBtn" class="logout">
+            Logout
+        </button>
+
+    </div>
+
+
+    <!-- ================= MENU ================= -->
+
+    <div class="menu-bar">
+
+        <a href="dashboard.html">
+            Menu
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="location.html">
+            Location
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="contact.html">
+            Contact Us
+        </a>
+
+    </div>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="content">
+
+        <h2>
+            About Our School
+        </h2>
+
+        <div id="loading">
+            Loading information...
+        </div>
+
+        <p id="errorMessage"></p>
+
+        <div id="aboutContent" style="display:none;">
+
+            <p id="description1"></p>
+
+            <p id="description2"></p>
+
+            <p id="description3"></p>
+
+
+            <div class="school-info">
+
+                <p>
+                    📍 <strong>Address:</strong>
+                    <span id="address"></span>
+                </p>
+
+                <p>
+                    ☎️ <strong>Phone:</strong>
+                    <span id="phone"></span>
+                </p>
+
+                <p>
+                    ✉️ <strong>Email:</strong>
+                    <span id="schoolEmail"></span>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a href="dashboard.html" class="btn-back">
+            ⬅ Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script type="module">
+
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+        import {
+            getFirestore,
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        /* ================= FIREBASE CONFIG ================= */
+
+        const firebaseConfig = {
+
+            apiKey: "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+        };
+
+
+        /* ================= INITIALIZE FIREBASE ================= */
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getFirestore(app);
+
+
+        /* ================= ELEMENTS ================= */
+
+        const welcomeUser =
+            document.getElementById("welcomeUser");
+
+        const loading =
+            document.getElementById("loading");
+
+        const aboutContent =
+            document.getElementById("aboutContent");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        const logoutBtn =
+            document.getElementById("logoutBtn");
+
+
+        /* ================= AUTH CHECK ================= */
+
+        onAuthStateChanged(auth, async (user) => {
+
+            if (!user) {
+
+                window.location.href = "login.html";
+
+                return;
+            }
+
+
+            /* USER EMAIL */
+
+            const email =
+                user.email || "User";
+
+            welcomeUser.textContent =
+                "Welcome, " + email + " 👋";
+
+
+            /* LOAD SCHOOL INFORMATION */
+
+            await loadSchoolInformation();
+
+        });
+
+
+        /* ================= LOAD FIRESTORE DATA ================= */
+
+        async function loadSchoolInformation() {
+
+            try {
+
+                /*
+                    Firestore:
+
+                    Collection:
+                    school_info
+
+                    Document:
+                    main
+                */
+
+                const schoolRef =
+                    doc(db, "school_info", "main");
+
+                const schoolSnap =
+                    await getDoc(schoolRef);
+
+
+                if (schoolSnap.exists()) {
+
+                    const data =
+                        schoolSnap.data();
+
+
+                    document.getElementById("description1")
+                        .textContent =
+                        data.description1 ||
+                        "Welcome to our school.";
+
+                    document.getElementById("description2")
+                        .textContent =
+                        data.description2 ||
+                        "We provide quality education.";
+
+                    document.getElementById("description3")
+                        .textContent =
+                        data.description3 ||
+                        "We believe in holistic education.";
+
+                    document.getElementById("address")
+                        .textContent =
+                        data.address ||
+                        "Address not available";
+
+                    document.getElementById("phone")
+                        .textContent =
+                        data.phone ||
+                        "Phone not available";
+
+                    document.getElementById("schoolEmail")
+                        .textContent =
+                        data.email ||
+                        "Email not available";
+
+                }
+
+                else {
+
+                    /*
+                        Agar Firestore document
+                        nahi hai to default data
+                    */
+
+                    document.getElementById("description1")
+                        .textContent =
+                        "Welcome to Sunrise Public School — a place where education meets inspiration. Our mission is to nurture young minds and empower them with knowledge, values, and skills necessary to excel in life.";
+
+                    document.getElementById("description2")
+                        .textContent =
+                        "Established in 2005, we have consistently delivered excellence in education, focusing on academics and co-curricular development.";
+
+                    document.getElementById("description3")
+                        .textContent =
+                        "We believe in holistic education — combining classroom learning, digital literacy, sports, and moral education to develop responsible citizens for the future.";
+
+                    document.getElementById("address")
+                        .textContent =
+                        "Sunrise Public School, Green Valley Road, Lucknow, India";
+
+                    document.getElementById("phone")
+                        .textContent =
+                        "+91 98765 43210";
+
+                    document.getElementById("schoolEmail")
+                        .textContent =
+                        "info@sunriseschool.edu.in";
+                }
+
+
+                loading.style.display = "none";
+
+                aboutContent.style.display = "block";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Firestore Error:",
+                    error
+                );
+
+                loading.style.display = "none";
+
+                errorMessage.style.display = "block";
+
+                errorMessage.textContent =
+                    "Information load nahi ho paayi. Please try again.";
+
+                /*
+                    Firebase error ke baad
+                    default information show karna
+                */
+
+                document.getElementById("description1")
+                    .textContent =
+                    "Welcome to Sunrise Public School — a place where education meets inspiration.";
+
+                document.getElementById("description2")
+                    .textContent =
+                    "Established in 2005, we focus on academic and co-curricular development.";
+
+                document.getElementById("description3")
+                    .textContent =
+                    "We believe in holistic education for the development of responsible citizens.";
+
+                document.getElementById("address")
+                    .textContent =
+                    "Sunrise Public School, Green Valley Road, Lucknow, India";
+
+                document.getElementById("phone")
+                    .textContent =
+                    "+91 98765 43210";
+
+                document.getElementById("schoolEmail")
+                    .textContent =
+                    "info@sunriseschool.edu.in";
+
+                aboutContent.style.display = "block";
+            }
+        }
+
+
+        /* ================= LOGOUT ================= */
+
+        logoutBtn.addEventListener("click", async () => {
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Logout Error:",
+                    error
+                );
+
+                alert(
+                    "Logout failed. Please try again."
+                );
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
