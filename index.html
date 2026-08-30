@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -12,20 +9,16 @@
 
     <title>University Portal - Login</title>
 
-
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-
         body {
-
             font-family:
-                'Segoe UI',
+                "Segoe UI",
                 Tahoma,
                 Geneva,
                 Verdana,
@@ -41,90 +34,97 @@
             min-height: 100vh;
 
             display: flex;
-
             justify-content: center;
-
             align-items: center;
 
             padding: 20px;
-
         }
 
-
         .login-container {
-
-            background: white;
+            background: #ffffff;
 
             padding: 40px 30px;
 
-            border-radius: 12px;
+            border-radius: 14px;
 
             box-shadow:
-                0 5px 20px
-                rgba(0, 0, 0, 0.2);
+                0 8px 30px
+                rgba(0, 0, 0, 0.20);
 
             text-align: center;
 
             width: 100%;
-
-            max-width: 360px;
-
+            max-width: 380px;
         }
 
+        .logo {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #4caf50;
+
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 30px;
+            font-weight: bold;
+        }
 
         .login-container h2 {
-
-            margin-bottom: 25px;
-
+            margin-bottom: 8px;
             color: #333;
-
         }
 
+        .subtitle {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
 
         .input-box {
-
             width: 100%;
 
-            padding: 12px;
+            padding: 13px 14px;
 
             margin-bottom: 15px;
 
             border:
                 1px solid #ccc;
 
-            border-radius: 6px;
+            border-radius: 7px;
 
             font-size: 15px;
 
             outline: none;
 
+            transition: 0.2s;
         }
 
-
         .input-box:focus {
-
-            border-color:
-                #4CAF50;
+            border-color: #4caf50;
 
             box-shadow:
                 0 0 5px
-                rgba(76,175,80,0.25);
-
+                rgba(76, 175, 80, 0.25);
         }
 
-
         button {
-
-            background-color:
-                #4CAF50;
+            background-color: #4caf50;
 
             color: white;
 
-            padding: 12px 15px;
+            padding: 13px 15px;
 
             border: none;
 
-            border-radius: 6px;
+            border-radius: 7px;
 
             cursor: pointer;
 
@@ -132,94 +132,24 @@
 
             font-size: 16px;
 
-            transition: 0.3s;
-
-        }
-
-
-        button:hover {
-
-            background-color:
-                #45a049;
-
-        }
-
-
-        button:disabled {
-
-            background-color:
-                #9e9e9e;
-
-            cursor: not-allowed;
-
-        }
-
-
-        .register-text {
-
-            margin-top: 20px;
-
-            font-size: 14px;
-
-            color: #555;
-
-        }
-
-
-        .register-text a {
-
-            color: #4CAF50;
-
-            text-decoration: none;
-
             font-weight: 600;
 
+            transition: 0.3s;
         }
 
-
-        .register-text a:hover {
-
-            text-decoration: underline;
-
+        button:hover {
+            background-color: #43a047;
         }
 
-
-        #message {
-
-            margin-top: 15px;
-
-            font-size: 14px;
-
-            font-weight: 500;
-
-            min-height: 20px;
-
+        button:disabled {
+            background-color: #9e9e9e;
+            cursor: not-allowed;
         }
-
-
-        .error {
-
-            color:
-                #d32f2f;
-
-        }
-
-
-        .success {
-
-            color:
-                #2e7d32;
-
-        }
-
-
-        /* Forgot password */
 
         .forgot-password {
-
             display: block;
 
-            margin-top: 12px;
+            margin-top: 14px;
 
             font-size: 13px;
 
@@ -228,50 +158,84 @@
             text-decoration: none;
 
             cursor: pointer;
-
         }
-
 
         .forgot-password:hover {
-
             text-decoration: underline;
-
         }
 
+        .register-text {
+            margin-top: 20px;
+
+            font-size: 14px;
+
+            color: #555;
+        }
+
+        .register-text a {
+            color: #4caf50;
+
+            text-decoration: none;
+
+            font-weight: 600;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            margin-top: 15px;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            min-height: 20px;
+
+            line-height: 1.4;
+        }
+
+        .error {
+            color: #d32f2f;
+        }
+
+        .success {
+            color: #2e7d32;
+        }
+
+        .loading {
+            color: #1976d2;
+        }
 
         @media (max-width: 400px) {
-
-            .login-container {
-
-                padding:
-                    30px 20px;
-
+            body {
+                padding: 12px;
             }
 
+            .login-container {
+                padding: 30px 20px;
+            }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
     <div class="login-container">
 
+        <div class="logo">
+            U
+        </div>
 
-        <h2>
-            University Portal
-        </h2>
+        <h2>University Portal</h2>
 
+        <p class="subtitle">
+            Login to continue
+        </p>
 
-        <!-- Login Form -->
-
+        <!-- LOGIN FORM -->
         <form id="loginForm">
-
-
-            <!-- Email -->
 
             <input
                 type="email"
@@ -282,9 +246,6 @@
                 required
             >
 
-
-            <!-- Password -->
-
             <input
                 type="password"
                 id="password"
@@ -294,9 +255,6 @@
                 required
             >
 
-
-            <!-- Login -->
-
             <button
                 type="submit"
                 id="loginButton"
@@ -304,12 +262,9 @@
                 Login
             </button>
 
-
         </form>
 
-
-        <!-- Forgot Password -->
-
+        <!-- FORGOT PASSWORD -->
         <a
             href="#"
             class="forgot-password"
@@ -318,9 +273,7 @@
             Forgot Password?
         </a>
 
-
-        <!-- Register -->
-
+        <!-- REGISTER -->
         <div class="register-text">
 
             Don't have an account?
@@ -331,24 +284,21 @@
 
         </div>
 
-
-        <!-- Message -->
-
+        <!-- MESSAGE -->
         <p id="message"></p>
-
 
     </div>
 
 
-
     <!-- ==========================================
-         FIREBASE LOGIN
+         FIREBASE
     =========================================== -->
 
     <script type="module">
 
-
-        // Firebase App
+        /* ==========================================
+           FIREBASE APP
+        ========================================== */
 
         import {
             initializeApp
@@ -356,7 +306,9 @@
         "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
-        // Firebase Authentication
+        /* ==========================================
+           FIREBASE AUTHENTICATION
+        ========================================== */
 
         import {
             getAuth,
@@ -366,10 +318,23 @@
         "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
+        /* ==========================================
+           FIRESTORE
+        ========================================== */
 
-        // ==========================================
-        // FIREBASE CONFIG
-        // ==========================================
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            getDocs
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        /* ==========================================
+           FIREBASE CONFIG
+        ========================================== */
 
         const firebaseConfig = {
 
@@ -393,70 +358,59 @@
 
             measurementId:
                 "G-LKTX7C7F0E"
-
         };
 
 
-
-        // ==========================================
-        // INITIALIZE FIREBASE
-        // ==========================================
+        /* ==========================================
+           INITIALIZE FIREBASE
+        ========================================== */
 
         const app =
-            initializeApp(
-                firebaseConfig
-            );
+            initializeApp(firebaseConfig);
 
+
+        /* ==========================================
+           INITIALIZE AUTH
+        ========================================== */
 
         const auth =
             getAuth(app);
 
 
+        /* ==========================================
+           INITIALIZE FIRESTORE
+        ========================================== */
 
-        // ==========================================
-        // ELEMENTS
-        // ==========================================
+        const db =
+            getFirestore(app);
+
+
+        /* ==========================================
+           ELEMENTS
+        ========================================== */
 
         const loginForm =
-            document.getElementById(
-                "loginForm"
-            );
-
+            document.getElementById("loginForm");
 
         const emailInput =
-            document.getElementById(
-                "email"
-            );
-
+            document.getElementById("email");
 
         const passwordInput =
-            document.getElementById(
-                "password"
-            );
-
+            document.getElementById("password");
 
         const loginButton =
-            document.getElementById(
-                "loginButton"
-            );
-
+            document.getElementById("loginButton");
 
         const message =
-            document.getElementById(
-                "message"
-            );
-
+            document.getElementById("message");
 
         const forgotPassword =
-            document.getElementById(
-                "forgotPassword"
-            );
+            document.getElementById("forgotPassword");
 
 
-
-        // ==========================================
-        // LOGIN
-        // ==========================================
+        /* ==========================================
+           LOGIN
+        ========================================== */
 
         loginForm.addEventListener(
             "submit",
@@ -466,15 +420,17 @@
 
 
                 const email =
-                    emailInput.value.trim();
-
+                    emailInput.value
+                    .trim()
+                    .toLowerCase();
 
                 const password =
                     passwordInput.value;
 
 
-
-                // Check fields
+                /* ==================================
+                   VALIDATION
+                ================================== */
 
                 if (
                     email === "" ||
@@ -487,26 +443,25 @@
                     );
 
                     return;
-
                 }
 
 
+                /* ==================================
+                   DISABLE BUTTON
+                ================================== */
 
-                // Disable button
-
-                loginButton.disabled =
-                    true;
+                loginButton.disabled = true;
 
                 loginButton.textContent =
                     "Logging in...";
 
 
-
                 try {
 
-                    // ==================================
-                    // FIREBASE LOGIN
-                    // ==================================
+                    /* ==================================
+                       STEP 1:
+                       FIREBASE AUTH LOGIN
+                    ================================== */
 
                     const userCredential =
                         await
@@ -521,16 +476,162 @@
                         userCredential.user;
 
 
+                    console.log(
+                        "Authenticated user:",
+                        user.uid
+                    );
 
-                    // ==================================
-                    // SAVE USER EMAIL
-                    // ==================================
+
+                    /* ==================================
+                       STEP 2:
+                       FIND USER IN FIRESTORE
+
+                       Collection:
+                       users
+
+                       Example:
+
+                       users
+                       └── document
+                           ├── email
+                           ├── name
+                           ├── role
+                           └── username
+                    ================================== */
+
+                    const usersRef =
+                        collection(
+                            db,
+                            "users"
+                        );
+
+
+                    const userQuery =
+                        query(
+                            usersRef,
+                            where(
+                                "email",
+                                "==",
+                                user.email
+                            )
+                        );
+
+
+                    const userSnapshot =
+                        await getDocs(userQuery);
+
+
+                    /* ==================================
+                       USER NOT FOUND
+                    ================================== */
+
+                    if (
+                        userSnapshot.empty
+                    ) {
+
+                        showMessage(
+                            "❌ User profile not found in Firestore.",
+                            "error"
+                        );
+
+                        await auth.signOut();
+
+                        loginButton.disabled = false;
+
+                        loginButton.textContent =
+                            "Login";
+
+                        return;
+                    }
+
+
+                    /* ==================================
+                       GET USER DATA
+                    ================================== */
+
+                    let userData = null;
+
+
+                    userSnapshot.forEach(
+                        function(doc) {
+
+                            userData = {
+                                id: doc.id,
+                                ...doc.data()
+                            };
+
+                        }
+                    );
+
+
+                    console.log(
+                        "Firestore user:",
+                        userData
+                    );
+
+
+                    /* ==================================
+                       GET ROLE
+                    ================================== */
+
+                    const role =
+                        String(
+                            userData.role || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    /* ==================================
+                       ROLE NOT FOUND
+                    ================================== */
+
+                    if (role === "") {
+
+                        showMessage(
+                            "❌ User role is not assigned.",
+                            "error"
+                        );
+
+                        await auth.signOut();
+
+                        loginButton.disabled = false;
+
+                        loginButton.textContent =
+                            "Login";
+
+                        return;
+                    }
+
+
+                    /* ==================================
+                       SAVE LOGIN DATA
+                    ================================== */
 
                     localStorage.setItem(
                         "userEmail",
                         user.email
                     );
 
+                    localStorage.setItem(
+                        "userUid",
+                        user.uid
+                    );
+
+                    localStorage.setItem(
+                        "userRole",
+                        role
+                    );
+
+                    localStorage.setItem(
+                        "userName",
+                        userData.name || ""
+                    );
+
+                    localStorage.setItem(
+                        "username",
+                        userData.username || ""
+                    );
 
                     localStorage.setItem(
                         "isLoggedIn",
@@ -538,32 +639,77 @@
                     );
 
 
-
-                    // ==================================
-                    // SUCCESS
-                    // ==================================
+                    /* ==================================
+                       SUCCESS MESSAGE
+                    ================================== */
 
                     showMessage(
-                        "✅ Login successful!",
+                        "✅ Login successful! Redirecting...",
                         "success"
                     );
 
 
-
-                    // Redirect
+                    /* ==================================
+                       ROLE BASED REDIRECT
+                    ================================== */
 
                     setTimeout(
                         function() {
 
-                            window.location.href =
-                                "dashboard.html";
+                            if (
+                                role === "student"
+                            ) {
+
+                                window.location.href =
+                                    "student-dashboard.html";
+
+                            }
+
+                            else if (
+                                role === "faculty" ||
+                                role === "teacher"
+                            ) {
+
+                                window.location.href =
+                                    "faculty-dashboard.html";
+
+                            }
+
+                            else if (
+                                role === "admin" ||
+                                role === "administrator"
+                            ) {
+
+                                window.location.href =
+                                    "admin-dashboard.html";
+
+                            }
+
+                            else {
+
+                                showMessage(
+                                    "❌ Unknown role: " + role,
+                                    "error"
+                                );
+
+                                loginButton.disabled =
+                                    false;
+
+                                loginButton.textContent =
+                                    "Login";
+
+                            }
 
                         },
                         700
                     );
 
-
                 }
+
+
+                /* ==================================
+                   LOGIN ERROR
+                ================================== */
 
                 catch (error) {
 
@@ -573,104 +719,91 @@
                     );
 
 
+                    let errorMessage =
+                        "❌ Login failed. Please try again.";
 
-                    // ==================================
-                    // ERROR HANDLING
-                    // ==================================
 
                     if (
                         error.code ===
                         "auth/invalid-credential"
                     ) {
 
-                        showMessage(
-                            "❌ Invalid email or password.",
-                            "error"
-                        );
+                        errorMessage =
+                            "❌ Invalid email or password.";
 
                     }
-
 
                     else if (
                         error.code ===
                         "auth/user-not-found"
                     ) {
 
-                        showMessage(
-                            "❌ No account found with this email.",
-                            "error"
-                        );
+                        errorMessage =
+                            "❌ No account found with this email.";
 
                     }
-
 
                     else if (
                         error.code ===
                         "auth/wrong-password"
                     ) {
 
-                        showMessage(
-                            "❌ Incorrect password.",
-                            "error"
-                        );
+                        errorMessage =
+                            "❌ Incorrect password.";
 
                     }
-
 
                     else if (
                         error.code ===
                         "auth/invalid-email"
                     ) {
 
-                        showMessage(
-                            "❌ Invalid email address.",
-                            "error"
-                        );
+                        errorMessage =
+                            "❌ Invalid email address.";
 
                     }
-
 
                     else if (
                         error.code ===
                         "auth/too-many-requests"
                     ) {
 
-                        showMessage(
-                            "⚠️ Too many attempts. Please try again later.",
-                            "error"
-                        );
+                        errorMessage =
+                            "⚠️ Too many attempts. Please try again later.";
+
+                    }
+
+                    else if (
+                        error.code ===
+                        "auth/network-request-failed"
+                    ) {
+
+                        errorMessage =
+                            "❌ Network error. Check your internet connection.";
 
                     }
 
 
-                    else {
+                    showMessage(
+                        errorMessage,
+                        "error"
+                    );
 
-                        showMessage(
-                            "❌ Login failed. Please try again.",
-                            "error"
-                        );
-
-                    }
-
-
-                    // Enable button
 
                     loginButton.disabled =
                         false;
 
                     loginButton.textContent =
                         "Login";
-
                 }
 
             }
         );
 
 
-
-        // ==========================================
-        // FORGOT PASSWORD
-        // ==========================================
+        /* ==========================================
+           FORGOT PASSWORD
+        ========================================== */
 
         forgotPassword.addEventListener(
             "click",
@@ -680,8 +813,9 @@
 
 
                 const email =
-                    emailInput.value.trim();
-
+                    emailInput.value
+                    .trim()
+                    .toLowerCase();
 
 
                 if (email === "") {
@@ -694,9 +828,7 @@
                     emailInput.focus();
 
                     return;
-
                 }
-
 
 
                 try {
@@ -713,12 +845,14 @@
                         "success"
                     );
 
-
                 }
 
                 catch (error) {
 
-                    console.error(error);
+                    console.error(
+                        "Password Reset Error:",
+                        error
+                    );
 
 
                     if (
@@ -728,6 +862,18 @@
 
                         showMessage(
                             "❌ No account found with this email.",
+                            "error"
+                        );
+
+                    }
+
+                    else if (
+                        error.code ===
+                        "auth/invalid-email"
+                    ) {
+
+                        showMessage(
+                            "❌ Invalid email address.",
                             "error"
                         );
 
@@ -748,10 +894,9 @@
         );
 
 
-
-        // ==========================================
-        // MESSAGE FUNCTION
-        // ==========================================
+        /* ==========================================
+           MESSAGE FUNCTION
+        ========================================== */
 
         function showMessage(
             text,
@@ -766,10 +911,7 @@
 
         }
 
-
     </script>
 
-
 </body>
-
 </html>
