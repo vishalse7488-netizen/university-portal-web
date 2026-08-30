@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -26,38 +25,34 @@
 
             font-family: Arial, sans-serif;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #67dce8,
-                    #64a8f4
-                );
-
-            padding: 20px;
+            background: linear-gradient(
+                135deg,
+                #64d8df,
+                #65aaf0
+            );
         }
 
         .login-container {
             width: 100%;
-            max-width: 410px;
+            max-width: 440px;
 
-            background: #ffffff;
+            background: white;
 
-            padding: 42px 32px;
+            padding: 42px 34px;
 
-            border-radius: 15px;
+            border-radius: 16px;
 
             box-shadow:
-                0 10px 35px
-                rgba(0,0,0,0.18);
+                0 15px 40px rgba(0, 0, 0, 0.18);
 
             text-align: center;
+
+            margin: 20px;
         }
 
         .logo {
-            width: 75px;
-            height: 75px;
-
-            margin: 0 auto 20px;
+            width: 78px;
+            height: 78px;
 
             border-radius: 50%;
 
@@ -69,11 +64,13 @@
             justify-content: center;
             align-items: center;
 
-            font-size: 38px;
+            margin: 0 auto 18px;
+
+            font-size: 42px;
             font-weight: bold;
         }
 
-        h2 {
+        h1 {
             margin: 0;
 
             color: #222;
@@ -82,36 +79,42 @@
         }
 
         .subtitle {
+            margin-top: 10px;
+            margin-bottom: 28px;
+
             color: #777;
 
-            margin: 10px 0 25px;
+            font-size: 16px;
         }
 
-        .input-box {
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        input {
             width: 100%;
 
             padding: 14px;
 
-            margin-bottom: 15px;
-
-            border: 1px solid #ccc;
+            border: 1px solid #c8c8c8;
 
             border-radius: 7px;
-
-            background: #f5f8ff;
 
             font-size: 16px;
 
             outline: none;
+
+            background: #f5f8ff;
         }
 
-        .input-box:focus {
+        input:focus {
             border-color: #4caf50;
 
-            background: white;
+            box-shadow:
+                0 0 0 2px rgba(76, 175, 80, 0.12);
         }
 
-        #loginButton {
+        .login-btn {
             width: 100%;
 
             padding: 14px;
@@ -129,34 +132,41 @@
             font-weight: bold;
 
             cursor: pointer;
+
+            transition: 0.3s;
         }
 
-        #loginButton:hover {
-            background: #3f9f45;
+        .login-btn:hover {
+            background: #43a047;
         }
 
-        #loginButton:disabled {
-            background: #999;
-
+        .login-btn:disabled {
+            background: #9e9e9e;
             cursor: not-allowed;
         }
 
-        .forgot-password {
+        .forgot {
             display: block;
 
-            margin-top: 18px;
+            margin-top: 20px;
 
             color: #1976d2;
 
             text-decoration: none;
+
+            font-size: 15px;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
         }
 
         .register-text {
-            margin-top: 22px;
+            margin-top: 24px;
 
-            color: #555;
+            color: #666;
 
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .register-text a {
@@ -167,47 +177,61 @@
             text-decoration: none;
         }
 
-        #message {
-            min-height: 25px;
+        .message {
+            display: none;
 
-            margin-top: 18px;
+            margin-top: 20px;
+
+            padding: 12px;
+
+            border-radius: 7px;
 
             font-size: 14px;
-
-            font-weight: bold;
 
             line-height: 1.5;
         }
 
         .error {
+            display: block;
+
             color: #d32f2f;
+
+            background: #ffebee;
         }
 
         .success {
+            display: block;
+
             color: #2e7d32;
+
+            background: #e8f5e9;
         }
 
-        .loading {
-            color: #1976d2;
-        }
-
-        @media (max-width: 450px) {
-
-            body {
-                padding: 12px;
-            }
+        @media (max-width: 600px) {
 
             .login-container {
-                padding: 30px 20px;
+                margin: 15px;
+
+                padding: 32px 22px;
             }
 
-            h2 {
-                font-size: 24px;
+            h1 {
+                font-size: 25px;
+            }
+
+            .logo {
+                width: 70px;
+                height: 70px;
+
+                font-size: 36px;
+            }
+
+            input {
+                font-size: 15px;
             }
         }
 
     </style>
-
 </head>
 
 
@@ -222,42 +246,49 @@
     </div>
 
 
-    <h2>
+    <h1>
         University Portal
-    </h2>
+    </h1>
 
 
-    <p class="subtitle">
+    <div class="subtitle">
         Login to continue
-    </p>
+    </div>
 
 
     <form id="loginForm">
 
 
-        <input
-            type="email"
-            id="email"
-            class="input-box"
-            placeholder="Email"
-            autocomplete="email"
-            required
-        >
+        <div class="input-group">
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                autocomplete="email"
+                required
+            >
+
+        </div>
 
 
-        <input
-            type="password"
-            id="password"
-            class="input-box"
-            placeholder="Password"
-            autocomplete="current-password"
-            required
-        >
+        <div class="input-group">
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                autocomplete="current-password"
+                required
+            >
+
+        </div>
 
 
         <button
             type="submit"
-            id="loginButton"
+            class="login-btn"
+            id="loginBtn"
         >
             Login
         </button>
@@ -268,8 +299,8 @@
 
     <a
         href="#"
+        class="forgot"
         id="forgotPassword"
-        class="forgot-password"
     >
         Forgot Password?
     </a>
@@ -286,574 +317,512 @@
     </div>
 
 
-    <p id="message"></p>
+    <div
+        id="message"
+        class="message"
+    ></div>
 
 
 </div>
 
 
 
+<!-- Firebase SDK -->
+
 <script type="module">
 
+    // =========================================
+    // FIREBASE IMPORTS
+    // =========================================
 
-// =====================================================
-// FIREBASE IMPORT
-// =====================================================
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    signOut
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-import {
-    getFirestore,
-    doc,
-    getDoc
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    import {
+        getFirestore,
+        doc,
+        getDoc
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-// =====================================================
-// FIREBASE CONFIG
-// =====================================================
+    // =========================================
+    // YOUR FIREBASE CONFIG
+    // =========================================
 
-const firebaseConfig = {
+    const firebaseConfig = {
 
-    apiKey:
-        "AIzaSyCS7fUaY2HAov1ezFN9_lchZHHUA4lj8g",
+        apiKey:
+            "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
 
-    authDomain:
-        "university-portal-2107e.firebaseapp.com",
+        authDomain:
+            "university-portal-2107e.firebaseapp.com",
 
-    projectId:
-        "university-portal-2107e",
+        projectId:
+            "university-portal-2107e",
 
-    storageBucket:
-        "university-portal-2107e.firebasestorage.app",
+        storageBucket:
+            "university-portal-2107e.firebasestorage.app",
 
-    messagingSenderId:
-        "50848903813",
+        messagingSenderId:
+            "50848903813",
 
-    appId:
-        "1:50848903813:web:8296090d0d9268cfd2efec",
+        appId:
+            "1:50848903813:web:8296090d0d9268cfd2efec",
 
-    measurementId:
-        "G-LKTX7C7F0E"
-};
-
-
-// =====================================================
-// INITIALIZE
-// =====================================================
-
-const app =
-    initializeApp(firebaseConfig);
+        measurementId:
+            "G-LKTX7C7F0E"
+    };
 
 
-const auth =
-    getAuth(app);
+    // =========================================
+    // INITIALIZE FIREBASE
+    // =========================================
+
+    const app =
+        initializeApp(firebaseConfig);
 
 
-const db =
-    getFirestore(app);
+    // Firebase Authentication
+
+    const auth =
+        getAuth(app);
 
 
-// =====================================================
-// ELEMENTS
-// =====================================================
+    // Firestore
 
-const loginForm =
-    document.getElementById("loginForm");
-
-const emailInput =
-    document.getElementById("email");
-
-const passwordInput =
-    document.getElementById("password");
-
-const loginButton =
-    document.getElementById("loginButton");
-
-const message =
-    document.getElementById("message");
-
-const forgotPassword =
-    document.getElementById("forgotPassword");
+    const db =
+        getFirestore(app);
 
 
-// =====================================================
-// MESSAGE
-// =====================================================
+    // =========================================
+    // HTML ELEMENTS
+    // =========================================
 
-function showMessage(text, type) {
+    const loginForm =
+        document.getElementById("loginForm");
 
-    message.textContent = text;
+    const emailInput =
+        document.getElementById("email");
 
-    message.className = type;
-}
+    const passwordInput =
+        document.getElementById("password");
 
+    const loginBtn =
+        document.getElementById("loginBtn");
 
-// =====================================================
-// LOGIN
-// =====================================================
+    const message =
+        document.getElementById("message");
 
-loginForm.addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-
-        const email =
-            emailInput.value
-                .trim()
-                .toLowerCase();
+    const forgotPassword =
+        document.getElementById("forgotPassword");
 
 
-        const password =
-            passwordInput.value;
+    // =========================================
+    // SHOW MESSAGE
+    // =========================================
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+    }
 
 
-        if (!email || !password) {
+    // =========================================
+    // LOGIN
+    // =========================================
+
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const email =
+                emailInput.value.trim();
+
+            const password =
+                passwordInput.value;
+
+
+            if (!email || !password) {
+
+                showMessage(
+                    "Please enter email and password.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            loginBtn.disabled = true;
+
+            loginBtn.textContent =
+                "Logging in...";
+
 
             showMessage(
-                "⚠️ Please enter email and password.",
-                "error"
+                "Please wait...",
+                "success"
             );
 
-            return;
+
+            try {
+
+                // =================================
+                // STEP 1
+                // Firebase Authentication
+                // =================================
+
+                const userCredential =
+                    await signInWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
+                    );
+
+
+                const user =
+                    userCredential.user;
+
+
+                // =================================
+                // STEP 2
+                // GET FIREBASE UID
+                // =================================
+
+                const uid =
+                    user.uid;
+
+
+                // =================================
+                // STEP 3
+                // GET USER FROM FIRESTORE
+                //
+                // users/{Firebase UID}
+                // =================================
+
+                const userRef =
+                    doc(
+                        db,
+                        "users",
+                        uid
+                    );
+
+
+                const userSnapshot =
+                    await getDoc(userRef);
+
+
+                // =================================
+                // USER PROFILE NOT FOUND
+                // =================================
+
+                if (!userSnapshot.exists()) {
+
+                    showMessage(
+                        "Login successful, but your user profile was not found in Firestore.",
+                        "error"
+                    );
+
+                    loginBtn.disabled = false;
+
+                    loginBtn.textContent =
+                        "Login";
+
+                    return;
+                }
+
+
+                // =================================
+                // GET USER DATA
+                // =================================
+
+                const userData =
+                    userSnapshot.data();
+
+
+                const role =
+                    userData.role;
+
+
+                const name =
+                    userData.name || "";
+
+
+                const username =
+                    userData.username || "";
+
+
+                // =================================
+                // CHECK ROLE
+                // =================================
+
+                if (
+                    role !== "student" &&
+                    role !== "faculty" &&
+                    role !== "admin"
+                ) {
+
+                    showMessage(
+                        "Invalid user role. Please contact administrator.",
+                        "error"
+                    );
+
+                    loginBtn.disabled = false;
+
+                    loginBtn.textContent =
+                        "Login";
+
+                    return;
+                }
+
+
+                // =================================
+                // SAVE LOGIN INFORMATION
+                // =================================
+
+                localStorage.setItem(
+                    "userEmail",
+                    user.email
+                );
+
+                localStorage.setItem(
+                    "userName",
+                    name
+                );
+
+                localStorage.setItem(
+                    "username",
+                    username
+                );
+
+                localStorage.setItem(
+                    "userRole",
+                    role
+                );
+
+                localStorage.setItem(
+                    "userUid",
+                    uid
+                );
+
+                localStorage.setItem(
+                    "isLoggedIn",
+                    "true"
+                );
+
+
+                // =================================
+                // SUCCESS
+                // =================================
+
+                showMessage(
+                    "Login successful. Redirecting...",
+                    "success"
+                );
+
+
+                // =================================
+                // ROLE BASED REDIRECT
+                // =================================
+
+                setTimeout(
+                    function() {
+
+                        if (role === "student") {
+
+                            window.location.href =
+                                "student-dashboard.html";
+
+                        }
+
+                        else if (role === "faculty") {
+
+                            window.location.href =
+                                "faculty-dashboard.html";
+
+                        }
+
+                        else if (role === "admin") {
+
+                            window.location.href =
+                                "admin-dashboard.html";
+
+                        }
+
+                    },
+                    500
+                );
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Firebase Login Error:",
+                    error
+                );
+
+
+                let errorMessage =
+                    "Login failed. Please try again.";
+
+
+                // Firebase error messages
+
+                switch (error.code) {
+
+                    case "auth/invalid-email":
+
+                        errorMessage =
+                            "Invalid email address.";
+
+                        break;
+
+
+                    case "auth/user-not-found":
+
+                        errorMessage =
+                            "No account found with this email.";
+
+                        break;
+
+
+                    case "auth/wrong-password":
+
+                        errorMessage =
+                            "Incorrect password.";
+
+                        break;
+
+
+                    case "auth/invalid-credential":
+
+                        errorMessage =
+                            "Incorrect email or password.";
+
+                        break;
+
+
+                    case "auth/too-many-requests":
+
+                        errorMessage =
+                            "Too many login attempts. Please try again later.";
+
+                        break;
+
+
+                    case "auth/network-request-failed":
+
+                        errorMessage =
+                            "Network error. Check your internet connection.";
+
+                        break;
+
+
+                    case "permission-denied":
+
+                        errorMessage =
+                            "Firestore permission denied. Check your Firestore Rules.";
+
+                        break;
+
+
+                    default:
+
+                        errorMessage =
+                            "Firebase Error: " +
+                            error.message;
+                }
+
+
+                showMessage(
+                    errorMessage,
+                    "error"
+                );
+
+
+                loginBtn.disabled = false;
+
+                loginBtn.textContent =
+                    "Login";
+            }
+
         }
+    );
 
 
-        loginButton.disabled = true;
+    // =========================================
+    // FORGOT PASSWORD
+    // =========================================
 
-        loginButton.textContent =
-            "Logging in...";
+    forgotPassword.addEventListener(
+        "click",
+        async function(event) {
 
-
-        showMessage(
-            "Checking your account...",
-            "loading"
-        );
-
-
-        try {
+            event.preventDefault();
 
 
-            // =================================================
-            // STEP 1
-            // FIREBASE AUTHENTICATION
-            // =================================================
+            const email =
+                emailInput.value.trim();
 
-            const credential =
-                await signInWithEmailAndPassword(
+
+            if (!email) {
+
+                showMessage(
+                    "Please enter your email address first.",
+                    "error"
+                );
+
+                emailInput.focus();
+
+                return;
+            }
+
+
+            try {
+
+                await sendPasswordResetEmail(
                     auth,
-                    email,
-                    password
+                    email
                 );
-
-
-            const user =
-                credential.user;
-
-
-            console.log(
-                "AUTH UID:",
-                user.uid
-            );
-
-
-            console.log(
-                "AUTH EMAIL:",
-                user.email
-            );
-
-
-            // =================================================
-            // STEP 2
-            // FIRESTORE
-            //
-            // IMPORTANT:
-            // users DOCUMENT ID = Firebase Auth UID
-            // =================================================
-
-            const userRef =
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                );
-
-
-            const userSnapshot =
-                await getDoc(userRef);
-
-
-            console.log(
-                "Firestore document exists:",
-                userSnapshot.exists()
-            );
-
-
-            // =================================================
-            // STEP 3
-            // PROFILE CHECK
-            // =================================================
-
-            if (!userSnapshot.exists()) {
-
-                await signOut(auth);
 
 
                 showMessage(
-                    "❌ Firestore profile not found. Create users/" +
-                    user.uid,
-                    "error"
+                    "Password reset email sent. Please check your inbox.",
+                    "success"
                 );
 
-
-                loginButton.disabled =
-                    false;
-
-                loginButton.textContent =
-                    "Login";
-
-
-                return;
             }
 
+            catch (error) {
 
-            // =================================================
-            // STEP 4
-            // USER DATA
-            // =================================================
-
-            const userData =
-                userSnapshot.data();
-
-
-            console.log(
-                "USER DATA:",
-                userData
-            );
-
-
-            // =================================================
-            // STEP 5
-            // ROLE
-            // =================================================
-
-            const role =
-                String(
-                    userData.role || ""
-                )
-                .trim()
-                .toLowerCase();
-
-
-            console.log(
-                "USER ROLE:",
-                role
-            );
-
-
-            if (
-                role !== "student" &&
-                role !== "faculty" &&
-                role !== "admin"
-            ) {
-
-                await signOut(auth);
+                console.error(
+                    error
+                );
 
 
                 showMessage(
-                    "❌ Invalid user role.",
+                    "Unable to send password reset email.",
                     "error"
                 );
-
-
-                loginButton.disabled =
-                    false;
-
-                loginButton.textContent =
-                    "Login";
-
-
-                return;
             }
 
-
-            // =================================================
-            // STEP 6
-            // SAVE LOGIN DATA
-            // =================================================
-
-            localStorage.setItem(
-                "isLoggedIn",
-                "true"
-            );
-
-
-            localStorage.setItem(
-                "userUid",
-                user.uid
-            );
-
-
-            localStorage.setItem(
-                "userEmail",
-                user.email || email
-            );
-
-
-            localStorage.setItem(
-                "userName",
-                userData.name || ""
-            );
-
-
-            localStorage.setItem(
-                "username",
-                userData.username || ""
-            );
-
-
-            localStorage.setItem(
-                "userRole",
-                role
-            );
-
-
-            // =================================================
-            // STEP 7
-            // REDIRECT
-            // =================================================
-
-            showMessage(
-                "✅ Login successful!",
-                "success"
-            );
-
-
-            setTimeout(
-                function() {
-
-
-                    if (
-                        role === "student"
-                    ) {
-
-                        window.location.href =
-                            "dashboard.html";
-
-                    }
-
-
-                    else if (
-                        role === "faculty"
-                    ) {
-
-                        window.location.href =
-                            "faculty-dashboard.html";
-
-                    }
-
-
-                    else if (
-                        role === "admin"
-                    ) {
-
-                        window.location.href =
-                            "admin-dashboard.html";
-
-                    }
-
-                },
-                500
-            );
-
         }
-
-
-        catch (error) {
-
-
-            console.error(
-                "LOGIN ERROR:",
-                error
-            );
-
-
-            let text =
-                "❌ Login failed.";
-
-
-            switch (error.code) {
-
-
-                case "auth/invalid-credential":
-
-                    text =
-                        "❌ Invalid email or password.";
-
-                    break;
-
-
-                case "auth/user-not-found":
-
-                    text =
-                        "❌ Firebase Authentication account not found.";
-
-                    break;
-
-
-                case "auth/wrong-password":
-
-                    text =
-                        "❌ Incorrect password.";
-
-                    break;
-
-
-                case "auth/invalid-email":
-
-                    text =
-                        "❌ Invalid email address.";
-
-                    break;
-
-
-                case "auth/too-many-requests":
-
-                    text =
-                        "⚠️ Too many attempts. Try again later.";
-
-                    break;
-
-
-                case "auth/network-request-failed":
-
-                    text =
-                        "❌ Network error. Check your internet.";
-
-                    break;
-
-
-                case "permission-denied":
-
-                    text =
-                        "❌ Firestore permission denied. Check users UID and Rules.";
-
-                    break;
-
-
-                default:
-
-                    text =
-                        "❌ " +
-                        (
-                            error.message ||
-                            "Login failed."
-                        );
-
-                    break;
-            }
-
-
-            showMessage(
-                text,
-                "error"
-            );
-
-
-            loginButton.disabled =
-                false;
-
-
-            loginButton.textContent =
-                "Login";
-
-        }
-
-    }
-);
-
-
-// =====================================================
-// FORGOT PASSWORD
-// =====================================================
-
-forgotPassword.addEventListener(
-    "click",
-    async function(event) {
-
-        event.preventDefault();
-
-
-        const email =
-            emailInput.value
-                .trim()
-                .toLowerCase();
-
-
-        if (!email) {
-
-            showMessage(
-                "⚠️ First enter your email.",
-                "error"
-            );
-
-            emailInput.focus();
-
-            return;
-        }
-
-
-        try {
-
-
-            await sendPasswordResetEmail(
-                auth,
-                email
-            );
-
-
-            showMessage(
-                "✅ Password reset email sent.",
-                "success"
-            );
-
-
-        }
-        catch (error) {
-
-            console.error(
-                error
-            );
-
-
-            showMessage(
-                "❌ Unable to send password reset email.",
-                "error"
-            );
-
-        }
-
-    }
-);
+    );
 
 </script>
 
