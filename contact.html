@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Us - Rama University</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            min-height: 100vh;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #007BFF;
+            color: white;
+
+            padding: 15px 20px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: relative;
+        }
+
+        .navbar h1 {
+            font-size: 18px;
+            margin: 0;
+
+            max-width: 40%;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .center-title {
+            position: absolute;
+
+            left: 50%;
+            transform: translateX(-50%);
+
+            font-size: 22px;
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+        .logout {
+            color: white;
+
+            background: #dc3545;
+
+            padding: 8px 15px;
+
+            border-radius: 5px;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+        .logout:hover {
+            background: #c82333;
+        }
+
+
+        /* ================= MENU ================= */
+
+        .menu-bar {
+            background: #0056b3;
+
+            display: flex;
+
+            justify-content: center;
+
+            padding: 10px 0;
+
+            gap: 30px;
+
+            flex-wrap: wrap;
+        }
+
+        .menu-bar a {
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            transition: 0.3s;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+
+            text-decoration: underline;
+        }
+
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            max-width: 700px;
+
+            margin: 40px auto;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            text-align: center;
+
+            color: #007BFF;
+
+            margin-bottom: 15px;
+        }
+
+        .content > p.description {
+            text-align: center;
+
+            color: #555;
+
+            margin-bottom: 30px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ================= FORM ================= */
+
+        form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+        input,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            border: 1px solid #ccc;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+
+            border-color: #007BFF;
+
+            box-shadow:
+                0 0 0 2px rgba(0, 123, 255, 0.1);
+        }
+
+        textarea {
+
+            resize: vertical;
+
+            min-height: 120px;
+        }
+
+
+        /* ================= BUTTON ================= */
+
+        .submit-btn {
+
+            background: #007BFF;
+
+            color: white;
+
+            border: none;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+
+            background: #0056b3;
+        }
+
+        .submit-btn:disabled {
+
+            background: #8bbcf0;
+
+            cursor: not-allowed;
+        }
+
+
+        /* ================= MESSAGE ================= */
+
+        .message {
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            display: none;
+        }
+
+        .success {
+
+            display: block;
+
+            color: #155724;
+
+            background: #d4edda;
+        }
+
+        .error {
+
+            display: block;
+
+            color: #721c24;
+
+            background: #f8d7da;
+        }
+
+
+        /* ================= INFO BOX ================= */
+
+        .info-box {
+
+            text-align: center;
+
+            margin-top: 30px;
+
+            background: #e9f1ff;
+
+            padding: 20px;
+
+            border-radius: 8px;
+        }
+
+        .info-box h3 {
+
+            margin-bottom: 10px;
+
+            color: #333;
+        }
+
+        .info-box p {
+
+            margin: 7px 0;
+
+            color: #555;
+
+            line-height: 1.4;
+        }
+
+        .info-box a {
+
+            color: #007BFF;
+
+            text-decoration: none;
+        }
+
+        .info-box a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* ================= BACK BUTTON ================= */
+
+        .btn-back {
+
+            display: block;
+
+            width: fit-content;
+
+            margin: 20px auto 0;
+
+            text-decoration: none;
+
+            background: #28a745;
+
+            color: white;
+
+            padding: 10px 20px;
+
+            border-radius: 6px;
+        }
+
+        .btn-back:hover {
+
+            background: #218838;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 12px 10px;
+            }
+
+            .navbar h1 {
+
+                font-size: 13px;
+
+                max-width: 35%;
+            }
+
+            .center-title {
+
+                font-size: 17px;
+            }
+
+            .logout {
+
+                padding: 7px 10px;
+
+                font-size: 13px;
+            }
+
+            .menu-bar {
+
+                gap: 10px;
+
+                padding: 12px 8px;
+            }
+
+            .menu-bar a {
+
+                font-size: 14px;
+            }
+
+            .content {
+
+                margin: 20px 10px;
+
+                padding: 20px 15px;
+            }
+
+            .content h2 {
+
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <div class="navbar">
+
+        <h1 id="welcomeUser">
+            Welcome 👋
+        </h1>
+
+        <div class="center-title">
+            University Portal
+        </div>
+
+        <button
+            id="logoutBtn"
+            class="logout">
+
+            Logout
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= MENU BAR ================= -->
+
+    <div class="menu-bar">
+
+        <a href="dashboard.html">
+            Menu
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="location.html">
+            Location
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="contact.html">
+            Contact Us
+        </a>
+
+    </div>
+
+
+    <!-- ================= CONTACT SECTION ================= -->
+
+    <div class="content">
+
+        <h2>
+            📞 Contact Us
+        </h2>
+
+        <p class="description">
+            We’d love to hear from you!
+            Fill out the form below or reach us directly.
+        </p>
+
+
+        <!-- ================= CONTACT FORM ================= -->
+
+        <form id="contactForm">
+
+
+            <!-- NAME -->
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Your Full Name"
+                required>
+
+
+            <!-- EMAIL -->
+
+            <input
+                type="email"
+                id="user_email"
+                placeholder="Your Email"
+                required>
+
+
+            <!-- SUBJECT -->
+
+            <input
+                type="text"
+                id="subject"
+                placeholder="Subject"
+                required>
+
+
+            <!-- MESSAGE -->
+
+            <textarea
+                id="msg"
+                placeholder="Your Message..."
+                required></textarea>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                id="submitBtn"
+                class="submit-btn">
+
+                Send Message
+
+            </button>
+
+        </form>
+
+
+        <!-- ================= STATUS MESSAGE ================= -->
+
+        <p
+            id="message"
+            class="message">
+        </p>
+
+
+        <!-- ================= CONTACT INFO ================= -->
+
+        <div class="info-box">
+
+            <h3>
+                Rama University
+            </h3>
+
+            <p>
+                📍 NH-91, Rama City, Mandhana,
+                Kanpur, Uttar Pradesh - 209217
+            </p>
+
+            <p>
+                📞 +91 98765 43210
+            </p>
+
+            <p>
+                ✉️ contact@ramauniversity.ac.in
+            </p>
+
+            <p>
+                🌐
+                <a
+                    href="https://www.ramauniversity.ac.in/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    www.ramauniversity.ac.in
+
+                </a>
+            </p>
+
+        </div>
+
+
+        <!-- ================= BACK ================= -->
+
+        <a
+            href="dashboard.html"
+            class="btn-back">
+
+            ⬅ Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script type="module">
+
+
+        /* =========================================
+           FIREBASE IMPORTS
+        ========================================= */
+
+        import {
+            initializeApp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+        /* =========================================
+           FIREBASE CONFIG
+        ========================================= */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+        };
+
+
+
+        /* =========================================
+           INITIALIZE FIREBASE
+        ========================================= */
+
+        const app =
+            initializeApp(firebaseConfig);
+
+
+        const auth =
+            getAuth(app);
+
+
+        const db =
+            getFirestore(app);
+
+
+
+        /* =========================================
+           ELEMENTS
+        ========================================= */
+
+        const welcomeUser =
+            document.getElementById(
+                "welcomeUser"
+            );
+
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        const contactForm =
+            document.getElementById(
+                "contactForm"
+            );
+
+
+        const nameInput =
+            document.getElementById(
+                "name"
+            );
+
+
+        const emailInput =
+            document.getElementById(
+                "user_email"
+            );
+
+
+        const subjectInput =
+            document.getElementById(
+                "subject"
+            );
+
+
+        const messageInput =
+            document.getElementById(
+                "msg"
+            );
+
+
+        const submitBtn =
+            document.getElementById(
+                "submitBtn"
+            );
+
+
+        const messageBox =
+            document.getElementById(
+                "message"
+            );
+
+
+
+        /* =========================================
+           AUTH CHECK
+        ========================================= */
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                /*
+                    Login nahi hai
+                    to login page par bhejo.
+                */
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                /*
+                    Logged-in user email
+                */
+
+                const email =
+                    user.email || "User";
+
+
+                welcomeUser.textContent =
+                    "Welcome, " +
+                    email +
+                    " 👋";
+
+
+                /*
+                    Email automatically fill
+                */
+
+                emailInput.value =
+                    email;
+
+            }
+        );
+
+
+
+        /* =========================================
+           CONTACT FORM SUBMIT
+        ========================================= */
+
+        contactForm.addEventListener(
+            "submit",
+            async (event) => {
+
+                /*
+                    Page reload prevent
+                */
+
+                event.preventDefault();
+
+
+                /*
+                    Message clear
+                */
+
+                messageBox.className =
+                    "message";
+
+                messageBox.textContent =
+                    "";
+
+
+                /*
+                    Current user
+                */
+
+                const user =
+                    auth.currentUser;
+
+
+                if (!user) {
+
+                    showMessage(
+                        "Please login first.",
+                        "error"
+                    );
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                /*
+                    Form values
+                */
+
+                const name =
+                    nameInput.value.trim();
+
+
+                const email =
+                    emailInput.value.trim();
+
+
+                const subject =
+                    subjectInput.value.trim();
+
+
+                const msg =
+                    messageInput.value.trim();
+
+
+
+                /* =================================
+                   VALIDATION
+                ================================= */
+
+                if (!name) {
+
+                    showMessage(
+                        "Please enter your name.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                if (!email) {
+
+                    showMessage(
+                        "Please enter your email.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                if (!subject) {
+
+                    showMessage(
+                        "Please enter the subject.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                if (!msg) {
+
+                    showMessage(
+                        "Please enter your message.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+
+                /* =================================
+                   DISABLE BUTTON
+                ================================= */
+
+                submitBtn.disabled =
+                    true;
+
+                submitBtn.textContent =
+                    "Sending...";
+
+
+
+                try {
+
+
+                    /* =================================
+                       SAVE TO FIRESTORE
+                    ================================= */
+
+                    await addDoc(
+
+                        collection(
+                            db,
+                            "contact_messages"
+                        ),
+
+                        {
+
+                            name: name,
+
+                            email: email,
+
+                            subject: subject,
+
+                            message: msg,
+
+                            userId:
+                                user.uid,
+
+                            createdAt:
+                                serverTimestamp()
+
+                        }
+
+                    );
+
+
+                    /* =================================
+                       SUCCESS
+                    ================================= */
+
+                    showMessage(
+                        "✅ Your message has been sent successfully!",
+                        "success"
+                    );
+
+
+                    /*
+                        Clear form
+                    */
+
+                    contactForm.reset();
+
+
+                    /*
+                        Email again set
+                    */
+
+                    emailInput.value =
+                        user.email || email;
+
+                }
+
+
+                catch (error) {
+
+                    console.error(
+                        "Contact Form Error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "❌ Message send nahi ho paaya. Please try again.",
+                        "error"
+                    );
+
+                }
+
+
+                finally {
+
+                    submitBtn.disabled =
+                        false;
+
+                    submitBtn.textContent =
+                        "Send Message";
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================
+           SHOW MESSAGE
+        ========================================= */
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            messageBox.textContent =
+                text;
+
+            messageBox.className =
+                "message " + type;
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                        "login.html";
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Logout Error:",
+                        error
+                    );
+
+                    alert(
+                        "Logout failed. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+</body>
+
+</html>
