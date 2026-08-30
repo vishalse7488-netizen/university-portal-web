@@ -25,24 +25,25 @@
             background: #007BFF;
             color: white;
             padding: 15px 20px;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             position: relative;
         }
 
         .navbar h1 {
             margin: 0;
             font-size: 18px;
+            max-width: 35%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .center-title {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-
             font-size: 22px;
             font-weight: bold;
         }
@@ -50,15 +51,11 @@
         .logout {
             background: #dc3545;
             color: white;
-
             padding: 8px 15px;
-
             border-radius: 5px;
-
-            text-decoration: none;
-            cursor: pointer;
-
             border: none;
+            cursor: pointer;
+            font-size: 14px;
         }
 
         .logout:hover {
@@ -70,20 +67,17 @@
 
         .menu-bar {
             background: #0056b3;
-
             display: flex;
             justify-content: center;
-
+            align-items: center;
             padding: 10px;
-
             gap: 30px;
+            flex-wrap: wrap;
         }
 
         .menu-bar a {
             color: white;
-
             text-decoration: none;
-
             font-weight: 500;
         }
 
@@ -92,30 +86,23 @@
         }
 
 
-        /* ================= MAIN ================= */
+        /* ================= CONTAINER ================= */
 
         .container {
+            width: 90%;
             max-width: 900px;
-
             margin: 35px auto;
-
             background: white;
-
             padding: 25px;
-
             border-radius: 10px;
-
-            box-shadow:
-                0 5px 18px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
         }
-
 
         h2 {
             text-align: center;
-
             color: #007BFF;
-
             margin-top: 0;
+            margin-bottom: 25px;
         }
 
 
@@ -123,20 +110,16 @@
 
         .student-info {
             background: #e9f3ff;
-
             padding: 15px;
-
             border-radius: 8px;
-
             margin-bottom: 25px;
-
             text-align: center;
         }
 
         .student-info p {
             margin: 7px 0;
-
             color: #444;
+            word-break: break-word;
         }
 
 
@@ -144,36 +127,26 @@
 
         .summary {
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-
             margin-bottom: 25px;
         }
 
         .summary-box {
             padding: 18px;
-
             border-radius: 8px;
-
             text-align: center;
-
             background: #f5f5f5;
         }
 
         .summary-box h3 {
             margin: 0 0 8px;
-
             font-size: 16px;
-
             color: #555;
         }
 
         .summary-box strong {
             font-size: 25px;
-
             color: #007BFF;
         }
 
@@ -182,30 +155,24 @@
 
         .table-wrapper {
             width: 100%;
-
             overflow-x: auto;
         }
 
         table {
             width: 100%;
-
             border-collapse: collapse;
-
-            min-width: 500px;
+            min-width: 450px;
         }
 
         th,
         td {
             padding: 12px;
-
             border: 1px solid #ddd;
-
             text-align: center;
         }
 
         th {
             background: #007BFF;
-
             color: white;
         }
 
@@ -218,13 +185,16 @@
 
         .present {
             color: green;
-
             font-weight: bold;
         }
 
         .absent {
             color: red;
+            font-weight: bold;
+        }
 
+        .unknown {
+            color: #666;
             font-weight: bold;
         }
 
@@ -233,9 +203,7 @@
 
         #loading {
             text-align: center;
-
             color: #555;
-
             padding: 20px;
         }
 
@@ -243,23 +211,24 @@
         /* ================= MESSAGE ================= */
 
         #message {
-            text-align: center;
-
-            padding: 15px;
-
-            margin-top: 20px;
-
-            border-radius: 6px;
-
             display: none;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+            font-weight: bold;
         }
 
         .error {
             display: block !important;
-
             background: #f8d7da;
-
             color: #721c24;
+        }
+
+        .success {
+            display: block !important;
+            background: #d4edda;
+            color: #155724;
         }
 
 
@@ -267,19 +236,12 @@
 
         .back-btn {
             display: block;
-
             width: fit-content;
-
             margin: 25px auto 0;
-
             padding: 10px 20px;
-
             background: #28a745;
-
             color: white;
-
             text-decoration: none;
-
             border-radius: 6px;
         }
 
@@ -297,9 +259,8 @@
             }
 
             .navbar h1 {
-                font-size: 13px;
-
-                max-width: 35%;
+                font-size: 12px;
+                max-width: 32%;
             }
 
             .center-title {
@@ -308,21 +269,17 @@
 
             .logout {
                 padding: 7px 10px;
-
-                font-size: 13px;
+                font-size: 12px;
             }
 
             .menu-bar {
                 flex-direction: column;
-
-                align-items: center;
-
                 gap: 10px;
             }
 
             .container {
-                margin: 20px 10px;
-
+                width: 94%;
+                margin: 20px auto;
                 padding: 15px;
             }
 
@@ -330,6 +287,15 @@
                 grid-template-columns: 1fr;
             }
 
+            .summary-box {
+                padding: 15px;
+            }
+
+            th,
+            td {
+                padding: 10px 7px;
+                font-size: 14px;
+            }
         }
 
     </style>
@@ -354,7 +320,8 @@
 
         <button
             id="logoutBtn"
-            class="logout">
+            class="logout"
+            type="button">
 
             Logout
 
@@ -367,32 +334,19 @@
 
     <div class="menu-bar">
 
-        <a href="dashboard.html">
-            Menu
-        </a>
+        <a href="dashboard.html">Menu</a>
 
-        <a href="services.html">
-            Services
-        </a>
+        <a href="services.html">Services</a>
 
-        <a href="about.html">
-            About
-        </a>
+        <a href="about.html">About</a>
 
-        <a href="location.html">
-            Location
-        </a>
+        <a href="location.html">Location</a>
 
-        <a href="feedback.html">
-            Feedback
-        </a>
+        <a href="feedback.html">Feedback</a>
 
-        <a href="contact.html">
-            Contact Us
-        </a>
+        <a href="contact.html">Contact Us</a>
 
     </div>
-
 
 
     <!-- ================= MAIN ================= -->
@@ -404,7 +358,7 @@
         </h2>
 
 
-        <!-- STUDENT INFO -->
+        <!-- ================= STUDENT INFO ================= -->
 
         <div class="student-info">
 
@@ -422,8 +376,14 @@
                 </span>
             </p>
 
-        </div>
+            <p>
+                <strong>Roll No:</strong>
+                <span id="studentRollNo">
+                    Loading...
+                </span>
+            </p>
 
+        </div>
 
 
         <!-- ================= SUMMARY ================= -->
@@ -471,23 +431,19 @@
         </div>
 
 
-
         <!-- ================= LOADING ================= -->
 
         <div id="loading">
-
             Loading attendance...
-
         </div>
 
 
-
-        <!-- ================= TABLE ================= -->
+        <!-- ================= ATTENDANCE TABLE ================= -->
 
         <div
             class="table-wrapper"
             id="tableContainer"
-            style="display:none;">
+            style="display: none;">
 
             <table>
 
@@ -516,14 +472,12 @@
         </div>
 
 
-
         <!-- ================= MESSAGE ================= -->
 
-        <div id="message">
-
-        </div>
+        <div id="message"></div>
 
 
+        <!-- ================= BACK ================= -->
 
         <a
             href="dashboard.html"
@@ -536,20 +490,13 @@
     </div>
 
 
-
     <!-- ================= FIREBASE ================= -->
 
     <script type="module">
 
-
-        /* =========================================
-           FIREBASE IMPORT
-        ========================================= */
-
         import {
             initializeApp
-        }
-        from
+        } from
         "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
@@ -557,8 +504,7 @@
             getAuth,
             onAuthStateChanged,
             signOut
-        }
-        from
+        } from
         "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
@@ -566,10 +512,8 @@
             getFirestore,
             collection,
             getDocs
-        }
-        from
+        } from
         "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
 
 
         /* =========================================
@@ -602,9 +546,8 @@
         };
 
 
-
         /* =========================================
-           INITIALIZE
+           INITIALIZE FIREBASE
         ========================================= */
 
         const app =
@@ -619,55 +562,40 @@
             getFirestore(app);
 
 
-
         /* =========================================
            ELEMENTS
         ========================================= */
 
         const welcome =
-            document.getElementById(
-                "welcome"
-            );
+            document.getElementById("welcome");
 
         const studentEmail =
-            document.getElementById(
-                "studentEmail"
-            );
+            document.getElementById("studentEmail");
 
         const studentName =
-            document.getElementById(
-                "studentName"
-            );
+            document.getElementById("studentName");
+
+        const studentRollNo =
+            document.getElementById("studentRollNo");
 
         const loading =
-            document.getElementById(
-                "loading"
-            );
+            document.getElementById("loading");
 
         const tableContainer =
-            document.getElementById(
-                "tableContainer"
-            );
+            document.getElementById("tableContainer");
 
         const attendanceBody =
-            document.getElementById(
-                "attendanceBody"
-            );
+            document.getElementById("attendanceBody");
 
         const message =
-            document.getElementById(
-                "message"
-            );
+            document.getElementById("message");
 
         const logoutBtn =
-            document.getElementById(
-                "logoutBtn"
-            );
-
+            document.getElementById("logoutBtn");
 
 
         /* =========================================
-           AUTHENTICATION CHECK
+           AUTH CHECK
         ========================================= */
 
         onAuthStateChanged(
@@ -683,10 +611,6 @@
                 }
 
 
-                /*
-                    Logged-in user's email
-                */
-
                 welcome.textContent =
                     "Welcome, " +
                     (user.email || "Student") +
@@ -694,12 +618,9 @@
 
 
                 studentEmail.textContent =
-                    user.email || "Not available";
+                    user.email ||
+                    "Not available";
 
-
-                /*
-                    Load attendance
-                */
 
                 await loadAttendance(
                     user.uid
@@ -709,23 +630,19 @@
         );
 
 
-
         /* =========================================
            LOAD ATTENDANCE
         ========================================= */
 
-        async function loadAttendance(
-            userId
-        ) {
+        async function loadAttendance(userId) {
 
             try {
 
-                loading.style.display =
-                    "block";
+                loading.style.display = "block";
 
+                tableContainer.style.display = "none";
 
-                tableContainer.style.display =
-                    "none";
+                message.style.display = "none";
 
 
                 /*
@@ -745,52 +662,55 @@
 
 
                 /*
-                    Find student's attendance
+                    Find current student's UID
+                    inside students map.
                 */
 
-                snapshot.forEach(
-                    (doc) => {
+                snapshot.forEach((doc) => {
 
-                        const data =
-                            doc.data();
-
-
-                        if (
-                            data.students &&
-                            data.students[userId]
-                        ) {
-
-                            const student =
-                                data.students[userId];
+                    const data =
+                        doc.data();
 
 
-                            records.push({
-
-                                date:
-                                    data.date || "",
-
-                                name:
-                                    student.name || "Student",
-
-                                status:
-                                    student.status || "Not Marked"
-
-                            });
-
-                        }
-
+                    if (
+                        !data.students ||
+                        !data.students[userId]
+                    ) {
+                        return;
                     }
-                );
 
+
+                    const student =
+                        data.students[userId];
+
+
+                    records.push({
+
+                        date:
+                            data.date || "",
+
+                        name:
+                            student.name ||
+                            "Student",
+
+                        rollNo:
+                            student.rollNo ??
+                            "",
+
+                        status:
+                            student.status ||
+                            "Not Marked"
+
+                    });
+
+                });
 
 
                 /* =================================
-                   NO ATTENDANCE
+                   NO RECORD
                 ================================= */
 
-                if (
-                    records.length === 0
-                ) {
+                if (records.length === 0) {
 
                     loading.textContent =
                         "No attendance record found.";
@@ -799,34 +719,35 @@
                 }
 
 
-
                 /* =================================
-                   STUDENT NAME
+                   STUDENT DETAILS
                 ================================= */
 
                 studentName.textContent =
                     records[0].name;
 
 
+                studentRollNo.textContent =
+                    records[0].rollNo ||
+                    "Not available";
+
 
                 /* =================================
-                   SORT BY DATE
+                   SORT DATE
                 ================================= */
 
-                records.sort(
-                    (a, b) => {
+                records.sort((a, b) => {
 
-                        return b.date.localeCompare(
-                            a.date
+                    return String(b.date)
+                        .localeCompare(
+                            String(a.date)
                         );
 
-                    }
-                );
-
+                });
 
 
                 /* =================================
-                   CALCULATE SUMMARY
+                   SUMMARY
                 ================================= */
 
                 const total =
@@ -836,8 +757,10 @@
                 const present =
                     records.filter(
                         item =>
-                            item.status ===
-                            "Present"
+                            String(
+                                item.status
+                            ).toLowerCase()
+                            === "present"
                     ).length;
 
 
@@ -845,7 +768,7 @@
                     total > 0
                     ? ((present / total) * 100)
                         .toFixed(1)
-                    : 0;
+                    : "0.0";
 
 
                 document.getElementById(
@@ -866,80 +789,78 @@
                     percentage + "%";
 
 
-
                 /* =================================
-                   DISPLAY TABLE
+                   TABLE
                 ================================= */
 
-                attendanceBody.innerHTML =
-                    "";
+                attendanceBody.innerHTML = "";
 
 
-                records.forEach(
-                    (record) => {
+                records.forEach((record) => {
 
-                        const row =
-                            document.createElement(
-                                "tr"
-                            );
+                    const row =
+                        document.createElement("tr");
 
 
-                        const dateCell =
-                            document.createElement(
-                                "td"
-                            );
+                    const dateCell =
+                        document.createElement("td");
 
 
-                        const statusCell =
-                            document.createElement(
-                                "td"
-                            );
+                    const statusCell =
+                        document.createElement("td");
 
 
-                        dateCell.textContent =
-                            formatDate(
-                                record.date
-                            );
-
-
-                        statusCell.textContent =
-                            record.status;
-
-
-                        if (
-                            record.status ===
-                            "Present"
-                        ) {
-
-                            statusCell.className =
-                                "present";
-
-                        }
-
-                        else {
-
-                            statusCell.className =
-                                "absent";
-
-                        }
-
-
-                        row.appendChild(
-                            dateCell
+                    dateCell.textContent =
+                        formatDate(
+                            record.date
                         );
 
 
-                        row.appendChild(
-                            statusCell
-                        );
+                    statusCell.textContent =
+                        record.status;
 
 
-                        attendanceBody.appendChild(
-                            row
-                        );
+                    const status =
+                        String(
+                            record.status
+                        ).toLowerCase();
+
+
+                    if (status === "present") {
+
+                        statusCell.className =
+                            "present";
 
                     }
-                );
+                    else if (status === "absent") {
+
+                        statusCell.className =
+                            "absent";
+
+                    }
+                    else {
+
+                        statusCell.className =
+                            "unknown";
+
+                    }
+
+
+                    row.appendChild(
+                        dateCell
+                    );
+
+
+                    row.appendChild(
+                        statusCell
+                    );
+
+
+                    attendanceBody.appendChild(
+                        row
+                    );
+
+                });
 
 
                 loading.style.display =
@@ -976,43 +897,41 @@
         }
 
 
-
         /* =========================================
-           FORMAT DATE
+           DATE FORMAT
         ========================================= */
 
-        function formatDate(
-            dateString
-        ) {
+        function formatDate(dateString) {
 
             if (!dateString) {
-
                 return "Unknown";
-
             }
 
+
+            /*
+                YYYY-MM-DD
+            */
 
             const parts =
-                dateString.split("-");
+                String(dateString).split("-");
 
 
-            if (parts.length !== 3) {
+            if (parts.length === 3) {
 
-                return dateString;
+                return (
+                    parts[2] +
+                    "-" +
+                    parts[1] +
+                    "-" +
+                    parts[0]
+                );
 
             }
 
 
-            return (
-                parts[2] +
-                "-" +
-                parts[1] +
-                "-" +
-                parts[0]
-            );
+            return dateString;
 
         }
-
 
 
         /* =========================================
@@ -1035,12 +954,12 @@
                 catch (error) {
 
                     console.error(
-                        "Logout error:",
+                        "Logout Error:",
                         error
                     );
 
                     alert(
-                        "Logout failed."
+                        "Logout failed. Please try again."
                     );
 
                 }
