@@ -12,115 +12,194 @@
 
     <title>FACULTY DASHBOARD</title>
 
+
     <style>
 
         * {
             box-sizing: border-box;
         }
 
+
         body {
+
             font-family: Arial, sans-serif;
+
             margin: 0;
+
             background: #f4f6f8;
+
             min-height: 100vh;
+
         }
+
 
         /* =========================
            TOP NAVBAR
         ========================= */
 
         .navbar {
+
             background: #007BFF;
+
             color: white;
+
             padding: 15px 20px;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             position: relative;
+
             min-height: 60px;
+
         }
+
 
         .navbar h1 {
+
             font-size: 20px;
+
             margin: 0;
+
             font-weight: 500;
+
         }
+
 
         .center-title {
+
             position: absolute;
+
             left: 50%;
+
             transform: translateX(-50%);
+
             font-size: 22px;
+
             font-weight: bold;
+
             letter-spacing: 1px;
+
             white-space: nowrap;
+
         }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
 
         .logout-btn {
+
             color: white;
+
             text-decoration: none;
+
             background: #dc3545;
+
             padding: 8px 15px;
+
             border-radius: 5px;
+
             transition: 0.3s;
-            border: none;
+
             cursor: pointer;
-            font-size: 14px;
+
         }
 
+
         .logout-btn:hover {
+
             background: #c82333;
+
         }
+
 
         /* =========================
            MENU BAR
         ========================= */
 
         .menu-bar {
+
             background: #0056b3;
+
             display: flex;
+
             justify-content: flex-start;
+
             align-items: center;
+
             padding: 10px 20px;
+
             gap: 30px;
+
             overflow-x: auto;
+
         }
+
 
         .menu-bar a {
+
             color: white;
+
             text-decoration: none;
+
             font-weight: 500;
+
             transition: 0.3s;
+
             white-space: nowrap;
+
         }
 
+
         .menu-bar a:hover {
+
             color: #FFD700;
+
             text-decoration: underline;
+
         }
+
 
         /* =========================
            MAIN CONTENT
         ========================= */
 
         .content {
+
             position: relative;
+
             text-align: center;
+
             margin-top: 50px;
+
             min-height: 65vh;
+
             padding: 40px 20px;
+
             display: flex;
+
             flex-direction: column;
+
             justify-content: center;
+
             align-items: center;
+
             overflow: hidden;
+
         }
+
 
         /* =========================
            BACKGROUND LOGO
         ========================= */
 
         .content::before {
+
             content: "";
 
             background-image: url(
@@ -128,7 +207,9 @@
             );
 
             background-repeat: no-repeat;
+
             background-position: center;
+
             background-size: 300px 300px;
 
             opacity: 0.15;
@@ -136,39 +217,61 @@
             position: absolute;
 
             top: 0;
+
             left: 0;
+
             right: 0;
+
             bottom: 0;
 
             z-index: 0;
+
         }
+
 
         .content h2,
         .content > p,
         .dashboard-card {
+
             position: relative;
+
             z-index: 1;
+
         }
+
 
         .content h2 {
+
             color: #333;
+
             font-size: 30px;
+
             margin-bottom: 10px;
+
         }
+
 
         .content > p {
+
             color: #555;
+
             font-size: 17px;
+
         }
 
+
         /* =========================
-           DASHBOARD CARD
+           FACULTY CARD
         ========================= */
 
         .dashboard-card {
+
             margin-top: 20px;
-            background: rgba(255, 255, 255, 0.92);
+
+            background: rgba(255, 255, 255, 0.94);
+
             padding: 25px 35px;
+
             border-radius: 12px;
 
             box-shadow:
@@ -176,134 +279,135 @@
                 rgba(0, 0, 0, 0.12);
 
             width: 100%;
+
             max-width: 500px;
+
         }
+
 
         .dashboard-card h3 {
+
             margin-top: 0;
+
             color: #007BFF;
+
         }
 
-        .dashboard-card p {
-            margin-bottom: 10px;
+
+        .user-info {
+
+            margin-top: 20px;
+
+            text-align: left;
+
         }
 
-        .user-name {
+
+        .user-info div {
+
+            padding: 10px 0;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+
+        .user-info div:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .label {
+
             font-weight: bold;
+
             color: #333;
+
         }
 
-        .user-email {
+
+        .value {
+
             color: #555;
+
         }
 
-        .user-role {
-            font-weight: bold;
-            color: #007BFF;
-            text-transform: capitalize;
-        }
 
         /* =========================
            LOADING
         ========================= */
 
         #loading {
-            position: fixed;
-            inset: 0;
-            background: #f4f6f8;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative;
 
-            z-index: 9999;
+            z-index: 5;
+
+            color: #007BFF;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
         }
 
-        .loading-box {
-            background: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-
-            box-shadow:
-                0 5px 20px
-                rgba(0, 0, 0, 0.12);
-
-            text-align: center;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-
-            border:
-                4px solid #ddd;
-
-            border-top:
-                4px solid #007BFF;
-
-            border-radius: 50%;
-
-            animation:
-                spin 0.8s linear infinite;
-
-            margin:
-                0 auto 15px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
 
         /* =========================
            ERROR
         ========================= */
 
         #errorBox {
+
             display: none;
 
-            position: fixed;
+            position: relative;
 
-            inset: 0;
+            z-index: 5;
 
-            background: #f4f6f8;
-
-            justify-content: center;
-            align-items: center;
-
-            z-index: 9998;
-        }
-
-        .error-content {
-            background: white;
+            background: #fff;
 
             padding: 30px;
 
             border-radius: 12px;
 
-            text-align: center;
-
-            width: 90%;
-            max-width: 400px;
-
             box-shadow:
                 0 5px 20px
                 rgba(0, 0, 0, 0.12);
+
+            max-width: 500px;
+
+            width: 100%;
+
         }
 
-        .error-content h2 {
+
+        #errorBox h2 {
+
             color: #dc3545;
-            margin-bottom: 10px;
+
+            margin-top: 0;
+
         }
 
-        .error-content p {
+
+        #errorMessage {
+
             color: #555;
-            margin-bottom: 20px;
+
+            line-height: 1.6;
+
         }
+
 
         .login-btn {
+
             display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 10px 20px;
 
             background: #007BFF;
 
@@ -311,10 +415,10 @@
 
             text-decoration: none;
 
-            padding: 10px 20px;
+            border-radius: 6px;
 
-            border-radius: 5px;
         }
+
 
         /* =========================
            MOBILE
@@ -323,7 +427,9 @@
         @media (max-width: 600px) {
 
             .navbar {
+
                 padding: 12px;
+
                 min-height: 100px;
 
                 flex-direction: column;
@@ -331,54 +437,88 @@
                 gap: 12px;
 
                 justify-content: center;
+
             }
+
 
             .navbar h1 {
+
                 font-size: 15px;
+
                 text-align: center;
+
             }
+
 
             .center-title {
+
                 position: static;
+
                 transform: none;
+
                 font-size: 20px;
+
                 order: -1;
+
             }
+
 
             .logout-btn {
+
                 padding: 7px 14px;
+
                 font-size: 14px;
+
             }
+
 
             .menu-bar {
+
                 flex-direction: column;
+
                 gap: 12px;
+
                 padding: 14px;
-                overflow-x: visible;
+
             }
+
 
             .menu-bar a {
+
                 font-size: 15px;
+
             }
+
 
             .content {
+
                 margin-top: 20px;
+
                 min-height: 65vh;
+
                 padding: 30px 15px;
+
             }
+
 
             .content h2 {
+
                 font-size: 24px;
+
             }
+
 
             .content > p {
+
                 font-size: 15px;
+
             }
 
+
             .dashboard-card {
-                width: 100%;
-                max-width: 350px;
+
                 padding: 20px;
+
             }
 
         }
@@ -392,53 +532,6 @@
 
 
     <!-- =========================
-         LOADING
-    ========================= -->
-
-    <div id="loading">
-
-        <div class="loading-box">
-
-            <div class="spinner"></div>
-
-            <p>
-                Checking faculty account...
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         ERROR
-    ========================= -->
-
-    <div id="errorBox">
-
-        <div class="error-content">
-
-            <h2>
-                Access Denied
-            </h2>
-
-            <p id="errorMessage">
-                You are not authorized to access this page.
-            </p>
-
-            <a
-                href="login.html"
-                class="login-btn"
-            >
-                Go to Login
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
          NAVBAR
     ========================= -->
 
@@ -448,22 +541,25 @@
             Welcome 👋
         </h1>
 
+
         <div class="center-title">
             Faculty Dashboard
         </div>
 
-        <button
+
+        <a
+            href="#"
             class="logout-btn"
             id="logoutBtn"
         >
             Logout
-        </button>
+        </a>
 
     </div>
 
 
     <!-- =========================
-         MENU BAR
+         MENU
     ========================= -->
 
     <div class="menu-bar">
@@ -501,70 +597,147 @@
 
     <div class="content">
 
-        <h2>
-            Faculty Dashboard
-        </h2>
 
-        <p>
-            You are successfully logged in.
-        </p>
+        <!-- Loading -->
 
-        <div class="dashboard-card">
+        <div id="loading">
+            Loading Faculty Account...
+        </div>
 
-            <h3>
-                👨‍🏫 Faculty Portal
-            </h3>
 
-            <p>
-                Welcome,
-                <span
-                    class="user-name"
-                    id="userName"
-                >
-                    Faculty
-                </span>
+        <!-- Error -->
+
+        <div id="errorBox">
+
+            <h2>
+                Access Denied
+            </h2>
+
+            <p id="errorMessage">
+                Unable to load faculty account.
             </p>
 
-            <p>
-                Email:
-                <span
-                    class="user-email"
-                    id="userEmail"
-                >
-                    Loading...
-                </span>
-            </p>
-
-            <p>
-                Role:
-                <span
-                    class="user-role"
-                    id="userRole"
-                >
-                    Faculty
-                </span>
-            </p>
-
-            <p style="margin-top: 15px;">
-                Welcome to your Faculty Dashboard.
-            </p>
+            <a
+                href="index.html"
+                class="login-btn"
+            >
+                Go to Login
+            </a>
 
         </div>
+
+
+        <!-- Dashboard -->
+
+        <div
+            id="dashboard"
+            style="display:none;"
+        >
+
+            <h2>
+                Faculty Dashboard
+            </h2>
+
+
+            <p>
+                You are successfully logged in.
+            </p>
+
+
+            <div class="dashboard-card">
+
+                <h3>
+                    👨‍🏫 Faculty Account
+                </h3>
+
+
+                <div class="user-info">
+
+
+                    <div>
+
+                        <span class="label">
+                            Name:
+                        </span>
+
+                        <span
+                            class="value"
+                            id="userName"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="label">
+                            Username:
+                        </span>
+
+                        <span
+                            class="value"
+                            id="userUsername"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="label">
+                            Email:
+                        </span>
+
+                        <span
+                            class="value"
+                            id="userEmail"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="label">
+                            Role:
+                        </span>
+
+                        <span
+                            class="value"
+                            id="userRole"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     </div>
 
 
-    <!-- ==========================================
+    <!-- =========================
          FIREBASE
-    =========================================== -->
+    ========================= -->
 
     <script type="module">
 
         import {
             initializeApp
         }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
         import {
@@ -572,19 +745,15 @@
             onAuthStateChanged,
             signOut
         }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
         import {
             getFirestore,
-            collection,
-            query,
-            where,
-            getDocs
+            doc,
+            getDoc
         }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
         /* =========================
@@ -617,10 +786,12 @@
         };
 
 
+        /* =========================
+           INITIALIZE FIREBASE
+        ========================= */
+
         const app =
-            initializeApp(
-                firebaseConfig
-            );
+            initializeApp(firebaseConfig);
 
 
         const auth =
@@ -632,236 +803,175 @@
 
 
         /* =========================
-           ELEMENTS
+           HTML ELEMENTS
         ========================= */
 
         const loading =
-            document.getElementById(
-                "loading"
-            );
+            document.getElementById("loading");
+
 
         const errorBox =
-            document.getElementById(
-                "errorBox"
-            );
+            document.getElementById("errorBox");
+
 
         const errorMessage =
-            document.getElementById(
-                "errorMessage"
-            );
+            document.getElementById("errorMessage");
 
-        const welcomeText =
-            document.getElementById(
-                "welcomeText"
-            );
 
-        const userName =
-            document.getElementById(
-                "userName"
-            );
-
-        const userEmail =
-            document.getElementById(
-                "userEmail"
-            );
-
-        const userRole =
-            document.getElementById(
-                "userRole"
-            );
-
-        const logoutBtn =
-            document.getElementById(
-                "logoutBtn"
-            );
+        const dashboard =
+            document.getElementById("dashboard");
 
 
         /* =========================
-           AUTH CHECK
+           AUTH STATE
         ========================= */
 
         onAuthStateChanged(
             auth,
             async (user) => {
 
-                /* NOT LOGGED IN */
-
-                if (!user) {
-
-                    window.location.href =
-                        "login.html";
-
-                    return;
-
-                }
-
-
                 try {
 
-                    /* =========================
-                       FIND FIRESTORE USER
-                    ========================= */
+                    /*
+                     * User login nahi hai
+                     */
 
-                    const usersRef =
-                        collection(
+                    if (!user) {
+
+                        window.location.href =
+                            "index.html";
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Firebase Authentication
+                     * ka actual UID
+                     */
+
+                    const uid =
+                        user.uid;
+
+
+                    console.log(
+                        "Firebase UID:",
+                        uid
+                    );
+
+
+                    /*
+                     * Firestore users/{UID}
+                     */
+
+                    const userRef =
+                        doc(
                             db,
-                            "users"
+                            "users",
+                            uid
                         );
 
 
-                    const q =
-                        query(
-                            usersRef,
-                            where(
-                                "email",
-                                "==",
-                                user.email
-                            )
+                    const userSnapshot =
+                        await getDoc(userRef);
+
+
+                    /*
+                     * Profile nahi mila
+                     */
+
+                    if (!userSnapshot.exists()) {
+
+                        throw new Error(
+                            "Faculty profile not found. Firestore users document ID must be exactly: "
+                            + uid
                         );
-
-
-                    const snapshot =
-                        await getDocs(q);
-
-
-                    if (
-                        snapshot.empty
-                    ) {
-
-                        await signOut(auth);
-
-                        showError(
-                            "Your account profile was not found."
-                        );
-
-                        return;
 
                     }
 
 
-                    let userData = null;
+                    /*
+                     * Profile data
+                     */
+
+                    const data =
+                        userSnapshot.data();
 
 
-                    snapshot.forEach(
-                        (doc) => {
-
-                            userData = {
-                                id: doc.id,
-                                ...doc.data()
-                            };
-
-                        }
+                    console.log(
+                        "Firestore User:",
+                        data
                     );
 
 
-                    const role =
-                        String(
-                            userData.role || ""
-                        )
-                        .trim()
-                        .toLowerCase();
+                    /*
+                     * Role check
+                     */
 
+                    if (data.role !== "faculty") {
 
-                    /* =========================
-                       FACULTY ROLE PROTECTION
-                    ========================= */
-
-                    if (
-                        role !== "faculty"
-                    ) {
-
-                        showError(
-                            "Access denied. This page is only for faculty users."
+                        throw new Error(
+                            "Access denied. This account has role: "
+                            + (data.role || "unknown")
                         );
-
-                        setTimeout(
-                            async () => {
-
-                                await signOut(
-                                    auth
-                                );
-
-                                window.location.href =
-                                    "login.html";
-
-                            },
-                            1500
-                        );
-
-                        return;
 
                     }
 
 
-                    /* =========================
-                       DISPLAY DATA
-                    ========================= */
+                    /*
+                     * Show information
+                     */
 
-                    const name =
-                        userData.name ||
-                        userData.username ||
-                        "Faculty";
-
-
-                    welcomeText.textContent =
-                        "Welcome, " +
-                        name +
-                        " 👋";
+                    document.getElementById(
+                        "userName"
+                    ).textContent =
+                        data.name || "Faculty";
 
 
-                    userName.textContent =
-                        name;
+                    document.getElementById(
+                        "userUsername"
+                    ).textContent =
+                        data.username || "-";
 
 
-                    userEmail.textContent =
-                        user.email;
+                    document.getElementById(
+                        "userEmail"
+                    ).textContent =
+                        data.email || user.email || "-";
 
 
-                    userRole.textContent =
-                        role;
+                    document.getElementById(
+                        "userRole"
+                    ).textContent =
+                        data.role;
 
 
-                    /* =========================
-                       SAVE DATA
-                    ========================= */
-
-                    localStorage.setItem(
-                        "userEmail",
-                        user.email
-                    );
-
-                    localStorage.setItem(
-                        "userUid",
-                        user.uid
-                    );
-
-                    localStorage.setItem(
-                        "userName",
-                        name
-                    );
-
-                    localStorage.setItem(
-                        "username",
-                        userData.username || ""
-                    );
-
-                    localStorage.setItem(
-                        "userRole",
-                        role
-                    );
-
-                    localStorage.setItem(
-                        "isLoggedIn",
-                        "true"
-                    );
+                    document.getElementById(
+                        "welcomeText"
+                    ).textContent =
+                        "Welcome, "
+                        + (data.name || "Faculty")
+                        + " 👋";
 
 
-                    /* HIDE LOADING */
+                    /*
+                     * Loading hide
+                     */
 
                     loading.style.display =
                         "none";
 
+
+                    /*
+                     * Dashboard show
+                     */
+
+                    dashboard.style.display =
+                        "block";
+
                 }
+
 
                 catch (error) {
 
@@ -870,9 +980,21 @@
                         error
                     );
 
-                    showError(
-                        "Unable to load faculty account."
-                    );
+
+                    loading.style.display =
+                        "none";
+
+
+                    dashboard.style.display =
+                        "none";
+
+
+                    errorBox.style.display =
+                        "block";
+
+
+                    errorMessage.textContent =
+                        error.message;
 
                 }
 
@@ -884,71 +1006,40 @@
            LOGOUT
         ========================= */
 
-        logoutBtn.addEventListener(
-            "click",
-            async () => {
+        document
+            .getElementById("logoutBtn")
+            .addEventListener(
+                "click",
+                async function(event) {
 
-                try {
-
-                    logoutBtn.disabled =
-                        true;
-
-                    logoutBtn.textContent =
-                        "Logging out...";
+                    event.preventDefault();
 
 
-                    await signOut(auth);
+                    try {
+
+                        await signOut(auth);
 
 
-                    localStorage.clear();
+                        window.location.href =
+                            "index.html";
+
+                    }
 
 
-                    window.location.href =
-                        "login.html";
+                    catch (error) {
 
-                }
+                        console.error(
+                            "Logout Error:",
+                            error
+                        );
 
-                catch (error) {
-
-                    console.error(
-                        "Logout Error:",
-                        error
-                    );
-
-                    logoutBtn.disabled =
-                        false;
-
-                    logoutBtn.textContent =
-                        "Logout";
-
-                    alert(
-                        "Logout failed. Please try again."
-                    );
+                    }
 
                 }
-
-            }
-        );
-
-
-        /* =========================
-           ERROR FUNCTION
-        ========================= */
-
-        function showError(text) {
-
-            loading.style.display =
-                "none";
-
-            errorMessage.textContent =
-                text;
-
-            errorBox.style.display =
-                "flex";
-
-        }
+            );
 
     </script>
+
 
 </body>
 
