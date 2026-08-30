@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ADMIN DASHBOARD</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            margin: 0;
+
+            background: #f4f6f8;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================
+           TOP NAVBAR
+        ========================= */
+
+        .navbar {
+
+            background: #007BFF;
+
+            color: white;
+
+            padding: 15px 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            position: relative;
+
+            min-height: 60px;
+
+        }
+
+
+        .navbar h1 {
+
+            font-size: 20px;
+
+            margin: 0;
+
+            font-weight: 500;
+
+        }
+
+
+        .center-title {
+
+            position: absolute;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            white-space: nowrap;
+
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-btn {
+
+            color: white;
+
+            background: #dc3545;
+
+            padding: 8px 15px;
+
+            border-radius: 5px;
+
+            transition: 0.3s;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+        }
+
+
+        .logout-btn:hover {
+
+            background: #c82333;
+
+        }
+
+
+        /* =========================
+           MENU
+        ========================= */
+
+        .menu-bar {
+
+            background: #0056b3;
+
+            display: flex;
+
+            justify-content: flex-start;
+
+            align-items: center;
+
+            padding: 10px 20px;
+
+            gap: 30px;
+
+            overflow-x: auto;
+
+        }
+
+
+        .menu-bar a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+
+        }
+
+
+        .menu-bar a:hover {
+
+            color: #FFD700;
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+
+            position: relative;
+
+            text-align: center;
+
+            margin-top: 50px;
+
+            min-height: 65vh;
+
+            padding: 40px 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            overflow: hidden;
+
+        }
+
+
+        /* =========================
+           BACKGROUND LOGO
+        ========================= */
+
+        .content::before {
+
+            content: "";
+
+            background-image: url(
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROm-q6zzbd-JBo9REw4aL4FtlpVUmek1sWlA&s"
+            );
+
+            background-repeat: no-repeat;
+
+            background-position: center;
+
+            background-size: 300px 300px;
+
+            opacity: 0.15;
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            z-index: 0;
+
+        }
+
+
+        .content h2,
+        .content > p,
+        .dashboard-card {
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        .content h2 {
+
+            color: #333;
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .content > p {
+
+            color: #555;
+
+            font-size: 17px;
+
+        }
+
+
+        /* =========================
+           DASHBOARD CARD
+        ========================= */
+
+        .dashboard-card {
+
+            margin-top: 20px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.92
+                );
+
+            padding: 25px 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.12);
+
+            width: 100%;
+
+            max-width: 500px;
+
+        }
+
+
+        .dashboard-card h3 {
+
+            margin-top: 0;
+
+            color: #007BFF;
+
+        }
+
+
+        .dashboard-card p {
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .user-name {
+
+            font-weight: bold;
+
+            color: #333;
+
+        }
+
+
+        .user-email {
+
+            color: #555;
+
+        }
+
+
+        .user-role {
+
+            font-weight: bold;
+
+            color: #007BFF;
+
+            text-transform: capitalize;
+
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        #loading {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: #f4f6f8;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 9999;
+
+        }
+
+
+        .loading-box {
+
+            background: white;
+
+            padding: 25px 30px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.12);
+
+            text-align: center;
+
+        }
+
+
+        .spinner {
+
+            width: 40px;
+
+            height: 40px;
+
+            border:
+                4px solid #ddd;
+
+            border-top:
+                4px solid #007BFF;
+
+            border-radius: 50%;
+
+            animation:
+                spin 0.8s linear infinite;
+
+            margin:
+                0 auto 15px;
+
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        #errorBox {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: #f4f6f8;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 9998;
+
+        }
+
+
+        .error-content {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            width: 90%;
+
+            max-width: 400px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.12);
+
+        }
+
+
+        .error-content h2 {
+
+            color: #dc3545;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .error-content p {
+
+            color: #555;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .login-btn {
+
+            display: inline-block;
+
+            background: #007BFF;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 20px;
+
+            border-radius: 5px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 12px;
+
+                min-height: 100px;
+
+                flex-direction: column;
+
+                gap: 12px;
+
+                justify-content: center;
+
+            }
+
+
+            .navbar h1 {
+
+                font-size: 15px;
+
+                text-align: center;
+
+            }
+
+
+            .center-title {
+
+                position: static;
+
+                transform: none;
+
+                font-size: 20px;
+
+                order: -1;
+
+            }
+
+
+            .logout-btn {
+
+                padding: 7px 14px;
+
+                font-size: 14px;
+
+            }
+
+
+            .menu-bar {
+
+                flex-direction: column;
+
+                gap: 12px;
+
+                padding: 14px;
+
+                overflow-x: visible;
+
+            }
+
+
+            .menu-bar a {
+
+                font-size: 15px;
+
+            }
+
+
+            .content {
+
+                margin-top: 20px;
+
+                min-height: 65vh;
+
+                padding: 30px 15px;
+
+            }
+
+
+            .content h2 {
+
+                font-size: 24px;
+
+            }
+
+
+            .content > p {
+
+                font-size: 15px;
+
+            }
+
+
+            .dashboard-card {
+
+                width: 100%;
+
+                max-width: 350px;
+
+                padding: 20px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         LOADING
+    ========================= -->
+
+    <div id="loading">
+
+        <div class="loading-box">
+
+            <div class="spinner"></div>
+
+            <p>
+                Checking admin account...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ERROR
+    ========================= -->
+
+    <div id="errorBox">
+
+        <div class="error-content">
+
+            <h2>
+                Access Denied
+            </h2>
+
+            <p id="errorMessage">
+                You are not authorized to access this page.
+            </p>
+
+            <a
+                href="login.html"
+                class="login-btn"
+            >
+                Go to Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <div class="navbar">
+
+        <h1 id="welcomeText">
+            Welcome 👋
+        </h1>
+
+
+        <div class="center-title">
+            Admin Dashboard
+        </div>
+
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         MENU BAR
+    ========================= -->
+
+    <div class="menu-bar">
+
+        <a href="school.html">
+            Menu
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="location.html">
+            Location
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="contact.html">
+            Contact Us
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         CONTENT
+    ========================= -->
+
+    <div class="content">
+
+        <h2>
+            Admin Dashboard
+        </h2>
+
+
+        <p>
+            You are successfully logged in.
+        </p>
+
+
+        <div class="dashboard-card">
+
+            <h3>
+                🛡️ University Admin Portal
+            </h3>
+
+
+            <p>
+
+                Welcome,
+
+                <span
+                    class="user-name"
+                    id="userName"
+                >
+                    Admin
+                </span>
+
+            </p>
+
+
+            <p>
+
+                Email:
+
+                <span
+                    class="user-email"
+                    id="userEmail"
+                >
+                    Loading...
+                </span>
+
+            </p>
+
+
+            <p>
+
+                Role:
+
+                <span
+                    class="user-role"
+                    id="userRole"
+                >
+                    Admin
+                </span>
+
+            </p>
+
+
+            <p style="margin-top: 15px;">
+
+                Welcome to your
+                University Admin Dashboard.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         FIREBASE
+    =========================================== -->
+
+    <script type="module">
+
+
+        /* =========================================
+           FIREBASE APP
+        ========================================== */
+
+        import {
+            initializeApp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        /* =========================================
+           AUTH
+        ========================================== */
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        /* =========================================
+           FIRESTORE
+        ========================================== */
+
+        import {
+            getFirestore,
+            collection,
+            query,
+            where,
+            getDocs
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        /* =========================================
+           FIREBASE CONFIG
+        ========================================== */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+
+        };
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================== */
+
+        const app =
+            initializeApp(
+                firebaseConfig
+            );
+
+
+        const auth =
+            getAuth(app);
+
+
+        const db =
+            getFirestore(app);
+
+
+        /* =========================================
+           ELEMENTS
+        ========================================== */
+
+        const loading =
+            document.getElementById(
+                "loading"
+            );
+
+
+        const errorBox =
+            document.getElementById(
+                "errorBox"
+            );
+
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        const welcomeText =
+            document.getElementById(
+                "welcomeText"
+            );
+
+
+        const userName =
+            document.getElementById(
+                "userName"
+            );
+
+
+        const userEmail =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+        const userRole =
+            document.getElementById(
+                "userRole"
+            );
+
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        /* =========================================
+           AUTH STATE
+        ========================================== */
+
+        onAuthStateChanged(
+            auth,
+            async (user) => {
+
+                /* ===============================
+                   NOT LOGGED IN
+                =============================== */
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                try {
+
+                    /* ===============================
+                       FIRESTORE USERS
+                    =============================== */
+
+                    const usersRef =
+                        collection(
+                            db,
+                            "users"
+                        );
+
+
+                    const q =
+                        query(
+                            usersRef,
+                            where(
+                                "email",
+                                "==",
+                                user.email
+                            )
+                        );
+
+
+                    const snapshot =
+                        await getDocs(q);
+
+
+                    /* ===============================
+                       PROFILE NOT FOUND
+                    =============================== */
+
+                    if (
+                        snapshot.empty
+                    ) {
+
+                        await signOut(auth);
+
+                        showError(
+                            "Your account profile was not found."
+                        );
+
+                        return;
+
+                    }
+
+
+                    let userData = null;
+
+
+                    snapshot.forEach(
+                        (doc) => {
+
+                            userData = {
+
+                                id: doc.id,
+
+                                ...doc.data()
+
+                            };
+
+                        }
+                    );
+
+
+                    /* ===============================
+                       ROLE
+                    =============================== */
+
+                    const role =
+                        String(
+                            userData.role || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    /* ===============================
+                       ADMIN ROLE PROTECTION
+                    =============================== */
+
+                    if (
+                        role !== "admin"
+                    ) {
+
+                        showError(
+                            "Access denied. This page is only for administrators."
+                        );
+
+
+                        setTimeout(
+                            async () => {
+
+                                await signOut(
+                                    auth
+                                );
+
+                                localStorage.clear();
+
+                                window.location.href =
+                                    "login.html";
+
+                            },
+                            1500
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    /* ===============================
+                       USER NAME
+                    =============================== */
+
+                    const name =
+                        userData.name ||
+                        userData.username ||
+                        "Admin";
+
+
+                    /* ===============================
+                       DISPLAY
+                    =============================== */
+
+                    welcomeText.textContent =
+                        "Welcome, " +
+                        name +
+                        " 👋";
+
+
+                    userName.textContent =
+                        name;
+
+
+                    userEmail.textContent =
+                        user.email;
+
+
+                    userRole.textContent =
+                        role;
+
+
+                    /* ===============================
+                       LOCAL STORAGE
+                    =============================== */
+
+                    localStorage.setItem(
+                        "userEmail",
+                        user.email
+                    );
+
+
+                    localStorage.setItem(
+                        "userUid",
+                        user.uid
+                    );
+
+
+                    localStorage.setItem(
+                        "userName",
+                        name
+                    );
+
+
+                    localStorage.setItem(
+                        "username",
+                        userData.username || ""
+                    );
+
+
+                    localStorage.setItem(
+                        "userRole",
+                        role
+                    );
+
+
+                    localStorage.setItem(
+                        "isLoggedIn",
+                        "true"
+                    );
+
+
+                    /* ===============================
+                       HIDE LOADING
+                    =============================== */
+
+                    loading.style.display =
+                        "none";
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Admin Dashboard Error:",
+                        error
+                    );
+
+
+                    showError(
+                        "Unable to load admin account."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           LOGOUT
+        ========================================== */
+
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    logoutBtn.disabled =
+                        true;
+
+                    logoutBtn.textContent =
+                        "Logging out...";
+
+
+                    await signOut(
+                        auth
+                    );
+
+
+                    localStorage.clear();
+
+
+                    window.location.href =
+                        "login.html";
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Logout Error:",
+                        error
+                    );
+
+
+                    logoutBtn.disabled =
+                        false;
+
+                    logoutBtn.textContent =
+                        "Logout";
+
+
+                    alert(
+                        "Logout failed. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           ERROR FUNCTION
+        ========================================== */
+
+        function showError(text) {
+
+            loading.style.display =
+                "none";
+
+
+            errorMessage.textContent =
+                text;
+
+
+            errorBox.style.display =
+                "flex";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
