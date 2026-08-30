@@ -5,13 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>University Portal - Login</title>
-
 
     <style>
 
@@ -19,17 +16,12 @@
             box-sizing: border-box;
         }
 
-
         body {
-
             margin: 0;
-
             min-height: 100vh;
 
             display: flex;
-
             justify-content: center;
-
             align-items: center;
 
             font-family: Arial, sans-serif;
@@ -44,14 +36,11 @@
             padding: 20px;
         }
 
-
         .login-container {
-
             width: 100%;
-
             max-width: 410px;
 
-            background: white;
+            background: #ffffff;
 
             padding: 42px 32px;
 
@@ -59,16 +48,13 @@
 
             box-shadow:
                 0 10px 35px
-                rgba(0, 0, 0, 0.18);
+                rgba(0,0,0,0.18);
 
             text-align: center;
         }
 
-
         .logo {
-
             width: 75px;
-
             height: 75px;
 
             margin: 0 auto 20px;
@@ -80,19 +66,14 @@
             color: white;
 
             display: flex;
-
+            justify-content: center;
             align-items: center;
 
-            justify-content: center;
-
             font-size: 38px;
-
             font-weight: bold;
         }
 
-
         h2 {
-
             margin: 0;
 
             color: #222;
@@ -100,17 +81,13 @@
             font-size: 28px;
         }
 
-
         .subtitle {
-
             color: #777;
 
             margin: 10px 0 25px;
         }
 
-
         .input-box {
-
             width: 100%;
 
             padding: 14px;
@@ -128,17 +105,13 @@
             outline: none;
         }
 
-
         .input-box:focus {
-
             border-color: #4caf50;
 
             background: white;
         }
 
-
         #loginButton {
-
             width: 100%;
 
             padding: 14px;
@@ -156,27 +129,19 @@
             font-weight: bold;
 
             cursor: pointer;
-
-            transition: 0.3s;
         }
 
-
         #loginButton:hover {
-
             background: #3f9f45;
         }
 
-
         #loginButton:disabled {
-
-            background: #9e9e9e;
+            background: #999;
 
             cursor: not-allowed;
         }
 
-
         .forgot-password {
-
             display: block;
 
             margin-top: 18px;
@@ -184,19 +149,9 @@
             color: #1976d2;
 
             text-decoration: none;
-
-            font-size: 14px;
         }
-
-
-        .forgot-password:hover {
-
-            text-decoration: underline;
-        }
-
 
         .register-text {
-
             margin-top: 22px;
 
             color: #555;
@@ -204,9 +159,7 @@
             font-size: 14px;
         }
 
-
         .register-text a {
-
             color: #4caf50;
 
             font-weight: bold;
@@ -214,15 +167,7 @@
             text-decoration: none;
         }
 
-
-        .register-text a:hover {
-
-            text-decoration: underline;
-        }
-
-
         #message {
-
             min-height: 25px;
 
             margin-top: 18px;
@@ -231,27 +176,20 @@
 
             font-weight: bold;
 
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
-
         .error {
-
             color: #d32f2f;
         }
 
-
         .success {
-
             color: #2e7d32;
         }
 
-
         .loading {
-
             color: #1976d2;
         }
-
 
         @media (max-width: 450px) {
 
@@ -260,13 +198,10 @@
             }
 
             .login-container {
-
-                padding:
-                    30px 20px;
+                padding: 30px 20px;
             }
 
             h2 {
-
                 font-size: 24px;
             }
         }
@@ -279,670 +214,649 @@
 <body>
 
 
-    <div class="login-container">
+<div class="login-container">
 
 
-        <div class="logo">
-            U
-        </div>
+    <div class="logo">
+        U
+    </div>
 
 
-        <h2>
-            University Portal
-        </h2>
+    <h2>
+        University Portal
+    </h2>
 
 
-        <p class="subtitle">
-            Login to continue
-        </p>
+    <p class="subtitle">
+        Login to continue
+    </p>
 
 
-        <form id="loginForm">
+    <form id="loginForm">
 
 
-            <input
-                type="email"
-                id="email"
-                class="input-box"
-                placeholder="Email"
-                autocomplete="email"
-                required
-            >
-
-
-            <input
-                type="password"
-                id="password"
-                class="input-box"
-                placeholder="Password"
-                autocomplete="current-password"
-                required
-            >
-
-
-            <button
-                type="submit"
-                id="loginButton"
-            >
-                Login
-            </button>
-
-
-        </form>
-
-
-        <a
-            href="#"
-            id="forgotPassword"
-            class="forgot-password"
+        <input
+            type="email"
+            id="email"
+            class="input-box"
+            placeholder="Email"
+            autocomplete="email"
+            required
         >
-            Forgot Password?
+
+
+        <input
+            type="password"
+            id="password"
+            class="input-box"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+        >
+
+
+        <button
+            type="submit"
+            id="loginButton"
+        >
+            Login
+        </button>
+
+
+    </form>
+
+
+    <a
+        href="#"
+        id="forgotPassword"
+        class="forgot-password"
+    >
+        Forgot Password?
+    </a>
+
+
+    <div class="register-text">
+
+        Don't have an account?
+
+        <a href="register.html">
+            Register
         </a>
-
-
-        <div class="register-text">
-
-            Don't have an account?
-
-            <a href="register.html">
-                Register
-            </a>
-
-        </div>
-
-
-        <p id="message"></p>
-
 
     </div>
 
 
+    <p id="message"></p>
 
-    <script type="module">
+
+</div>
 
 
-        // =================================================
-        // FIREBASE IMPORTS
-        // =================================================
 
-        import {
-            initializeApp
+<script type="module">
+
+
+// =====================================================
+// FIREBASE IMPORT
+// =====================================================
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+// =====================================================
+// FIREBASE CONFIG
+// =====================================================
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyCS7fUaY2HAov1ezFN9_lchZHHUA4lj8g",
+
+    authDomain:
+        "university-portal-2107e.firebaseapp.com",
+
+    projectId:
+        "university-portal-2107e",
+
+    storageBucket:
+        "university-portal-2107e.firebasestorage.app",
+
+    messagingSenderId:
+        "50848903813",
+
+    appId:
+        "1:50848903813:web:8296090d0d9268cfd2efec",
+
+    measurementId:
+        "G-LKTX7C7F0E"
+};
+
+
+// =====================================================
+// INITIALIZE
+// =====================================================
+
+const app =
+    initializeApp(firebaseConfig);
+
+
+const auth =
+    getAuth(app);
+
+
+const db =
+    getFirestore(app);
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const message =
+    document.getElementById("message");
+
+const forgotPassword =
+    document.getElementById("forgotPassword");
+
+
+// =====================================================
+// MESSAGE
+// =====================================================
+
+function showMessage(text, type) {
+
+    message.textContent = text;
+
+    message.className = type;
+}
+
+
+// =====================================================
+// LOGIN
+// =====================================================
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const password =
+            passwordInput.value;
+
+
+        if (!email || !password) {
+
+            showMessage(
+                "⚠️ Please enter email and password.",
+                "error"
+            );
+
+            return;
         }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
-        import {
-            getAuth,
-            signInWithEmailAndPassword,
-            sendPasswordResetEmail,
-            onAuthStateChanged,
-            signOut
-        }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "Logging in...";
 
 
-        import {
-            getFirestore,
-            doc,
-            getDoc
-        }
-        from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+        showMessage(
+            "Checking your account...",
+            "loading"
+        );
 
 
-
-        // =================================================
-        // FIREBASE CONFIG
-        // =================================================
-
-        const firebaseConfig = {
-
-            apiKey:
-                "AIzaSyCS7fUaY2HAov1ezfLN9_lchZHHUA4lj8g",
-
-            authDomain:
-                "university-portal-2107e.firebaseapp.com",
-
-            projectId:
-                "university-portal-2107e",
-
-            storageBucket:
-                "university-portal-2107e.firebasestorage.app",
-
-            messagingSenderId:
-                "50848903813",
-
-            appId:
-                "1:50848903813:web:8296090d0d9268cfd2efec",
-
-            measurementId:
-                "G-LKTX7C7F0E"
-        };
+        try {
 
 
+            // =================================================
+            // STEP 1
+            // FIREBASE AUTHENTICATION
+            // =================================================
 
-        // =================================================
-        // INITIALIZE FIREBASE
-        // =================================================
-
-        const app =
-            initializeApp(firebaseConfig);
-
-
-        const auth =
-            getAuth(app);
-
-
-        const db =
-            getFirestore(app);
-
-
-
-        // =================================================
-        // HTML ELEMENTS
-        // =================================================
-
-        const loginForm =
-            document.getElementById(
-                "loginForm"
-            );
-
-
-        const emailInput =
-            document.getElementById(
-                "email"
-            );
-
-
-        const passwordInput =
-            document.getElementById(
-                "password"
-            );
-
-
-        const loginButton =
-            document.getElementById(
-                "loginButton"
-            );
-
-
-        const message =
-            document.getElementById(
-                "message"
-            );
-
-
-        const forgotPassword =
-            document.getElementById(
-                "forgotPassword"
-            );
-
-
-
-        // =================================================
-        // MESSAGE FUNCTION
-        // =================================================
-
-        function showMessage(
-            text,
-            type
-        ) {
-
-            message.textContent =
-                text;
-
-            message.className =
-                type;
-        }
-
-
-
-        // =================================================
-        // LOGIN
-        // =================================================
-
-        loginForm.addEventListener(
-            "submit",
-            async function(event) {
-
-                event.preventDefault();
-
-
-                const email =
-                    emailInput.value
-                    .trim()
-                    .toLowerCase();
-
-
-                const password =
-                    passwordInput.value;
-
-
-                if (
-                    email === "" ||
-                    password === ""
-                ) {
-
-                    showMessage(
-                        "⚠️ Please fill all fields.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                loginButton.disabled =
-                    true;
-
-                loginButton.textContent =
-                    "Logging in...";
-
-
-                showMessage(
-                    "Checking your account...",
-                    "loading"
+            const credential =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
                 );
 
 
-                try {
+            const user =
+                credential.user;
 
 
-                    // =====================================
-                    // STEP 1
-                    // FIREBASE AUTHENTICATION
-                    // =====================================
+            console.log(
+                "AUTH UID:",
+                user.uid
+            );
 
-                    const userCredential =
-                        await
-                        signInWithEmailAndPassword(
-                            auth,
-                            email,
-                            password
-                        );
 
+            console.log(
+                "AUTH EMAIL:",
+                user.email
+            );
 
-                    const user =
-                        userCredential.user;
 
+            // =================================================
+            // STEP 2
+            // FIRESTORE
+            //
+            // IMPORTANT:
+            // users DOCUMENT ID = Firebase Auth UID
+            // =================================================
 
-                    console.log(
-                        "Firebase UID:",
-                        user.uid
-                    );
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                );
 
 
+            const userSnapshot =
+                await getDoc(userRef);
 
-                    // =====================================
-                    // STEP 2
-                    // GET USER FROM FIRESTORE
-                    //
-                    // IMPORTANT:
-                    // Document ID = Firebase UID
-                    // =====================================
 
-                    const userRef =
-                        doc(
-                            db,
-                            "users",
-                            user.uid
-                        );
+            console.log(
+                "Firestore document exists:",
+                userSnapshot.exists()
+            );
 
 
-                    const userSnapshot =
-                        await getDoc(
-                            userRef
-                        );
+            // =================================================
+            // STEP 3
+            // PROFILE CHECK
+            // =================================================
 
+            if (!userSnapshot.exists()) {
 
+                await signOut(auth);
 
-                    // =====================================
-                    // USER NOT FOUND
-                    // =====================================
 
-                    if (
-                        !userSnapshot.exists()
-                    ) {
+                showMessage(
+                    "❌ Firestore profile not found. Create users/" +
+                    user.uid,
+                    "error"
+                );
 
-                        await signOut(auth);
 
-                        showMessage(
-                            "❌ Your Firestore user profile was not found.",
-                            "error"
-                        );
+                loginButton.disabled =
+                    false;
 
-                        loginButton.disabled =
-                            false;
+                loginButton.textContent =
+                    "Login";
 
-                        loginButton.textContent =
-                            "Login";
 
-                        return;
-                    }
-
-
-
-                    // =====================================
-                    // GET USER DATA
-                    // =====================================
-
-                    const userData =
-                        userSnapshot.data();
-
-
-                    console.log(
-                        "User Data:",
-                        userData
-                    );
-
-
-
-                    // =====================================
-                    // CHECK ROLE
-                    // =====================================
-
-                    const role =
-                        String(
-                            userData.role || ""
-                        )
-                        .trim()
-                        .toLowerCase();
-
-
-
-                    if (
-                        role !== "student" &&
-                        role !== "faculty" &&
-                        role !== "admin"
-                    ) {
-
-                        await signOut(auth);
-
-                        showMessage(
-                            "❌ Invalid or missing user role.",
-                            "error"
-                        );
-
-                        loginButton.disabled =
-                            false;
-
-                        loginButton.textContent =
-                            "Login";
-
-                        return;
-                    }
-
-
-
-                    // =====================================
-                    // SAVE USER INFORMATION
-                    // =====================================
-
-                    localStorage.setItem(
-                        "userUid",
-                        user.uid
-                    );
-
-
-                    localStorage.setItem(
-                        "userEmail",
-                        user.email || ""
-                    );
-
-
-                    localStorage.setItem(
-                        "userName",
-                        userData.name || ""
-                    );
-
-
-                    localStorage.setItem(
-                        "username",
-                        userData.username || ""
-                    );
-
-
-                    localStorage.setItem(
-                        "userRole",
-                        role
-                    );
-
-
-                    localStorage.setItem(
-                        "isLoggedIn",
-                        "true"
-                    );
-
-
-
-                    // =====================================
-                    // SUCCESS
-                    // =====================================
-
-                    showMessage(
-                        "✅ Login successful! Redirecting...",
-                        "success"
-                    );
-
-
-
-                    // =====================================
-                    // ROLE BASED REDIRECT
-                    // =====================================
-
-                    setTimeout(
-                        function() {
-
-
-                            if (
-                                role === "student"
-                            ) {
-
-                                window.location.href =
-                                    "dashboard.html";
-
-                            }
-
-
-                            else if (
-                                role === "faculty"
-                            ) {
-
-                                window.location.href =
-                                    "faculty-dashboard.html";
-
-                            }
-
-
-                            else if (
-                                role === "admin"
-                            ) {
-
-                                window.location.href =
-                                    "admin-dashboard.html";
-
-                            }
-
-
-                        },
-                        700
-                    );
-
-
-                }
-
-
-                catch (error) {
-
-                    console.error(
-                        "Login Error:",
-                        error
-                    );
-
-
-                    let errorMessage =
-                        "❌ Login failed. Please try again.";
-
-
-                    if (
-                        error.code ===
-                        "auth/invalid-credential"
-                    ) {
-
-                        errorMessage =
-                            "❌ Invalid email or password.";
-                    }
-
-
-                    else if (
-                        error.code ===
-                        "auth/user-not-found"
-                    ) {
-
-                        errorMessage =
-                            "❌ No account found with this email.";
-                    }
-
-
-                    else if (
-                        error.code ===
-                        "auth/wrong-password"
-                    ) {
-
-                        errorMessage =
-                            "❌ Incorrect password.";
-                    }
-
-
-                    else if (
-                        error.code ===
-                        "auth/invalid-email"
-                    ) {
-
-                        errorMessage =
-                            "❌ Invalid email address.";
-                    }
-
-
-                    else if (
-                        error.code ===
-                        "auth/too-many-requests"
-                    ) {
-
-                        errorMessage =
-                            "⚠️ Too many attempts. Try again later.";
-                    }
-
-
-                    else if (
-                        error.code ===
-                        "auth/network-request-failed"
-                    ) {
-
-                        errorMessage =
-                            "❌ Network error. Check your internet.";
-                    }
-
-
-                    else if (
-                        error.code ===
-                        "permission-denied"
-                    ) {
-
-                        errorMessage =
-                            "❌ Firestore permission denied. Check your Rules and users UID.";
-                    }
-
-
-                    showMessage(
-                        errorMessage,
-                        "error"
-                    );
-
-
-                    loginButton.disabled =
-                        false;
-
-                    loginButton.textContent =
-                        "Login";
-
-                }
-
+                return;
             }
-        );
 
 
+            // =================================================
+            // STEP 4
+            // USER DATA
+            // =================================================
 
-        // =================================================
-        // FORGOT PASSWORD
-        // =================================================
-
-        forgotPassword.addEventListener(
-            "click",
-            async function(event) {
-
-                event.preventDefault();
+            const userData =
+                userSnapshot.data();
 
 
-                const email =
-                    emailInput.value
-                    .trim()
-                    .toLowerCase();
+            console.log(
+                "USER DATA:",
+                userData
+            );
 
 
-                if (
-                    email === ""
-                ) {
+            // =================================================
+            // STEP 5
+            // ROLE
+            // =================================================
 
-                    showMessage(
-                        "⚠️ First enter your email.",
-                        "error"
-                    );
-
-                    emailInput.focus();
-
-                    return;
-                }
+            const role =
+                String(
+                    userData.role || ""
+                )
+                .trim()
+                .toLowerCase();
 
 
-                try {
-
-                    await
-                    sendPasswordResetEmail(
-                        auth,
-                        email
-                    );
+            console.log(
+                "USER ROLE:",
+                role
+            );
 
 
-                    showMessage(
-                        "✅ Password reset email sent.",
-                        "success"
-                    );
+            if (
+                role !== "student" &&
+                role !== "faculty" &&
+                role !== "admin"
+            ) {
 
-                }
-
-
-                catch (error) {
-
-                    console.error(
-                        error
-                    );
+                await signOut(auth);
 
 
-                    showMessage(
-                        "❌ Unable to send reset email.",
-                        "error"
-                    );
-                }
+                showMessage(
+                    "❌ Invalid user role.",
+                    "error"
+                );
 
+
+                loginButton.disabled =
+                    false;
+
+                loginButton.textContent =
+                    "Login";
+
+
+                return;
             }
-        );
 
 
+            // =================================================
+            // STEP 6
+            // SAVE LOGIN DATA
+            // =================================================
 
-    </script>
+            localStorage.setItem(
+                "isLoggedIn",
+                "true"
+            );
+
+
+            localStorage.setItem(
+                "userUid",
+                user.uid
+            );
+
+
+            localStorage.setItem(
+                "userEmail",
+                user.email || email
+            );
+
+
+            localStorage.setItem(
+                "userName",
+                userData.name || ""
+            );
+
+
+            localStorage.setItem(
+                "username",
+                userData.username || ""
+            );
+
+
+            localStorage.setItem(
+                "userRole",
+                role
+            );
+
+
+            // =================================================
+            // STEP 7
+            // REDIRECT
+            // =================================================
+
+            showMessage(
+                "✅ Login successful!",
+                "success"
+            );
+
+
+            setTimeout(
+                function() {
+
+
+                    if (
+                        role === "student"
+                    ) {
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    }
+
+
+                    else if (
+                        role === "faculty"
+                    ) {
+
+                        window.location.href =
+                            "faculty-dashboard.html";
+
+                    }
+
+
+                    else if (
+                        role === "admin"
+                    ) {
+
+                        window.location.href =
+                            "admin-dashboard.html";
+
+                    }
+
+                },
+                500
+            );
+
+        }
+
+
+        catch (error) {
+
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+
+            let text =
+                "❌ Login failed.";
+
+
+            switch (error.code) {
+
+
+                case "auth/invalid-credential":
+
+                    text =
+                        "❌ Invalid email or password.";
+
+                    break;
+
+
+                case "auth/user-not-found":
+
+                    text =
+                        "❌ Firebase Authentication account not found.";
+
+                    break;
+
+
+                case "auth/wrong-password":
+
+                    text =
+                        "❌ Incorrect password.";
+
+                    break;
+
+
+                case "auth/invalid-email":
+
+                    text =
+                        "❌ Invalid email address.";
+
+                    break;
+
+
+                case "auth/too-many-requests":
+
+                    text =
+                        "⚠️ Too many attempts. Try again later.";
+
+                    break;
+
+
+                case "auth/network-request-failed":
+
+                    text =
+                        "❌ Network error. Check your internet.";
+
+                    break;
+
+
+                case "permission-denied":
+
+                    text =
+                        "❌ Firestore permission denied. Check users UID and Rules.";
+
+                    break;
+
+
+                default:
+
+                    text =
+                        "❌ " +
+                        (
+                            error.message ||
+                            "Login failed."
+                        );
+
+                    break;
+            }
+
+
+            showMessage(
+                text,
+                "error"
+            );
+
+
+            loginButton.disabled =
+                false;
+
+
+            loginButton.textContent =
+                "Login";
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// FORGOT PASSWORD
+// =====================================================
+
+forgotPassword.addEventListener(
+    "click",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            emailInput.value
+                .trim()
+                .toLowerCase();
+
+
+        if (!email) {
+
+            showMessage(
+                "⚠️ First enter your email.",
+                "error"
+            );
+
+            emailInput.focus();
+
+            return;
+        }
+
+
+        try {
+
+
+            await sendPasswordResetEmail(
+                auth,
+                email
+            );
+
+
+            showMessage(
+                "✅ Password reset email sent.",
+                "success"
+            );
+
+
+        }
+        catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            showMessage(
+                "❌ Unable to send password reset email.",
+                "error"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
 
 </body>
 
