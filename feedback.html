@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Feedback - Rama University</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            min-height: 100vh;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+
+            background: #007BFF;
+
+            color: white;
+
+            padding: 15px 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            position: relative;
+        }
+
+        .navbar h1 {
+
+            font-size: 18px;
+
+            margin: 0;
+
+            max-width: 40%;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+        .center-title {
+
+            position: absolute;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+        .logout {
+
+            color: white;
+
+            text-decoration: none;
+
+            background: #dc3545;
+
+            padding: 8px 15px;
+
+            border-radius: 5px;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+        .logout:hover {
+
+            background: #c82333;
+        }
+
+
+        /* ================= MENU ================= */
+
+        .menu-bar {
+
+            background: #0056b3;
+
+            display: flex;
+
+            justify-content: center;
+
+            padding: 10px 0;
+
+            gap: 30px;
+
+            flex-wrap: wrap;
+        }
+
+        .menu-bar a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            transition: 0.3s;
+        }
+
+        .menu-bar a:hover {
+
+            color: #FFD700;
+
+            text-decoration: underline;
+        }
+
+
+        /* ================= CONTENT ================= */
+
+        .content {
+
+            max-width: 700px;
+
+            margin: 40px auto;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+
+            color: #007BFF;
+
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ================= FORM ================= */
+
+        form {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #007BFF;
+
+            box-shadow:
+                0 0 0 2px rgba(0, 123, 255, 0.1);
+        }
+
+        textarea {
+
+            resize: vertical;
+
+            min-height: 120px;
+        }
+
+
+        /* ================= SUBMIT BUTTON ================= */
+
+        .submit-btn {
+
+            background: #007BFF;
+
+            color: white;
+
+            border: none;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+
+            background: #0056b3;
+        }
+
+        .submit-btn:disabled {
+
+            background: #8bbcf0;
+
+            cursor: not-allowed;
+        }
+
+
+        /* ================= MESSAGE ================= */
+
+        .msg {
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+
+            display: none;
+
+            padding: 12px;
+
+            border-radius: 6px;
+        }
+
+        .success {
+
+            display: block;
+
+            color: #155724;
+
+            background: #d4edda;
+        }
+
+        .error {
+
+            display: block;
+
+            color: #721c24;
+
+            background: #f8d7da;
+        }
+
+
+        /* ================= BACK BUTTON ================= */
+
+        .btn-back {
+
+            display: block;
+
+            width: fit-content;
+
+            margin: 25px auto 0;
+
+            text-decoration: none;
+
+            background: #28a745;
+
+            color: white;
+
+            padding: 10px 20px;
+
+            border-radius: 6px;
+        }
+
+        .btn-back:hover {
+
+            background: #218838;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 12px 10px;
+            }
+
+            .navbar h1 {
+
+                font-size: 13px;
+
+                max-width: 35%;
+            }
+
+            .center-title {
+
+                font-size: 17px;
+            }
+
+            .logout {
+
+                padding: 7px 10px;
+
+                font-size: 13px;
+            }
+
+            .menu-bar {
+
+                gap: 10px;
+
+                padding: 12px 8px;
+            }
+
+            .menu-bar a {
+
+                font-size: 14px;
+            }
+
+            .content {
+
+                margin: 20px 10px;
+
+                padding: 20px 15px;
+            }
+
+            .content h2 {
+
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <div class="navbar">
+
+        <h1 id="welcomeUser">
+            Welcome 👋
+        </h1>
+
+        <div class="center-title">
+            University Portal
+        </div>
+
+        <button
+            id="logoutBtn"
+            class="logout">
+
+            Logout
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= MENU BAR ================= -->
+
+    <div class="menu-bar">
+
+        <a href="dashboard.html">
+            Menu
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="location.html">
+            Location
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="contact.html">
+            Contact Us
+        </a>
+
+    </div>
+
+
+    <!-- ================= FEEDBACK ================= -->
+
+    <div class="content">
+
+        <h2>
+            📋 Feedback Form
+        </h2>
+
+
+        <form id="feedbackForm">
+
+
+            <!-- NAME -->
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Your Full Name"
+                required>
+
+
+            <!-- EMAIL -->
+
+            <input
+                type="email"
+                id="user_email"
+                placeholder="Your Email"
+                required>
+
+
+            <!-- RATING -->
+
+            <select
+                id="rating"
+                required>
+
+                <option value="">
+                    Rate Our University
+                </option>
+
+                <option value="⭐">
+                    ⭐
+                </option>
+
+                <option value="⭐⭐">
+                    ⭐⭐
+                </option>
+
+                <option value="⭐⭐⭐">
+                    ⭐⭐⭐
+                </option>
+
+                <option value="⭐⭐⭐⭐">
+                    ⭐⭐⭐⭐
+                </option>
+
+                <option value="⭐⭐⭐⭐⭐">
+                    ⭐⭐⭐⭐⭐
+                </option>
+
+            </select>
+
+
+            <!-- MESSAGE -->
+
+            <textarea
+                id="message"
+                placeholder="Write your feedback here..."
+                required></textarea>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                id="submitBtn"
+                class="submit-btn">
+
+                Submit Feedback
+
+            </button>
+
+        </form>
+
+
+        <!-- MESSAGE -->
+
+        <p
+            id="msg"
+            class="msg">
+        </p>
+
+
+        <!-- BACK -->
+
+        <a
+            href="dashboard.html"
+            class="btn-back">
+
+            ⬅ Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script type="module">
+
+
+        /* =========================================
+           FIREBASE IMPORTS
+        ========================================= */
+
+        import {
+            initializeApp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+        /* =========================================
+           FIREBASE CONFIG
+        ========================================= */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+        };
+
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================= */
+
+        const app =
+            initializeApp(firebaseConfig);
+
+
+        const auth =
+            getAuth(app);
+
+
+        const db =
+            getFirestore(app);
+
+
+
+        /* =========================================
+           ELEMENTS
+        ========================================= */
+
+        const welcomeUser =
+            document.getElementById(
+                "welcomeUser"
+            );
+
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        const feedbackForm =
+            document.getElementById(
+                "feedbackForm"
+            );
+
+
+        const nameInput =
+            document.getElementById(
+                "name"
+            );
+
+
+        const emailInput =
+            document.getElementById(
+                "user_email"
+            );
+
+
+        const ratingInput =
+            document.getElementById(
+                "rating"
+            );
+
+
+        const messageInput =
+            document.getElementById(
+                "message"
+            );
+
+
+        const submitBtn =
+            document.getElementById(
+                "submitBtn"
+            );
+
+
+        const msg =
+            document.getElementById(
+                "msg"
+            );
+
+
+
+        /* =========================================
+           AUTH CHECK
+        ========================================= */
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                /*
+                   User login nahi hai
+                   to login page par bhejo.
+                */
+
+                if (!user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                /*
+                   Logged-in user's email
+                */
+
+                const email =
+                    user.email || "User";
+
+
+                welcomeUser.textContent =
+                    "Welcome, " +
+                    email +
+                    " 👋";
+
+
+                /*
+                   Email automatically fill
+                */
+
+                emailInput.value =
+                    email;
+
+            }
+        );
+
+
+
+        /* =========================================
+           SUBMIT FEEDBACK
+        ========================================= */
+
+        feedbackForm.addEventListener(
+            "submit",
+            async (event) => {
+
+                /*
+                   Normal form submit ko stop karo
+                */
+
+                event.preventDefault();
+
+
+                /*
+                   Message reset
+                */
+
+                msg.className =
+                    "msg";
+
+                msg.textContent =
+                    "";
+
+
+                /*
+                   Current logged-in user
+                */
+
+                const user =
+                    auth.currentUser;
+
+
+                /*
+                   Login nahi hai
+                */
+
+                if (!user) {
+
+                    showMessage(
+                        "Please login first.",
+                        "error"
+                    );
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                /*
+                   Values
+                */
+
+                const name =
+                    nameInput.value.trim();
+
+
+                const email =
+                    emailInput.value.trim();
+
+
+                const rating =
+                    ratingInput.value;
+
+
+                const message =
+                    messageInput.value.trim();
+
+
+
+                /* =================================
+                   VALIDATION
+                ================================= */
+
+                if (!name) {
+
+                    showMessage(
+                        "Please enter your name.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                if (!email) {
+
+                    showMessage(
+                        "Please enter your email.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                if (!rating) {
+
+                    showMessage(
+                        "Please select a rating.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                if (!message) {
+
+                    showMessage(
+                        "Please write your feedback.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+
+                /* =================================
+                   DISABLE BUTTON
+                ================================= */
+
+                submitBtn.disabled =
+                    true;
+
+                submitBtn.textContent =
+                    "Submitting...";
+
+
+
+                try {
+
+
+                    /* =================================
+                       SAVE TO FIRESTORE
+                    ================================= */
+
+                    await addDoc(
+
+                        collection(
+                            db,
+                            "feedback"
+                        ),
+
+                        {
+
+                            name: name,
+
+                            email: email,
+
+                            rating: rating,
+
+                            message: message,
+
+                            userId:
+                                user.uid,
+
+                            createdAt:
+                                serverTimestamp()
+
+                        }
+
+                    );
+
+
+                    /* =================================
+                       SUCCESS
+                    ================================= */
+
+                    showMessage(
+                        "✅ Thank you for your feedback!",
+                        "success"
+                    );
+
+
+                    /*
+                       Form clear
+                    */
+
+                    feedbackForm.reset();
+
+
+                    /*
+                       Email again set
+                    */
+
+                    emailInput.value =
+                        user.email || email;
+
+                }
+
+
+                catch (error) {
+
+                    console.error(
+                        "Feedback Error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "❌ Feedback submit nahi ho paaya. Please try again.",
+                        "error"
+                    );
+
+                }
+
+
+                finally {
+
+                    submitBtn.disabled =
+                        false;
+
+                    submitBtn.textContent =
+                        "Submit Feedback";
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================================
+           SHOW MESSAGE
+        ========================================= */
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            msg.textContent =
+                text;
+
+            msg.className =
+                "msg " + type;
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                        "login.html";
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Logout Error:",
+                        error
+                    );
+
+                    alert(
+                        "Logout failed. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
