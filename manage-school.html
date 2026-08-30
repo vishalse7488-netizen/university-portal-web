@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage School - Faculty</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .center-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .logout {
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background: #c82333;
+        }
+
+        /* =========================
+           MENU
+        ========================= */
+
+        .menu-bar {
+            background: #0056b3;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+
+        .menu-bar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #007BFF;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #007BFF;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: #007BFF;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #0056b3;
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            display: none;
+        }
+
+        .cancel-btn:hover {
+            background: #545b62;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        #status {
+            display: none;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 7px;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* =========================
+           NOTICES
+        ========================= */
+
+        .notice {
+            border-left: 5px solid #007BFF;
+            background: #f9fcff;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 7px;
+        }
+
+        .notice h3 {
+            margin: 0 0 8px;
+            color: #222;
+        }
+
+        .notice p {
+            margin: 7px 0;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .notice-date {
+            color: #777;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .notice-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .edit-btn {
+            background: #ffc107;
+            color: #222;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #e0a800;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        #empty {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px;
+            }
+
+            .navbar h1 {
+                font-size: 14px;
+            }
+
+            .center-title {
+                position: static;
+                transform: none;
+                font-size: 20px;
+            }
+
+            .logout {
+                font-size: 14px;
+            }
+
+            .menu-bar {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .container {
+                margin: 15px 10px;
+                padding: 0;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .notice-actions button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <div class="navbar">
+
+        <h1 id="welcomeUser">
+            Welcome Faculty 👋
+        </h1>
+
+        <div class="center-title">
+            Manage School
+        </div>
+
+        <a href="#" class="logout" id="logoutBtn">
+            Logout
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         MENU
+    ========================= -->
+
+    <div class="menu-bar">
+
+        <a href="faculty-dashboard.html">
+            Faculty Dashboard
+        </a>
+
+        <a href="school.html">
+            View School
+        </a>
+
+        <a href="services.html">
+            Services
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="location.html">
+            Location
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="contact.html">
+            Contact Us
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <div class="container">
+
+        <!-- ADD / EDIT NOTICE -->
+
+        <div class="card">
+
+            <h2 id="formTitle">
+                📢 Add New Notice
+            </h2>
+
+            <form id="noticeForm">
+
+                <label for="title">
+                    Notice Title
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Enter notice title"
+                    required
+                >
+
+
+                <label for="message">
+                    Notice Message
+                </label>
+
+                <textarea
+                    id="message"
+                    placeholder="Enter notice details"
+                    required
+                ></textarea>
+
+
+                <label for="date">
+                    Notice Date
+                </label>
+
+                <input
+                    type="date"
+                    id="date"
+                    required
+                >
+
+
+                <div class="button-row">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                        id="saveBtn"
+                    >
+                        Add Notice
+                    </button>
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelBtn"
+                    >
+                        Cancel Edit
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div id="status"></div>
+
+        </div>
+
+
+        <!-- EXISTING NOTICES -->
+
+        <div class="card">
+
+            <h2>
+                📋 Existing Notices
+            </h2>
+
+            <div id="loading">
+                🔄 Loading notices...
+            </div>
+
+            <div id="empty">
+                📢 No notices available.
+            </div>
+
+            <div id="notices"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FIREBASE
+    ========================= -->
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            addDoc,
+            updateDoc,
+            deleteDoc,
+            doc,
+            getDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        /* =========================
+           FIREBASE CONFIG
+        ========================= */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+            authDomain:
+                "university-portal-2107e.firebaseapp.com",
+
+            projectId:
+                "university-portal-2107e",
+
+            storageBucket:
+                "university-portal-2107e.firebasestorage.app",
+
+            messagingSenderId:
+                "50848903813",
+
+            appId:
+                "1:50848903813:web:8296090d0d9268cfd2efec",
+
+            measurementId:
+                "G-LKTX7C7F0E"
+        };
+
+
+        /* =========================
+           INITIALIZE
+        ========================= */
+
+        const app =
+            initializeApp(firebaseConfig);
+
+        const auth =
+            getAuth(app);
+
+        const db =
+            getFirestore(app);
+
+
+        /* =========================
+           ELEMENTS
+        ========================= */
+
+        const noticeForm =
+            document.getElementById("noticeForm");
+
+        const titleInput =
+            document.getElementById("title");
+
+        const messageInput =
+            document.getElementById("message");
+
+        const dateInput =
+            document.getElementById("date");
+
+        const noticesDiv =
+            document.getElementById("notices");
+
+        const loading =
+            document.getElementById("loading");
+
+        const empty =
+            document.getElementById("empty");
+
+        const status =
+            document.getElementById("status");
+
+        const saveBtn =
+            document.getElementById("saveBtn");
+
+        const cancelBtn =
+            document.getElementById("cancelBtn");
+
+        const formTitle =
+            document.getElementById("formTitle");
+
+        const welcomeUser =
+            document.getElementById("welcomeUser");
+
+
+        /* =========================
+           EDIT ID
+        ========================= */
+
+        let editingNoticeId = null;
+
+
+        /* =========================
+           DEFAULT DATE
+        ========================= */
+
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        dateInput.value = today;
+
+
+        /* =========================
+           ESCAPE HTML
+        ========================= */
+
+        function escapeHTML(value) {
+
+            return String(value || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+
+        /* =========================
+           STATUS MESSAGE
+        ========================= */
+
+        function showStatus(message, type) {
+
+            status.style.display = "block";
+
+            status.className = type;
+
+            status.innerHTML =
+                escapeHTML(message);
+
+            setTimeout(() => {
+
+                status.style.display = "none";
+
+            }, 4000);
+        }
+
+
+        /* =========================
+           CHECK FACULTY
+        ========================= */
+
+        onAuthStateChanged(auth, async (user) => {
+
+            if (!user) {
+
+                window.location.href =
+                    "index.html";
+
+                return;
+            }
+
+
+            try {
+
+                /*
+                 * Firestore user profile
+                 *
+                 * IMPORTANT:
+                 * users document ID must be
+                 * Firebase Authentication UID.
+                 */
+
+                const userRef =
+                    doc(db, "users", user.uid);
+
+                const userSnap =
+                    await getDoc(userRef);
+
+
+                if (!userSnap.exists()) {
+
+                    document.body.innerHTML = `
+
+                        <div style="
+                            min-height:100vh;
+                            display:flex;
+                            justify-content:center;
+                            align-items:center;
+                            background:#f4f6f8;
+                            font-family:Arial;
+                        ">
+
+                            <div style="
+                                background:white;
+                                padding:35px;
+                                border-radius:12px;
+                                text-align:center;
+                                box-shadow:0 5px 20px rgba(0,0,0,.1);
+                                max-width:450px;
+                            ">
+
+                                <h2 style="color:#dc3545;">
+                                    Access Denied
+                                </h2>
+
+                                <p>
+                                    Your Firebase user profile
+                                    was not found.
+                                </p>
+
+                                <p style="font-size:14px;color:#777;">
+                                    Create users/${escapeHTML(user.uid)}
+                                    in Firestore.
+                                </p>
+
+                                <button
+                                    onclick="location.href='index.html'"
+                                    style="
+                                        background:#007BFF;
+                                        color:white;
+                                        border:0;
+                                        padding:10px 20px;
+                                        border-radius:6px;
+                                        cursor:pointer;
+                                    "
+                                >
+                                    Go to Login
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                const userData =
+                    userSnap.data();
+
+
+                if (userData.role !== "faculty") {
+
+                    document.body.innerHTML = `
+
+                        <div style="
+                            min-height:100vh;
+                            display:flex;
+                            justify-content:center;
+                            align-items:center;
+                            background:#f4f6f8;
+                            font-family:Arial;
+                        ">
+
+                            <div style="
+                                background:white;
+                                padding:35px;
+                                border-radius:12px;
+                                text-align:center;
+                                box-shadow:0 5px 20px rgba(0,0,0,.1);
+                            ">
+
+                                <h2 style="color:#dc3545;">
+                                    Access Denied
+                                </h2>
+
+                                <p>
+                                    Faculty access required.
+                                </p>
+
+                                <button
+                                    onclick="location.href='index.html'"
+                                    style="
+                                        background:#007BFF;
+                                        color:white;
+                                        border:0;
+                                        padding:10px 20px;
+                                        border-radius:6px;
+                                        cursor:pointer;
+                                    "
+                                >
+                                    Go to Login
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                welcomeUser.textContent =
+                    "Welcome, " +
+                    (userData.name || user.email) +
+                    " 👋";
+
+
+                loadNotices();
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Unable to verify faculty account: " +
+                    error.message,
+                    "error"
+                );
+            }
+
+        });
+
+
+        /* =========================
+           LOAD NOTICES
+        ========================= */
+
+        async function loadNotices() {
+
+            loading.style.display = "block";
+
+            empty.style.display = "none";
+
+            noticesDiv.innerHTML = "";
+
+
+            try {
+
+                const snapshot =
+                    await getDocs(
+                        collection(
+                            db,
+                            "school_notice"
+                        )
+                    );
+
+
+                loading.style.display = "none";
+
+
+                if (snapshot.empty) {
+
+                    empty.style.display = "block";
+
+                    return;
+                }
+
+
+                snapshot.forEach((noticeDoc) => {
+
+                    const data =
+                        noticeDoc.data();
+
+                    const id =
+                        noticeDoc.id;
+
+
+                    const notice =
+                        document.createElement("div");
+
+                    notice.className =
+                        "notice";
+
+
+                    notice.innerHTML = `
+
+                        <h3>
+                            ${escapeHTML(data.title)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(data.message)}
+                        </p>
+
+                        ${
+                            data.date
+                            ?
+                            `
+                            <div class="notice-date">
+                                📅 ${escapeHTML(data.date)}
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                        <div class="notice-actions">
+
+                            <button
+                                class="edit-btn"
+                                data-id="${escapeHTML(id)}"
+                            >
+                                ✏️ Edit
+                            </button>
+
+                            <button
+                                class="delete-btn"
+                                data-id="${escapeHTML(id)}"
+                            >
+                                🗑️ Delete
+                            </button>
+
+                        </div>
+                    `;
+
+
+                    noticesDiv.appendChild(notice);
+
+                });
+
+
+                /* EDIT BUTTONS */
+
+                document
+                    .querySelectorAll(".edit-btn")
+                    .forEach(button => {
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+
+                                editNotice(
+                                    button.dataset.id
+                                );
+
+                            }
+                        );
+
+                    });
+
+
+                /* DELETE BUTTONS */
+
+                document
+                    .querySelectorAll(".delete-btn")
+                    .forEach(button => {
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+
+                                deleteNotice(
+                                    button.dataset.id
+                                );
+
+                            }
+                        );
+
+                    });
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Load notices error:",
+                    error
+                );
+
+                loading.style.display = "none";
+
+                showStatus(
+                    "Notice load nahi ho pa raha: " +
+                    error.message,
+                    "error"
+                );
+            }
+
+        }
+
+
+        /* =========================
+           ADD / UPDATE
+        ========================= */
+
+        noticeForm.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const title =
+                    titleInput.value.trim();
+
+                const message =
+                    messageInput.value.trim();
+
+                const date =
+                    dateInput.value;
+
+
+                if (!title || !message || !date) {
+
+                    showStatus(
+                        "Please fill all fields.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                saveBtn.disabled = true;
+
+
+                try {
+
+                    if (editingNoticeId) {
+
+                        /*
+                         * UPDATE
+                         */
+
+                        const noticeRef =
+                            doc(
+                                db,
+                                "school_notice",
+                                editingNoticeId
+                            );
+
+
+                        await updateDoc(
+                            noticeRef,
+                            {
+                                title: title,
+                                message: message,
+                                date: date,
+                                updatedAt:
+                                    serverTimestamp()
+                            }
+                        );
+
+
+                        showStatus(
+                            "Notice updated successfully.",
+                            "success"
+                        );
+
+                    }
+
+                    else {
+
+                        /*
+                         * ADD
+                         */
+
+                        await addDoc(
+                            collection(
+                                db,
+                                "school_notice"
+                            ),
+                            {
+                                title: title,
+                                message: message,
+                                date: date,
+                                createdAt:
+                                    serverTimestamp(),
+                                createdBy:
+                                    auth.currentUser.uid,
+                                createdByEmail:
+                                    auth.currentUser.email
+                            }
+                        );
+
+
+                        showStatus(
+                            "Notice added successfully.",
+                            "success"
+                        );
+                    }
+
+
+                    resetForm();
+
+                    await loadNotices();
+
+                }
+
+                catch (error) {
+
+                    console.error(error);
+
+                    showStatus(
+                        "Operation failed: " +
+                        error.message,
+                        "error"
+                    );
+
+                }
+
+                finally {
+
+                    saveBtn.disabled = false;
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           EDIT NOTICE
+        ========================= */
+
+        async function editNotice(id) {
+
+            try {
+
+                const noticeRef =
+                    doc(
+                        db,
+                        "school_notice",
+                        id
+                    );
+
+
+                const snapshot =
+                    await getDoc(noticeRef);
+
+
+                if (!snapshot.exists()) {
+
+                    showStatus(
+                        "Notice not found.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                const data =
+                    snapshot.data();
+
+
+                titleInput.value =
+                    data.title || "";
+
+                messageInput.value =
+                    data.message || "";
+
+                dateInput.value =
+                    data.date || "";
+
+
+                editingNoticeId = id;
+
+
+                formTitle.textContent =
+                    "✏️ Edit Notice";
+
+
+                saveBtn.textContent =
+                    "Update Notice";
+
+
+                cancelBtn.style.display =
+                    "inline-block";
+
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Unable to edit notice: " +
+                    error.message,
+                    "error"
+                );
+            }
+
+        }
+
+
+        /* =========================
+           DELETE NOTICE
+        ========================= */
+
+        async function deleteNotice(id) {
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this notice?"
+                );
+
+
+            if (!confirmDelete) {
+                return;
+            }
+
+
+            try {
+
+                await deleteDoc(
+                    doc(
+                        db,
+                        "school_notice",
+                        id
+                    )
+                );
+
+
+                showStatus(
+                    "Notice deleted successfully.",
+                    "success"
+                );
+
+
+                await loadNotices();
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                showStatus(
+                    "Delete failed: " +
+                    error.message,
+                    "error"
+                );
+            }
+
+        }
+
+
+        /* =========================
+           RESET FORM
+        ========================= */
+
+        function resetForm() {
+
+            noticeForm.reset();
+
+
+            dateInput.value =
+                new Date()
+                    .toISOString()
+                    .split("T")[0];
+
+
+            editingNoticeId = null;
+
+
+            formTitle.textContent =
+                "📢 Add New Notice";
+
+
+            saveBtn.textContent =
+                "Add Notice";
+
+
+            cancelBtn.style.display =
+                "none";
+        }
+
+
+        /* =========================
+           CANCEL EDIT
+        ========================= */
+
+        cancelBtn.addEventListener(
+            "click",
+            function() {
+
+                resetForm();
+
+            }
+        );
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener(
+                "click",
+                async function(event) {
+
+                    event.preventDefault();
+
+                    try {
+
+                        await signOut(auth);
+
+                        localStorage.removeItem(
+                            "userEmail"
+                        );
+
+                        localStorage.removeItem(
+                            "isLoggedIn"
+                        );
+
+                        window.location.href =
+                            "index.html";
+
+                    }
+
+                    catch (error) {
+
+                        console.error(error);
+
+                    }
+
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>
