@@ -518,8 +518,8 @@
 
             <div class="filter-note">
 
-                Select Branch + Department.
-                Students will load automatically.
+                Branch select karte hi us branch ke departments aayenge.
+                Department select karte hi us Branch + Department ke saare students automatically load honge.
 
             </div>
 
@@ -875,7 +875,7 @@
 
         onAuthStateChanged(
             auth,
-            (user) => {
+            async (user) => {
 
                 if (!user) {
 
@@ -895,6 +895,16 @@
                         "Faculty"
                     ) +
                     " 👋";
+
+                /*
+                   IMPORTANT:
+                   Students collection ko tabhi read karo
+                   jab Firebase Auth user available ho.
+                   Isse request.auth null hone ki wajah se
+                   Missing or insufficient permissions error
+                   nahi aayega.
+                */
+                await loadAllStudents();
 
             }
         );
@@ -1293,8 +1303,9 @@
 
 
                 /*
-                   Existing attendance for
-                   selected date
+                   Existing attendance for the
+                   selected Branch + Department + Date
+                   automatically load hogi.
                 */
 
                 await loadExistingAttendance();
@@ -2254,9 +2265,9 @@
 
         /* =========================================
            START
+           loadAllStudents() is called only after
+           onAuthStateChanged confirms login.
         ========================================= */
-
-        loadAllStudents();
 
     </script>
 
