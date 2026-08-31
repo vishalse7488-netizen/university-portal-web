@@ -1,9 +1,13 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Manage Attendance - Sunrise Public School</title>
 
@@ -89,12 +93,12 @@
 
         .container {
             width: 94%;
-            max-width: 1100px;
+            max-width: 1150px;
             margin: 30px auto;
             background: white;
             padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 18px rgba(0,0,0,0.1);
         }
 
         h2 {
@@ -104,25 +108,20 @@
             margin-bottom: 25px;
         }
 
-        /* ================= CONTROL PANEL ================= */
+        /* ================= FILTER ================= */
 
-        .control-panel {
+        .filter-box {
             background: #e9f3ff;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 25px;
         }
 
-        .control-row {
-            display: flex;
+        .filter-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
             gap: 15px;
-            align-items: end;
-            flex-wrap: wrap;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 220px;
         }
 
         .form-group label {
@@ -132,46 +131,38 @@
             color: #444;
         }
 
-        .form-group input,
-        .form-group select {
+        .form-group select,
+        .form-group input {
             width: 100%;
             padding: 11px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 15px;
             background: white;
-        }
-
-        .load-btn {
-            background: #007BFF;
-            color: white;
-            border: none;
-            padding: 11px 22px;
-            border-radius: 6px;
-            cursor: pointer;
             font-size: 15px;
-            font-weight: bold;
         }
 
-        .load-btn:hover {
-            background: #0056b3;
+        .filter-note {
+            margin-top: 12px;
+            color: #555;
+            font-size: 14px;
         }
 
         /* ================= SUMMARY ================= */
 
         .summary {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns:
+                repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
 
         .summary-box {
+            background: #f8f9fa;
             padding: 18px;
             border-radius: 8px;
             text-align: center;
-            background: #f5f5f5;
-            border: 1px solid #eee;
+            border: 1px solid #e5e5e5;
         }
 
         .summary-box h3 {
@@ -186,7 +177,7 @@
         }
 
         #presentCount {
-            color: #28a745;
+            color: #198754;
         }
 
         #absentCount {
@@ -198,12 +189,13 @@
         .table-wrapper {
             width: 100%;
             overflow-x: auto;
+            display: none;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 650px;
+            min-width: 700px;
         }
 
         th,
@@ -222,30 +214,30 @@
             background: #f8f9fa;
         }
 
-        /* ================= STATUS SELECT ================= */
+        /* ================= STATUS ================= */
 
         .status-select {
             padding: 8px 12px;
-            border-radius: 5px;
+            border-radius: 6px;
             border: 1px solid #ccc;
             font-weight: bold;
             cursor: pointer;
-            min-width: 120px;
+            min-width: 125px;
         }
 
-        .status-select.present-status {
+        .present-status {
             color: #198754;
             background: #d1e7dd;
             border-color: #198754;
         }
 
-        .status-select.absent-status {
+        .absent-status {
             color: #dc3545;
             background: #f8d7da;
             border-color: #dc3545;
         }
 
-        .status-select.not-marked-status {
+        .not-marked-status {
             color: #555;
             background: #f5f5f5;
         }
@@ -255,13 +247,14 @@
         .save-area {
             text-align: center;
             margin-top: 25px;
+            display: none;
         }
 
         .save-btn {
             background: #28a745;
             color: white;
             border: none;
-            padding: 13px 30px;
+            padding: 13px 32px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
@@ -280,10 +273,20 @@
         /* ================= LOADING ================= */
 
         #loading {
-            text-align: center;
-            color: #555;
-            padding: 20px;
             display: none;
+            text-align: center;
+            padding: 25px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        /* ================= EMPTY ================= */
+
+        #emptyMessage {
+            display: none;
+            text-align: center;
+            padding: 25px;
+            color: #666;
         }
 
         /* ================= MESSAGE ================= */
@@ -297,31 +300,22 @@
             font-weight: bold;
         }
 
-        .error {
-            display: block !important;
-            background: #f8d7da;
-            color: #721c24;
-        }
-
         .success {
             display: block !important;
             background: #d4edda;
             color: #155724;
         }
 
+        .error {
+            display: block !important;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
         .info {
             display: block !important;
             background: #cfe2ff;
             color: #084298;
-        }
-
-        /* ================= EMPTY ================= */
-
-        #emptyMessage {
-            display: none;
-            text-align: center;
-            padding: 25px;
-            color: #666;
         }
 
         /* ================= BACK ================= */
@@ -343,7 +337,7 @@
 
         /* ================= MOBILE ================= */
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
 
             .navbar {
                 padding: 12px;
@@ -355,7 +349,7 @@
             }
 
             .center-title {
-                font-size: 18px;
+                font-size: 17px;
             }
 
             .logout {
@@ -370,25 +364,16 @@
 
             .container {
                 width: 95%;
-                margin: 20px auto;
                 padding: 15px;
+                margin: 20px auto;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
             }
 
             .summary {
                 grid-template-columns: 1fr 1fr;
-            }
-
-            .control-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .form-group {
-                min-width: 100%;
-            }
-
-            .load-btn {
-                width: 100%;
             }
         }
 
@@ -404,9 +389,12 @@
         }
 
     </style>
+
 </head>
 
+
 <body>
+
 
     <!-- ================= NAVBAR ================= -->
 
@@ -436,13 +424,21 @@
 
     <div class="menu-bar">
 
-        <a href="faculty-dashboard.html">Dashboard</a>
+        <a href="faculty-dashboard.html">
+            Dashboard
+        </a>
 
-        <a href="manage-school.html">Manage School</a>
+        <a href="manage-school.html">
+            Manage School
+        </a>
 
-        <a href="manage-services.html">Manage Services</a>
+        <a href="manage-services.html">
+            Manage Services
+        </a>
 
-        <a href="manage-attendance.html">Attendance</a>
+        <a href="manage-attendance.html">
+            Attendance
+        </a>
 
     </div>
 
@@ -456,16 +452,59 @@
         </h2>
 
 
-        <!-- ================= CONTROL PANEL ================= -->
+        <!-- ================= FILTER ================= -->
 
-        <div class="control-panel">
+        <div class="filter-box">
 
-            <div class="control-row">
+            <div class="filter-grid">
+
+
+                <!-- BRANCH -->
+
+                <div class="form-group">
+
+                    <label for="branchSelect">
+                        Branch
+                    </label>
+
+                    <select id="branchSelect">
+
+                        <option value="">
+                            Select Branch
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="form-group">
+
+                    <label for="departmentSelect">
+                        Department
+                    </label>
+
+                    <select
+                        id="departmentSelect"
+                        disabled>
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE -->
 
                 <div class="form-group">
 
                     <label for="attendanceDate">
-                        Select Date
+                        Attendance Date
                     </label>
 
                     <input
@@ -474,15 +513,13 @@
 
                 </div>
 
+            </div>
 
-                <button
-                    type="button"
-                    id="loadStudentsBtn"
-                    class="load-btn">
 
-                    Load Students
+            <div class="filter-note">
 
-                </button>
+                Select Branch + Department.
+                Students will load automatically.
 
             </div>
 
@@ -557,7 +594,10 @@
         <!-- ================= EMPTY ================= -->
 
         <div id="emptyMessage">
-            No students found.
+
+            No students found for this
+            Branch and Department.
+
         </div>
 
 
@@ -565,8 +605,7 @@
 
         <div
             class="table-wrapper"
-            id="tableContainer"
-            style="display:none;">
+            id="tableContainer">
 
             <table>
 
@@ -591,13 +630,12 @@
                         </th>
 
                         <th>
-                            Attendance
+                            Status
                         </th>
 
                     </tr>
 
                 </thead>
-
 
                 <tbody id="studentsBody">
                 </tbody>
@@ -611,13 +649,12 @@
 
         <div
             class="save-area"
-            id="saveArea"
-            style="display:none;">
+            id="saveArea">
 
             <button
                 type="button"
-                id="saveAttendanceBtn"
-                class="save-btn">
+                class="save-btn"
+                id="saveAttendanceBtn">
 
                 💾 Save Attendance
 
@@ -631,8 +668,6 @@
         <div id="message"></div>
 
 
-        <!-- ================= BACK ================= -->
-
         <a
             href="faculty-dashboard.html"
             class="back-btn">
@@ -644,9 +679,11 @@
     </div>
 
 
+
     <!-- ================= FIREBASE ================= -->
 
     <script type="module">
+
 
         import {
             initializeApp
@@ -682,7 +719,7 @@
         const firebaseConfig = {
 
             apiKey:
-                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+                "AIzaSyCS7fUaY2HAov1ezfLN9_lchZHHUA4lj8g",
 
             authDomain:
                 "university-portal-2107e.firebaseapp.com",
@@ -706,7 +743,7 @@
 
 
         /* =========================================
-           INITIALIZE FIREBASE
+           INITIALIZE
         ========================================= */
 
         const app =
@@ -726,91 +763,119 @@
         const welcome =
             document.getElementById("welcome");
 
+        const branchSelect =
+            document.getElementById("branchSelect");
+
+        const departmentSelect =
+            document.getElementById(
+                "departmentSelect"
+            );
+
         const attendanceDate =
-            document.getElementById("attendanceDate");
-
-        const loadStudentsBtn =
-            document.getElementById("loadStudentsBtn");
-
-        const saveAttendanceBtn =
-            document.getElementById("saveAttendanceBtn");
-
-        const saveArea =
-            document.getElementById("saveArea");
+            document.getElementById(
+                "attendanceDate"
+            );
 
         const loading =
             document.getElementById("loading");
 
+        const emptyMessage =
+            document.getElementById(
+                "emptyMessage"
+            );
+
         const tableContainer =
-            document.getElementById("tableContainer");
+            document.getElementById(
+                "tableContainer"
+            );
 
         const studentsBody =
-            document.getElementById("studentsBody");
+            document.getElementById(
+                "studentsBody"
+            );
 
-        const emptyMessage =
-            document.getElementById("emptyMessage");
+        const saveArea =
+            document.getElementById(
+                "saveArea"
+            );
+
+        const saveAttendanceBtn =
+            document.getElementById(
+                "saveAttendanceBtn"
+            );
 
         const message =
-            document.getElementById("message");
+            document.getElementById(
+                "message"
+            );
 
         const logoutBtn =
-            document.getElementById("logoutBtn");
+            document.getElementById(
+                "logoutBtn"
+            );
 
         const totalStudents =
-            document.getElementById("totalStudents");
+            document.getElementById(
+                "totalStudents"
+            );
 
         const presentCount =
-            document.getElementById("presentCount");
+            document.getElementById(
+                "presentCount"
+            );
 
         const absentCount =
-            document.getElementById("absentCount");
+            document.getElementById(
+                "absentCount"
+            );
 
         const attendancePercentage =
-            document.getElementById("attendancePercentage");
+            document.getElementById(
+                "attendancePercentage"
+            );
 
 
         /* =========================================
-           GLOBAL DATA
+           GLOBAL
         ========================================= */
 
         let currentFaculty = null;
 
-        let students = [];
+        let allStudents = [];
 
-        let currentAttendanceDocId = null;
+        let filteredStudents = [];
+
+        let existingAttendanceId = null;
 
 
         /* =========================================
-           DEFAULT DATE
+           TODAY
         ========================================= */
 
-        const today =
-            new Date();
+        const now = new Date();
 
-        const year =
-            today.getFullYear();
-
-        const month =
+        const todayString =
+            now.getFullYear() +
+            "-" +
             String(
-                today.getMonth() + 1
-            ).padStart(2, "0");
-
-        const day =
+                now.getMonth() + 1
+            ).padStart(2, "0") +
+            "-" +
             String(
-                today.getDate()
+                now.getDate()
             ).padStart(2, "0");
 
         attendanceDate.value =
-            `${year}-${month}-${day}`;
+            todayString;
 
 
         /* =========================================
-           AUTH CHECK
+           AUTH
         ========================================= */
 
         onAuthStateChanged(
             auth,
-            async (user) => {
+            (user) => {
 
                 if (!user) {
 
@@ -820,13 +885,15 @@
                     return;
                 }
 
-
-                currentFaculty = user;
-
+                currentFaculty =
+                    user;
 
                 welcome.textContent =
                     "Welcome, " +
-                    (user.email || "Faculty") +
+                    (
+                        user.email ||
+                        "Faculty"
+                    ) +
                     " 👋";
 
             }
@@ -834,34 +901,351 @@
 
 
         /* =========================================
-           LOAD STUDENTS
+           LOAD ALL STUDENTS
         ========================================= */
 
-        loadStudentsBtn.addEventListener(
-            "click",
-            async () => {
+        async function loadAllStudents() {
 
-                const date =
-                    attendanceDate.value;
+            try {
 
-                if (!date) {
+                loading.style.display =
+                    "block";
 
-                    showMessage(
-                        "Please select attendance date.",
-                        "error"
+                hideTable();
+
+                const snapshot =
+                    await getDocs(
+                        collection(
+                            db,
+                            "students"
+                        )
                     );
 
+                allStudents = [];
+
+
+                snapshot.forEach(
+                    (studentDoc) => {
+
+                        const data =
+                            studentDoc.data();
+
+
+                        const student = {
+
+                            uid:
+                                studentDoc.id,
+
+                            name:
+                                data.name ||
+                                data.fullName ||
+                                data.studentName ||
+                                "Student",
+
+                            rollNo:
+                                data.rollNo ??
+                                data.rollNumber ??
+                                data.roll_no ??
+                                "",
+
+                            email:
+                                data.email ||
+                                "",
+
+                            branch:
+                                getField(
+                                    data,
+                                    [
+                                        "branch",
+                                        "branchName",
+                                        "course",
+                                        "program"
+                                    ]
+                                ),
+
+                            department:
+                                getField(
+                                    data,
+                                    [
+                                        "department",
+                                        "departmentName",
+                                        "dept"
+                                    ]
+                                ),
+
+                            status:
+                                "Not Marked"
+
+                        };
+
+
+                        allStudents.push(
+                            student
+                        );
+
+                    }
+                );
+
+
+                populateBranches();
+
+                loading.style.display =
+                    "none";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Students Error:",
+                    error
+                );
+
+                loading.style.display =
+                    "none";
+
+                showMessage(
+                    "❌ Students load nahi ho paaye: " +
+                    error.message,
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           GET FIELD
+        ========================================= */
+
+        function getField(
+            data,
+            fields
+        ) {
+
+            for (
+                const field of fields
+            ) {
+
+                if (
+                    data[field] !==
+                    undefined &&
+                    data[field] !==
+                    null &&
+                    String(
+                        data[field]
+                    ).trim() !== ""
+                ) {
+
+                    return String(
+                        data[field]
+                    ).trim();
+
+                }
+
+            }
+
+            return "";
+
+        }
+
+
+        /* =========================================
+           POPULATE BRANCHES
+        ========================================= */
+
+        function populateBranches() {
+
+            branchSelect.innerHTML =
+                '<option value="">Select Branch</option>';
+
+
+            const branches =
+                [
+                    ...new Set(
+                        allStudents
+                            .map(
+                                student =>
+                                    student.branch
+                            )
+                            .filter(Boolean)
+                    )
+                ]
+                .sort();
+
+
+            branches.forEach(
+                (branch) => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        branch;
+
+                    option.textContent =
+                        branch;
+
+                    branchSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            departmentSelect.innerHTML =
+                '<option value="">Select Department</option>';
+
+            departmentSelect.disabled =
+                true;
+
+        }
+
+
+        /* =========================================
+           BRANCH CHANGE
+        ========================================= */
+
+        branchSelect.addEventListener(
+            "change",
+            () => {
+
+                const branch =
+                    branchSelect.value;
+
+
+                departmentSelect.innerHTML =
+                    '<option value="">Select Department</option>';
+
+
+                clearStudents();
+
+
+                if (!branch) {
+
+                    departmentSelect.disabled =
+                        true;
+
                     return;
+
                 }
 
 
-                await loadStudents(date);
+                const departments =
+                    [
+                        ...new Set(
+                            allStudents
+                                .filter(
+                                    student =>
+                                        normalize(
+                                            student.branch
+                                        ) ===
+                                        normalize(
+                                            branch
+                                        )
+                                )
+                                .map(
+                                    student =>
+                                        student.department
+                                )
+                                .filter(Boolean)
+                        )
+                    ]
+                    .sort();
+
+
+                departments.forEach(
+                    (department) => {
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+                        option.value =
+                            department;
+
+                        option.textContent =
+                            department;
+
+                        departmentSelect.appendChild(
+                            option
+                        );
+
+                    }
+                );
+
+
+                departmentSelect.disabled =
+                    false;
 
             }
         );
 
 
-        async function loadStudents(date) {
+        /* =========================================
+           DEPARTMENT CHANGE
+        ========================================= */
+
+        departmentSelect.addEventListener(
+            "change",
+            async () => {
+
+                const branch =
+                    branchSelect.value;
+
+                const department =
+                    departmentSelect.value;
+
+
+                if (
+                    !branch ||
+                    !department
+                ) {
+
+                    clearStudents();
+
+                    return;
+
+                }
+
+
+                await loadFilteredStudents();
+
+            }
+        );
+
+
+        /* =========================================
+           DATE CHANGE
+        ========================================= */
+
+        attendanceDate.addEventListener(
+            "change",
+            async () => {
+
+                if (
+                    branchSelect.value &&
+                    departmentSelect.value
+                ) {
+
+                    await loadFilteredStudents();
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           FILTER STUDENTS
+        ========================================= */
+
+        async function loadFilteredStudents() {
 
             try {
 
@@ -870,190 +1254,50 @@
                 loading.style.display =
                     "block";
 
-                tableContainer.style.display =
-                    "none";
-
-                saveArea.style.display =
-                    "none";
-
-                emptyMessage.style.display =
-                    "none";
-
-                studentsBody.innerHTML =
-                    "";
-
-                resetSummary();
+                hideTable();
 
 
-                /* =================================
-                   GET STUDENTS
-                ================================= */
+                const branch =
+                    branchSelect.value;
 
-                const studentsSnapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "students"
-                        )
+                const department =
+                    departmentSelect.value;
+
+
+                filteredStudents =
+                    allStudents.filter(
+                        (student) => {
+
+                            return (
+
+                                normalize(
+                                    student.branch
+                                ) ===
+                                normalize(
+                                    branch
+                                )
+
+                                &&
+
+                                normalize(
+                                    student.department
+                                ) ===
+                                normalize(
+                                    department
+                                )
+
+                            );
+
+                        }
                     );
-
-
-                students = [];
-
-
-                studentsSnapshot.forEach(
-                    (studentDoc) => {
-
-                        const data =
-                            studentDoc.data();
-
-
-                        /*
-                         IMPORTANT:
-                         The Firestore document ID
-                         must be the Firebase Auth UID.
-                        */
-
-                        const uid =
-                            studentDoc.id;
-
-
-                        students.push({
-
-                            uid: uid,
-
-                            name:
-                                data.name ||
-                                data.fullName ||
-                                "Student",
-
-                            rollNo:
-                                data.rollNo ??
-                                data.rollNumber ??
-                                "",
-
-                            email:
-                                data.email ||
-                                ""
-
-                        });
-
-                    }
-                );
 
 
                 /*
-                   Sort by roll number
+                   Existing attendance for
+                   selected date
                 */
 
-                students.sort(
-                    (a, b) => {
-
-                        return String(
-                            a.rollNo
-                        ).localeCompare(
-                            String(
-                                b.rollNo
-                            ),
-                            undefined,
-                            {
-                                numeric: true
-                            }
-                        );
-
-                    }
-                );
-
-
-                /* =================================
-                   GET EXISTING ATTENDANCE
-                ================================= */
-
-                const attendanceQuery =
-                    query(
-                        collection(
-                            db,
-                            "attendance"
-                        ),
-                        where(
-                            "date",
-                            "==",
-                            date
-                        )
-                    );
-
-
-                const attendanceSnapshot =
-                    await getDocs(
-                        attendanceQuery
-                    );
-
-
-                currentAttendanceDocId =
-                    null;
-
-
-                let existingStudents =
-                    {};
-
-
-                attendanceSnapshot.forEach(
-                    (attendanceDoc) => {
-
-                        const data =
-                            attendanceDoc.data();
-
-
-                        /*
-                           If a record already exists
-                           for this date, use it.
-                        */
-
-                        if (
-                            !currentAttendanceDocId &&
-                            data.students
-                        ) {
-
-                            currentAttendanceDocId =
-                                attendanceDoc.id;
-
-                            existingStudents =
-                                data.students;
-
-                        }
-
-                    }
-                );
-
-
-                /* =================================
-                   APPLY EXISTING STATUS
-                ================================= */
-
-                students =
-                    students.map(
-                        (student) => {
-
-                            const oldRecord =
-                                existingStudents[
-                                    student.uid
-                                ];
-
-
-                            return {
-
-                                ...student,
-
-                                status:
-                                    oldRecord &&
-                                    oldRecord.status
-                                    ? oldRecord.status
-                                    : "Not Marked"
-
-                            };
-
-                        }
-                    );
+                await loadExistingAttendance();
 
 
                 loading.style.display =
@@ -1061,13 +1305,17 @@
 
 
                 if (
-                    students.length === 0
+                    filteredStudents.length ===
+                    0
                 ) {
 
                     emptyMessage.style.display =
                         "block";
 
+                    resetSummary();
+
                     return;
+
                 }
 
 
@@ -1086,7 +1334,7 @@
             catch (error) {
 
                 console.error(
-                    "Load Students Error:",
+                    "Filter Error:",
                     error
                 );
 
@@ -1094,11 +1342,175 @@
                     "none";
 
                 showMessage(
-                    "❌ Students load nahi ho paaye. Firestore structure check karein.",
+                    "❌ Student list load nahi ho paayi.",
                     "error"
                 );
 
             }
+
+        }
+
+
+        /* =========================================
+           LOAD EXISTING ATTENDANCE
+        ========================================= */
+
+        async function loadExistingAttendance() {
+
+            existingAttendanceId =
+                null;
+
+
+            filteredStudents =
+                filteredStudents.map(
+                    student => ({
+
+                        ...student,
+
+                        status:
+                            "Not Marked"
+
+                    })
+                );
+
+
+            const selectedDate =
+                attendanceDate.value;
+
+
+            if (!selectedDate) {
+
+                return;
+
+            }
+
+
+            const q =
+                query(
+                    collection(
+                        db,
+                        "attendance"
+                    ),
+                    where(
+                        "date",
+                        "==",
+                        selectedDate
+                    )
+                );
+
+
+            const snapshot =
+                await getDocs(q);
+
+
+            let matchingRecord =
+                null;
+
+
+            snapshot.forEach(
+                (attendanceDoc) => {
+
+                    const data =
+                        attendanceDoc.data();
+
+
+                    /*
+                       Match Branch + Department
+                    */
+
+                    const recordBranch =
+                        getField(
+                            data,
+                            [
+                                "branch",
+                                "branchName",
+                                "course"
+                            ]
+                        );
+
+
+                    const recordDepartment =
+                        getField(
+                            data,
+                            [
+                                "department",
+                                "departmentName",
+                                "dept"
+                            ]
+                        );
+
+
+                    if (
+                        normalize(
+                            recordBranch
+                        ) ===
+                        normalize(
+                            branchSelect.value
+                        )
+
+                        &&
+
+                        normalize(
+                            recordDepartment
+                        ) ===
+                        normalize(
+                            departmentSelect.value
+                        )
+                    ) {
+
+                        matchingRecord =
+                            attendanceDoc;
+
+                    }
+
+                }
+            );
+
+
+            if (!matchingRecord) {
+
+                return;
+
+            }
+
+
+            existingAttendanceId =
+                matchingRecord.id;
+
+
+            const data =
+                matchingRecord.data();
+
+
+            const attendanceStudents =
+                data.students ||
+                {};
+
+
+            filteredStudents =
+                filteredStudents.map(
+                    (student) => {
+
+                        const record =
+                            attendanceStudents[
+                                student.uid
+                            ];
+
+
+                        return {
+
+                            ...student,
+
+                            status:
+                                record &&
+                                record.status
+                                    ? record.status
+                                    : "Not Marked"
+
+                        };
+
+                    }
+                );
 
         }
 
@@ -1113,64 +1525,74 @@
                 "";
 
 
-            students.forEach(
+            filteredStudents.forEach(
                 (student, index) => {
 
                     const row =
-                        document.createElement("tr");
+                        document.createElement(
+                            "tr"
+                        );
 
 
-                    const numberCell =
-                        document.createElement("td");
+                    const number =
+                        document.createElement(
+                            "td"
+                        );
 
-                    numberCell.textContent =
+                    number.textContent =
                         index + 1;
 
 
-                    const rollCell =
-                        document.createElement("td");
+                    const roll =
+                        document.createElement(
+                            "td"
+                        );
 
-                    rollCell.textContent =
+                    roll.textContent =
                         student.rollNo ||
                         "-";
 
 
-                    const nameCell =
-                        document.createElement("td");
+                    const name =
+                        document.createElement(
+                            "td"
+                        );
 
-                    nameCell.textContent =
+                    name.textContent =
                         student.name;
 
 
-                    const emailCell =
-                        document.createElement("td");
+                    const email =
+                        document.createElement(
+                            "td"
+                        );
 
-                    emailCell.textContent =
+                    email.textContent =
                         student.email ||
                         "-";
 
 
                     const statusCell =
-                        document.createElement("td");
+                        document.createElement(
+                            "td"
+                        );
 
 
                     const select =
-                        document.createElement("select");
+                        document.createElement(
+                            "select"
+                        );
+
 
                     select.className =
                         "status-select";
 
 
-                    const options = [
-
+                    [
                         "Not Marked",
                         "Present",
                         "Absent"
-
-                    ];
-
-
-                    options.forEach(
+                    ].forEach(
                         (status) => {
 
                             const option =
@@ -1204,7 +1626,7 @@
                     );
 
 
-                    updateSelectStyle(
+                    updateStatusStyle(
                         select
                     );
 
@@ -1216,7 +1638,7 @@
                             student.status =
                                 select.value;
 
-                            updateSelectStyle(
+                            updateStatusStyle(
                                 select
                             );
 
@@ -1232,19 +1654,19 @@
 
 
                     row.appendChild(
-                        numberCell
+                        number
                     );
 
                     row.appendChild(
-                        rollCell
+                        roll
                     );
 
                     row.appendChild(
-                        nameCell
+                        name
                     );
 
                     row.appendChild(
-                        emailCell
+                        email
                     );
 
                     row.appendChild(
@@ -1263,10 +1685,10 @@
 
 
         /* =========================================
-           SELECT STYLE
+           STATUS STYLE
         ========================================= */
 
-        function updateSelectStyle(
+        function updateStatusStyle(
             select
         ) {
 
@@ -1317,11 +1739,11 @@
         function updateSummary() {
 
             const total =
-                students.length;
+                filteredStudents.length;
 
 
             const present =
-                students.filter(
+                filteredStudents.filter(
                     student =>
                         student.status ===
                         "Present"
@@ -1329,7 +1751,7 @@
 
 
             const absent =
-                students.filter(
+                filteredStudents.filter(
                     student =>
                         student.status ===
                         "Absent"
@@ -1394,43 +1816,53 @@
                     );
 
                     return;
+
                 }
 
+
+                const branch =
+                    branchSelect.value;
+
+                const department =
+                    departmentSelect.value;
 
                 const date =
                     attendanceDate.value;
 
 
-                if (!date) {
+                if (
+                    !branch ||
+                    !department ||
+                    !date
+                ) {
 
                     showMessage(
-                        "Please select a date.",
+                        "Branch, Department aur Date select karein.",
                         "error"
                     );
 
                     return;
+
                 }
 
 
                 if (
-                    students.length === 0
+                    filteredStudents.length ===
+                    0
                 ) {
 
                     showMessage(
-                        "No students available.",
+                        "No students found.",
                         "error"
                     );
 
                     return;
+
                 }
 
 
-                /*
-                   Do not allow incomplete attendance.
-                */
-
                 const notMarked =
-                    students.filter(
+                    filteredStudents.filter(
                         student =>
                             student.status ===
                             "Not Marked"
@@ -1447,6 +1879,7 @@
                     );
 
                     return;
+
                 }
 
 
@@ -1459,21 +1892,12 @@
                         "Saving...";
 
 
-                    /* =================================
-                       STUDENTS MAP
-                    ================================= */
-
                     const studentsMap =
                         {};
 
 
-                    students.forEach(
+                    filteredStudents.forEach(
                         (student) => {
-
-                            /*
-                               Key = actual Firebase
-                               Authentication UID
-                            */
 
                             studentsMap[
                                 student.uid
@@ -1485,6 +1909,15 @@
                                 name:
                                     student.name,
 
+                                email:
+                                    student.email,
+
+                                branch:
+                                    student.branch,
+
+                                department:
+                                    student.department,
+
                                 status:
                                     student.status
 
@@ -1494,38 +1927,58 @@
                     );
 
 
-                    /* =================================
-                       CREATE / UPDATE DOCUMENT
-                    ================================= */
+                    /*
+                       Same date + branch +
+                       department gets updated.
+                    */
 
                     let attendanceRef;
 
 
                     if (
-                        currentAttendanceDocId
+                        existingAttendanceId
                     ) {
 
                         attendanceRef =
                             doc(
                                 db,
                                 "attendance",
-                                currentAttendanceDocId
+                                existingAttendanceId
                             );
 
                     }
 
                     else {
 
+                        /*
+                           Stable document ID
+                           prevents duplicate records
+                           for same date/branch/department.
+                        */
+
+                        const safeBranch =
+                            cleanId(branch);
+
+                        const safeDepartment =
+                            cleanId(department);
+
+                        const documentId =
+                            date +
+                            "_" +
+                            safeBranch +
+                            "_" +
+                            safeDepartment;
+
+
                         attendanceRef =
                             doc(
-                                collection(
-                                    db,
-                                    "attendance"
-                                )
+                                db,
+                                "attendance",
+                                documentId
                             );
 
-                        currentAttendanceDocId =
-                            attendanceRef.id;
+                        existingAttendanceId =
+                            documentId;
 
                     }
 
@@ -1537,8 +1990,18 @@
                             date:
                                 date,
 
+                            branch:
+                                branch,
+
+                            department:
+                                department,
+
                             facultyId:
                                 currentFaculty.uid,
+
+                            facultyEmail:
+                                currentFaculty.email ||
+                                "",
 
                             createdAt:
                                 serverTimestamp(),
@@ -1554,7 +2017,8 @@
 
 
                     showMessage(
-                        "✅ Attendance successfully saved!",
+                        "✅ Attendance successfully saved for " +
+                        formatDate(date),
                         "success"
                     );
 
@@ -1606,6 +2070,118 @@
 
 
         /* =========================================
+           NORMALIZE
+        ========================================= */
+
+        function normalize(value) {
+
+            return String(
+                value || ""
+            )
+            .trim()
+            .toLowerCase();
+
+        }
+
+
+        /* =========================================
+           CLEAN DOCUMENT ID
+        ========================================= */
+
+        function cleanId(value) {
+
+            return String(value || "")
+                .trim()
+                .replace(
+                    /[\/\\#?]/g,
+                    "-"
+                )
+                .replace(
+                    /\s+/g,
+                    "-"
+                );
+
+        }
+
+
+        /* =========================================
+           DATE FORMAT
+        ========================================= */
+
+        function formatDate(
+            dateString
+        ) {
+
+            if (!dateString) {
+
+                return "";
+
+            }
+
+
+            const parts =
+                String(
+                    dateString
+                ).split("-");
+
+
+            if (
+                parts.length === 3
+            ) {
+
+                return (
+                    parts[2] +
+                    "-" +
+                    parts[1] +
+                    "-" +
+                    parts[0]
+                );
+
+            }
+
+
+            return dateString;
+
+        }
+
+
+        /* =========================================
+           CLEAR STUDENTS
+        ========================================= */
+
+        function clearStudents() {
+
+            filteredStudents =
+                [];
+
+            existingAttendanceId =
+                null;
+
+            studentsBody.innerHTML =
+                "";
+
+            hideTable();
+
+            resetSummary();
+
+            emptyMessage.style.display =
+                "none";
+
+        }
+
+
+        function hideTable() {
+
+            tableContainer.style.display =
+                "none";
+
+            saveArea.style.display =
+                "none";
+
+        }
+
+
+        /* =========================================
            MESSAGE
         ========================================= */
 
@@ -1650,7 +2226,9 @@
 
                 try {
 
-                    await signOut(auth);
+                    await signOut(
+                        auth
+                    );
 
                     window.location.href =
                         "login.html";
@@ -1673,8 +2251,16 @@
             }
         );
 
+
+        /* =========================================
+           START
+        ========================================= */
+
+        loadAllStudents();
+
     </script>
 
 </body>
 
 </html>
+```
