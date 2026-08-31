@@ -1,18 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Manage Attendance - Sunrise Public School</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -93,12 +88,12 @@
 
         .container {
             width: 94%;
-            max-width: 1150px;
+            max-width: 1200px;
             margin: 30px auto;
             background: white;
             padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
@@ -119,8 +114,7 @@
 
         .filter-grid {
             display: grid;
-            grid-template-columns:
-                repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
 
@@ -151,8 +145,7 @@
 
         .summary {
             display: grid;
-            grid-template-columns:
-                repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -195,7 +188,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 700px;
+            min-width: 750px;
         }
 
         th,
@@ -222,7 +215,7 @@
             border: 1px solid #ccc;
             font-weight: bold;
             cursor: pointer;
-            min-width: 125px;
+            min-width: 130px;
         }
 
         .present-status {
@@ -298,6 +291,7 @@
             margin-top: 20px;
             border-radius: 6px;
             font-weight: bold;
+            white-space: pre-wrap;
         }
 
         .success {
@@ -387,14 +381,10 @@
                 font-size: 20px;
             }
         }
-
     </style>
-
 </head>
 
-
 <body>
-
 
     <!-- ================= NAVBAR ================= -->
 
@@ -412,9 +402,7 @@
             id="logoutBtn"
             class="logout"
             type="button">
-
             Logout
-
         </button>
 
     </div>
@@ -457,7 +445,6 @@
         <div class="filter-box">
 
             <div class="filter-grid">
-
 
                 <!-- BRANCH -->
 
@@ -515,12 +502,10 @@
 
             </div>
 
-
             <div class="filter-note">
-
-                Branch select karte hi us branch ke departments aayenge.
-                Department select karte hi us Branch + Department ke saare students automatically load honge.
-
+                Branch select karte hi departments aayenge.
+                Department select karte hi us Branch + Department ke
+                saare students automatically load honge.
             </div>
 
         </div>
@@ -531,54 +516,23 @@
         <div class="summary">
 
             <div class="summary-box">
-
-                <h3>
-                    Total Students
-                </h3>
-
-                <strong id="totalStudents">
-                    0
-                </strong>
-
+                <h3>Total Students</h3>
+                <strong id="totalStudents">0</strong>
             </div>
 
-
             <div class="summary-box">
-
-                <h3>
-                    Present
-                </h3>
-
-                <strong id="presentCount">
-                    0
-                </strong>
-
+                <h3>Present</h3>
+                <strong id="presentCount">0</strong>
             </div>
 
-
             <div class="summary-box">
-
-                <h3>
-                    Absent
-                </h3>
-
-                <strong id="absentCount">
-                    0
-                </strong>
-
+                <h3>Absent</h3>
+                <strong id="absentCount">0</strong>
             </div>
 
-
             <div class="summary-box">
-
-                <h3>
-                    Attendance %
-                </h3>
-
-                <strong id="attendancePercentage">
-                    0%
-                </strong>
-
+                <h3>Attendance %</h3>
+                <strong id="attendancePercentage">0%</strong>
             </div>
 
         </div>
@@ -594,10 +548,7 @@
         <!-- ================= EMPTY ================= -->
 
         <div id="emptyMessage">
-
-            No students found for this
-            Branch and Department.
-
+            No students found for this Branch and Department.
         </div>
 
 
@@ -612,33 +563,16 @@
                 <thead>
 
                     <tr>
-
-                        <th>
-                            #
-                        </th>
-
-                        <th>
-                            Roll No
-                        </th>
-
-                        <th>
-                            Student Name
-                        </th>
-
-                        <th>
-                            Email
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
+                        <th>#</th>
+                        <th>Roll No</th>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
                     </tr>
 
                 </thead>
 
-                <tbody id="studentsBody">
-                </tbody>
+                <tbody id="studentsBody"></tbody>
 
             </table>
 
@@ -679,11 +613,9 @@
     </div>
 
 
-
     <!-- ================= FIREBASE ================= -->
 
     <script type="module">
-
 
         import {
             initializeApp
@@ -704,6 +636,7 @@
             collection,
             getDocs,
             doc,
+            getDoc,
             setDoc,
             query,
             where,
@@ -738,12 +671,11 @@
 
             measurementId:
                 "G-LKTX7C7F0E"
-
         };
 
 
         /* =========================================
-           INITIALIZE
+           INITIALIZE FIREBASE
         ========================================= */
 
         const app =
@@ -836,7 +768,7 @@
 
 
         /* =========================================
-           GLOBAL
+           GLOBAL VARIABLES
         ========================================= */
 
         let currentFaculty = null;
@@ -849,28 +781,43 @@
 
 
         /* =========================================
-           TODAY
+           SET TODAY
         ========================================= */
 
-        const now = new Date();
+        function getToday() {
 
-        const todayString =
-            now.getFullYear() +
-            "-" +
-            String(
-                now.getMonth() + 1
-            ).padStart(2, "0") +
-            "-" +
-            String(
-                now.getDate()
-            ).padStart(2, "0");
+            const date =
+                new Date();
+
+            const year =
+                date.getFullYear();
+
+            const month =
+                String(
+                    date.getMonth() + 1
+                ).padStart(2, "0");
+
+            const day =
+                String(
+                    date.getDate()
+                ).padStart(2, "0");
+
+            return (
+                year +
+                "-" +
+                month +
+                "-" +
+                day
+            );
+        }
+
 
         attendanceDate.value =
-            todayString;
+            getToday();
 
 
         /* =========================================
-           AUTH
+           AUTH CHECK
         ========================================= */
 
         onAuthStateChanged(
@@ -880,13 +827,15 @@
                 if (!user) {
 
                     window.location.href =
-                        "index.html";
+                        "login.html";
 
                     return;
                 }
 
+
                 currentFaculty =
                     user;
+
 
                 welcome.textContent =
                     "Welcome, " +
@@ -896,14 +845,7 @@
                     ) +
                     " 👋";
 
-                /*
-                   IMPORTANT:
-                   Students collection ko tabhi read karo
-                   jab Firebase Auth user available ho.
-                   Isse request.auth null hone ki wajah se
-                   Missing or insufficient permissions error
-                   nahi aayega.
-                */
+
                 await loadAllStudents();
 
             }
@@ -916,12 +858,14 @@
 
         async function loadAllStudents() {
 
+            loading.style.display =
+                "block";
+
+            hideTable();
+
+            hideMessage();
+
             try {
-
-                loading.style.display =
-                    "block";
-
-                hideTable();
 
                 const snapshot =
                     await getDocs(
@@ -930,6 +874,7 @@
                             "students"
                         )
                     );
+
 
                 allStudents = [];
 
@@ -947,23 +892,41 @@
                                 studentDoc.id,
 
                             name:
-                                data.name ||
-                                data.fullName ||
-                                data.studentName ||
+                                firstValue(
+                                    data,
+                                    [
+                                        "name",
+                                        "fullName",
+                                        "studentName",
+                                        "student_name"
+                                    ]
+                                ) ||
                                 "Student",
 
                             rollNo:
-                                data.rollNo ??
-                                data.rollNumber ??
-                                data.roll_no ??
+                                firstValue(
+                                    data,
+                                    [
+                                        "rollNo",
+                                        "rollNumber",
+                                        "roll_no",
+                                        "roll"
+                                    ]
+                                ) ||
                                 "",
 
                             email:
-                                data.email ||
+                                firstValue(
+                                    data,
+                                    [
+                                        "email",
+                                        "studentEmail"
+                                    ]
+                                ) ||
                                 "",
 
                             branch:
-                                getField(
+                                firstValue(
                                     data,
                                     [
                                         "branch",
@@ -971,17 +934,19 @@
                                         "course",
                                         "program"
                                     ]
-                                ),
+                                ) ||
+                                "",
 
                             department:
-                                getField(
+                                firstValue(
                                     data,
                                     [
                                         "department",
                                         "departmentName",
                                         "dept"
                                     ]
-                                ),
+                                ) ||
+                                "",
 
                             status:
                                 "Not Marked"
@@ -997,26 +962,43 @@
                 );
 
 
-                populateBranches();
-
                 loading.style.display =
                     "none";
+
+
+                populateBranches();
+
+
+                if (
+                    allStudents.length === 0
+                ) {
+
+                    showMessage(
+                        "⚠️ students collection me koi student record nahi mila.",
+                        "info"
+                    );
+
+                }
 
             }
 
             catch (error) {
 
-                console.error(
-                    "Students Error:",
-                    error
-                );
-
                 loading.style.display =
                     "none";
 
+
+                console.error(
+                    "LOAD STUDENTS ERROR:",
+                    error
+                );
+
+
                 showMessage(
-                    "❌ Students load nahi ho paaye: " +
-                    error.message,
+                    getFirestoreError(
+                        error,
+                        "Students load nahi ho paaye."
+                    ),
                     "error"
                 );
 
@@ -1026,10 +1008,10 @@
 
 
         /* =========================================
-           GET FIELD
+           GET FIRST AVAILABLE FIELD
         ========================================= */
 
-        function getField(
+        function firstValue(
             data,
             fields
         ) {
@@ -1062,13 +1044,34 @@
 
 
         /* =========================================
+           NORMALIZE
+        ========================================= */
+
+        function normalize(
+            value
+        ) {
+
+            return String(
+                value || ""
+            )
+                .trim()
+                .toLowerCase();
+
+        }
+
+
+        /* =========================================
            POPULATE BRANCHES
         ========================================= */
 
         function populateBranches() {
 
             branchSelect.innerHTML =
-                '<option value="">Select Branch</option>';
+                `
+                <option value="">
+                    Select Branch
+                </option>
+                `;
 
 
             const branches =
@@ -1079,14 +1082,22 @@
                                 student =>
                                     student.branch
                             )
-                            .filter(Boolean)
+                            .filter(
+                                value =>
+                                    value
+                            )
                     )
                 ]
-                .sort();
+                .sort(
+                    (a, b) =>
+                        a.localeCompare(
+                            b
+                        )
+                );
 
 
             branches.forEach(
-                (branch) => {
+                branch => {
 
                     const option =
                         document.createElement(
@@ -1108,7 +1119,11 @@
 
 
             departmentSelect.innerHTML =
-                '<option value="">Select Department</option>';
+                `
+                <option value="">
+                    Select Department
+                </option>
+                `;
 
             departmentSelect.disabled =
                 true;
@@ -1129,7 +1144,11 @@
 
 
                 departmentSelect.innerHTML =
-                    '<option value="">Select Department</option>';
+                    `
+                    <option value="">
+                        Select Department
+                    </option>
+                    `;
 
 
                 clearStudents();
@@ -1162,14 +1181,22 @@
                                     student =>
                                         student.department
                                 )
-                                .filter(Boolean)
+                                .filter(
+                                    value =>
+                                        value
+                                )
                         )
                     ]
-                    .sort();
+                    .sort(
+                        (a, b) =>
+                            a.localeCompare(
+                                b
+                            )
+                    );
 
 
                 departments.forEach(
-                    (department) => {
+                    department => {
 
                         const option =
                             document.createElement(
@@ -1191,7 +1218,19 @@
 
 
                 departmentSelect.disabled =
-                    false;
+                    departments.length === 0;
+
+
+                if (
+                    departments.length === 0
+                ) {
+
+                    showMessage(
+                        "⚠️ Is branch ke students me department data nahi mila.",
+                        "info"
+                    );
+
+                }
 
             }
         );
@@ -1205,16 +1244,9 @@
             "change",
             async () => {
 
-                const branch =
-                    branchSelect.value;
-
-                const department =
-                    departmentSelect.value;
-
-
                 if (
-                    !branch ||
-                    !department
+                    !branchSelect.value ||
+                    !departmentSelect.value
                 ) {
 
                     clearStudents();
@@ -1252,61 +1284,65 @@
 
 
         /* =========================================
-           FILTER STUDENTS
+           LOAD FILTERED STUDENTS
         ========================================= */
 
         async function loadFilteredStudents() {
 
+            const branch =
+                branchSelect.value;
+
+            const department =
+                departmentSelect.value;
+
+
+            if (
+                !branch ||
+                !department
+            ) {
+
+                clearStudents();
+
+                return;
+
+            }
+
+
+            loading.style.display =
+                "block";
+
+            hideTable();
+
+            hideMessage();
+
+
             try {
 
-                hideMessage();
-
-                loading.style.display =
-                    "block";
-
-                hideTable();
-
-
-                const branch =
-                    branchSelect.value;
-
-                const department =
-                    departmentSelect.value;
-
-
                 filteredStudents =
-                    allStudents.filter(
-                        (student) => {
-
-                            return (
-
+                    allStudents
+                        .filter(
+                            student =>
                                 normalize(
                                     student.branch
                                 ) ===
                                 normalize(
                                     branch
-                                )
-
-                                &&
-
+                                ) &&
                                 normalize(
                                     student.department
                                 ) ===
                                 normalize(
                                     department
                                 )
+                        )
+                        .map(
+                            student => ({
+                                ...student,
+                                status:
+                                    "Not Marked"
+                            })
+                        );
 
-                            );
-
-                        }
-                    );
-
-
-                /*
-                   Existing attendance for the
-                   selected Branch + Department + Date
-                   automatically load hogi.
-                */
 
                 await loadExistingAttendance();
 
@@ -1316,8 +1352,7 @@
 
 
                 if (
-                    filteredStudents.length ===
-                    0
+                    filteredStudents.length === 0
                 ) {
 
                     emptyMessage.style.display =
@@ -1330,13 +1365,20 @@
                 }
 
 
+                emptyMessage.style.display =
+                    "none";
+
+
                 renderStudents();
+
 
                 tableContainer.style.display =
                     "block";
 
+
                 saveArea.style.display =
                     "block";
+
 
                 updateSummary();
 
@@ -1344,16 +1386,19 @@
 
             catch (error) {
 
-                console.error(
-                    "Filter Error:",
-                    error
-                );
-
                 loading.style.display =
                     "none";
 
+                console.error(
+                    "FILTER ERROR:",
+                    error
+                );
+
                 showMessage(
-                    "❌ Student list load nahi ho paayi.",
+                    getFirestoreError(
+                        error,
+                        "Student list load nahi ho paayi."
+                    ),
                     "error"
                 );
 
@@ -1372,156 +1417,160 @@
                 null;
 
 
-            filteredStudents =
-                filteredStudents.map(
-                    student => ({
-
-                        ...student,
-
-                        status:
-                            "Not Marked"
-
-                    })
-                );
-
-
-            const selectedDate =
+            const date =
                 attendanceDate.value;
 
 
-            if (!selectedDate) {
-
+            if (!date) {
                 return;
-
             }
 
 
-            const q =
-                query(
-                    collection(
-                        db,
-                        "attendance"
-                    ),
-                    where(
-                        "date",
-                        "==",
-                        selectedDate
-                    )
+            try {
+
+                /*
+                 Same date ki attendance records
+                 load karenge.
+                */
+
+                const attendanceQuery =
+                    query(
+                        collection(
+                            db,
+                            "attendance"
+                        ),
+                        where(
+                            "date",
+                            "==",
+                            date
+                        )
+                    );
+
+
+                const snapshot =
+                    await getDocs(
+                        attendanceQuery
+                    );
+
+
+                let matchedDoc =
+                    null;
+
+
+                snapshot.forEach(
+                    attendanceDoc => {
+
+                        const data =
+                            attendanceDoc.data();
+
+
+                        const recordBranch =
+                            firstValue(
+                                data,
+                                [
+                                    "branch",
+                                    "branchName",
+                                    "course",
+                                    "program"
+                                ]
+                            );
+
+
+                        const recordDepartment =
+                            firstValue(
+                                data,
+                                [
+                                    "department",
+                                    "departmentName",
+                                    "dept"
+                                ]
+                            );
+
+
+                        if (
+                            normalize(
+                                recordBranch
+                            ) ===
+                            normalize(
+                                branchSelect.value
+                            ) &&
+                            normalize(
+                                recordDepartment
+                            ) ===
+                            normalize(
+                                departmentSelect.value
+                            )
+                        ) {
+
+                            matchedDoc =
+                                attendanceDoc;
+
+                        }
+
+                    }
                 );
 
 
-            const snapshot =
-                await getDocs(q);
+                /*
+                 Existing attendance nahi hai.
+                */
 
+                if (!matchedDoc) {
 
-            let matchingRecord =
-                null;
-
-
-            snapshot.forEach(
-                (attendanceDoc) => {
-
-                    const data =
-                        attendanceDoc.data();
-
-
-                    /*
-                       Match Branch + Department
-                    */
-
-                    const recordBranch =
-                        getField(
-                            data,
-                            [
-                                "branch",
-                                "branchName",
-                                "course"
-                            ]
-                        );
-
-
-                    const recordDepartment =
-                        getField(
-                            data,
-                            [
-                                "department",
-                                "departmentName",
-                                "dept"
-                            ]
-                        );
-
-
-                    if (
-                        normalize(
-                            recordBranch
-                        ) ===
-                        normalize(
-                            branchSelect.value
-                        )
-
-                        &&
-
-                        normalize(
-                            recordDepartment
-                        ) ===
-                        normalize(
-                            departmentSelect.value
-                        )
-                    ) {
-
-                        matchingRecord =
-                            attendanceDoc;
-
-                    }
+                    return;
 
                 }
-            );
 
 
-            if (!matchingRecord) {
+                existingAttendanceId =
+                    matchedDoc.id;
 
-                return;
+
+                const data =
+                    matchedDoc.data();
+
+
+                const attendanceStudents =
+                    data.students || {};
+
+
+                filteredStudents =
+                    filteredStudents.map(
+                        student => {
+
+                            const record =
+                                attendanceStudents[
+                                    student.uid
+                                ];
+
+
+                            return {
+
+                                ...student,
+
+                                status:
+                                    record &&
+                                    record.status
+                                        ? record.status
+                                        : "Not Marked"
+
+                            };
+
+                        }
+                    );
 
             }
 
+            catch (error) {
 
-            existingAttendanceId =
-                matchingRecord.id;
-
-
-            const data =
-                matchingRecord.data();
-
-
-            const attendanceStudents =
-                data.students ||
-                {};
-
-
-            filteredStudents =
-                filteredStudents.map(
-                    (student) => {
-
-                        const record =
-                            attendanceStudents[
-                                student.uid
-                            ];
-
-
-                        return {
-
-                            ...student,
-
-                            status:
-                                record &&
-                                record.status
-                                    ? record.status
-                                    : "Not Marked"
-
-                        };
-
-                    }
+                console.error(
+                    "EXISTING ATTENDANCE ERROR:",
+                    error
                 );
+
+                throw error;
+
+            }
 
         }
 
@@ -1545,40 +1594,41 @@
                         );
 
 
-                    const number =
+                    const numberCell =
                         document.createElement(
                             "td"
                         );
 
-                    number.textContent =
+                    numberCell.textContent =
                         index + 1;
 
 
-                    const roll =
+                    const rollCell =
                         document.createElement(
                             "td"
                         );
 
-                    roll.textContent =
+                    rollCell.textContent =
                         student.rollNo ||
                         "-";
 
 
-                    const name =
+                    const nameCell =
                         document.createElement(
                             "td"
                         );
 
-                    name.textContent =
-                        student.name;
+                    nameCell.textContent =
+                        student.name ||
+                        "Student";
 
 
-                    const email =
+                    const emailCell =
                         document.createElement(
                             "td"
                         );
 
-                    email.textContent =
+                    emailCell.textContent =
                         student.email ||
                         "-";
 
@@ -1594,17 +1644,19 @@
                             "select"
                         );
 
-
                     select.className =
                         "status-select";
 
 
-                    [
+                    const statuses = [
                         "Not Marked",
                         "Present",
                         "Absent"
-                    ].forEach(
-                        (status) => {
+                    ];
+
+
+                    statuses.forEach(
+                        status => {
 
                             const option =
                                 document.createElement(
@@ -1649,9 +1701,11 @@
                             student.status =
                                 select.value;
 
+
                             updateStatusStyle(
                                 select
                             );
+
 
                             updateSummary();
 
@@ -1665,19 +1719,19 @@
 
 
                     row.appendChild(
-                        number
+                        numberCell
                     );
 
                     row.appendChild(
-                        roll
+                        rollCell
                     );
 
                     row.appendChild(
-                        name
+                        nameCell
                     );
 
                     row.appendChild(
-                        email
+                        emailCell
                     );
 
                     row.appendChild(
@@ -1744,7 +1798,7 @@
 
 
         /* =========================================
-           SUMMARY
+           UPDATE SUMMARY
         ========================================= */
 
         function updateSummary() {
@@ -1822,7 +1876,7 @@
                 if (!currentFaculty) {
 
                     showMessage(
-                        "Faculty login required.",
+                        "❌ Faculty login required.",
                         "error"
                     );
 
@@ -1848,7 +1902,7 @@
                 ) {
 
                     showMessage(
-                        "Branch, Department aur Date select karein.",
+                        "❌ Branch, Department aur Date select karein.",
                         "error"
                     );
 
@@ -1858,12 +1912,11 @@
 
 
                 if (
-                    filteredStudents.length ===
-                    0
+                    filteredStudents.length === 0
                 ) {
 
                     showMessage(
-                        "No students found.",
+                        "❌ No students found.",
                         "error"
                     );
 
@@ -1885,7 +1938,9 @@
                 ) {
 
                     showMessage(
-                        `${notMarked.length} student(s) ki attendance mark nahi hui hai.`,
+                        "❌ " +
+                        notMarked.length +
+                        " student(s) ki attendance mark nahi hui hai.",
                         "error"
                     );
 
@@ -1894,31 +1949,31 @@
                 }
 
 
+                saveAttendanceBtn.disabled =
+                    true;
+
+                saveAttendanceBtn.textContent =
+                    "Saving...";
+
+
                 try {
-
-                    saveAttendanceBtn.disabled =
-                        true;
-
-                    saveAttendanceBtn.textContent =
-                        "Saving...";
-
 
                     const studentsMap =
                         {};
 
 
                     filteredStudents.forEach(
-                        (student) => {
+                        student => {
 
                             studentsMap[
                                 student.uid
                             ] = {
 
-                                rollNo:
-                                    student.rollNo,
-
                                 name:
                                     student.name,
+
+                                rollNo:
+                                    student.rollNo,
 
                                 email:
                                     student.email,
@@ -1939,59 +1994,30 @@
 
 
                     /*
-                       Same date + branch +
-                       department gets updated.
+                     Stable document ID:
+
+                     date_branch_department
+
+                     Example:
+                     2026-08-31_BCA_Computer-Science
                     */
 
-                    let attendanceRef;
-
-
-                    if (
-                        existingAttendanceId
-                    ) {
-
-                        attendanceRef =
-                            doc(
-                                db,
-                                "attendance",
-                                existingAttendanceId
-                            );
-
-                    }
-
-                    else {
-
-                        /*
-                           Stable document ID
-                           prevents duplicate records
-                           for same date/branch/department.
-                        */
-
-                        const safeBranch =
-                            cleanId(branch);
-
-                        const safeDepartment =
-                            cleanId(department);
-
-                        const documentId =
+                    const documentId =
+                        cleanId(
                             date +
                             "_" +
-                            safeBranch +
+                            branch +
                             "_" +
-                            safeDepartment;
+                            department
+                        );
 
 
-                        attendanceRef =
-                            doc(
-                                db,
-                                "attendance",
-                                documentId
-                            );
-
-                        existingAttendanceId =
-                            documentId;
-
-                    }
+                    const attendanceRef =
+                        doc(
+                            db,
+                            "attendance",
+                            documentId
+                        );
 
 
                     await setDoc(
@@ -2014,17 +2040,21 @@
                                 currentFaculty.email ||
                                 "",
 
-                            createdAt:
-                                serverTimestamp(),
-
                             students:
-                                studentsMap
+                                studentsMap,
+
+                            updatedAt:
+                                serverTimestamp()
 
                         },
                         {
                             merge: true
                         }
                     );
+
+
+                    existingAttendanceId =
+                        documentId;
 
 
                     showMessage(
@@ -2041,11 +2071,11 @@
                     setTimeout(
                         () => {
 
-                            saveAttendanceBtn.textContent =
-                                "💾 Save Attendance";
-
                             saveAttendanceBtn.disabled =
                                 false;
+
+                            saveAttendanceBtn.textContent =
+                                "💾 Save Attendance";
 
                         },
                         1500
@@ -2056,14 +2086,16 @@
                 catch (error) {
 
                     console.error(
-                        "Save Attendance Error:",
+                        "SAVE ATTENDANCE ERROR:",
                         error
                     );
 
 
                     showMessage(
-                        "❌ Attendance save nahi ho paayi: " +
-                        error.message,
+                        getFirestoreError(
+                            error,
+                            "Attendance save nahi ho paayi."
+                        ),
                         "error"
                     );
 
@@ -2081,27 +2113,16 @@
 
 
         /* =========================================
-           NORMALIZE
+           CLEAN DOCUMENT ID
         ========================================= */
 
-        function normalize(value) {
+        function cleanId(
+            value
+        ) {
 
             return String(
                 value || ""
             )
-            .trim()
-            .toLowerCase();
-
-        }
-
-
-        /* =========================================
-           CLEAN DOCUMENT ID
-        ========================================= */
-
-        function cleanId(value) {
-
-            return String(value || "")
                 .trim()
                 .replace(
                     /[\/\\#?]/g,
@@ -2110,48 +2131,45 @@
                 .replace(
                     /\s+/g,
                     "-"
+                )
+                .replace(
+                    /-+/g,
+                    "-"
                 );
 
         }
 
 
         /* =========================================
-           DATE FORMAT
+           FORMAT DATE
         ========================================= */
 
         function formatDate(
             dateString
         ) {
 
-            if (!dateString) {
-
-                return "";
-
-            }
-
-
             const parts =
                 String(
-                    dateString
+                    dateString || ""
                 ).split("-");
 
 
             if (
-                parts.length === 3
+                parts.length !== 3
             ) {
 
-                return (
-                    parts[2] +
-                    "-" +
-                    parts[1] +
-                    "-" +
-                    parts[0]
-                );
+                return dateString;
 
             }
 
 
-            return dateString;
+            return (
+                parts[2] +
+                "-" +
+                parts[1] +
+                "-" +
+                parts[0]
+            );
 
         }
 
@@ -2171,12 +2189,16 @@
             studentsBody.innerHTML =
                 "";
 
-            hideTable();
+            tableContainer.style.display =
+                "none";
 
-            resetSummary();
+            saveArea.style.display =
+                "none";
 
             emptyMessage.style.display =
                 "none";
+
+            resetSummary();
 
         }
 
@@ -2228,6 +2250,63 @@
 
 
         /* =========================================
+           FIRESTORE ERROR MESSAGE
+        ========================================= */
+
+        function getFirestoreError(
+            error,
+            defaultMessage
+        ) {
+
+            const code =
+                error &&
+                error.code
+                    ? error.code
+                    : "";
+
+
+            if (
+                code ===
+                "permission-denied"
+            ) {
+
+                return (
+                    "❌ Missing or insufficient permissions.\n\n" +
+                    "Firestore Rules me Faculty ko students read " +
+                    "aur attendance create/update permission deni hogi."
+                );
+
+            }
+
+
+            if (
+                code ===
+                "failed-precondition"
+            ) {
+
+                return (
+                    "❌ Firestore query ke liye required index/condition missing hai."
+                );
+
+            }
+
+
+            return (
+                "❌ " +
+                defaultMessage +
+                "\n\n" +
+                (
+                    error &&
+                    error.message
+                        ? error.message
+                        : "Unknown error"
+                )
+            );
+
+        }
+
+
+        /* =========================================
            LOGOUT
         ========================================= */
 
@@ -2241,6 +2320,7 @@
                         auth
                     );
 
+
                     window.location.href =
                         "index.html";
 
@@ -2249,9 +2329,10 @@
                 catch (error) {
 
                     console.error(
-                        "Logout Error:",
+                        "LOGOUT ERROR:",
                         error
                     );
+
 
                     alert(
                         "Logout failed. Please try again."
@@ -2262,16 +2343,8 @@
             }
         );
 
-
-        /* =========================================
-           START
-           loadAllStudents() is called only after
-           onAuthStateChanged confirms login.
-        ========================================= */
-
     </script>
 
 </body>
 
 </html>
-
