@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -949,7 +949,7 @@
                 if (!user) {
 
                     window.location.href =
-                        "manage-attendance.html";
+                        "login.html";
 
                     return;
                 }
@@ -965,14 +965,7 @@
                     ) +
                     " 👋";
 
-                /*
-                   IMPORTANT:
-                   Students collection ko tabhi read karo
-                   jab Firebase Auth user available ho.
-                   Isse request.auth null hone ki wajah se
-                   Missing or insufficient permissions error
-                   nahi aayega.
-                */
+                /* Load only after Auth has confirmed the user. */
                 await loadAllStudents();
 
             }
@@ -988,123 +981,6 @@
            Isliye pehle localStorage ke common
            student keys check kiye ja rahe hain.
         ========================================= */
-
-        async function loadStudentsFromIndex() {
-
-            loading.style.display = "block";
-            hideTable();
-            hideMessage();
-
-            try {
-
-                const possibleKeys = [
-                    "students",
-                    "allStudents",
-                    "studentList",
-                    "studentsData",
-                    "universityStudents"
-                ];
-
-                let rawStudents = null;
-
-                for (const key of possibleKeys) {
-
-                    const raw = localStorage.getItem(key);
-
-                    if (raw) {
-                        try {
-                            const parsed = JSON.parse(raw);
-
-                            if (Array.isArray(parsed)) {
-                                rawStudents = parsed;
-                                break;
-                            }
-
-                            if (parsed && Array.isArray(parsed.students)) {
-                                rawStudents = parsed.students;
-                                break;
-                            }
-                        } catch (e) {
-                            console.warn("Invalid student data in localStorage key:", key);
-                        }
-                    }
-                }
-
-                if (!rawStudents) {
-                    throw new Error(
-                        "index.html se student data nahi mila. index.html me students ko localStorage me save/expose karna hoga."
-                    );
-                }
-
-                allStudents = rawStudents.map((data, index) => ({
-
-                    uid: String(
-                        data.uid ||
-                        data.id ||
-                        data.studentUID ||
-                        data.studentId ||
-                        "student_" + index
-                    ),
-
-                    name:
-                        data.name ||
-                        data.fullName ||
-                        data.studentName ||
-                        "Student",
-
-                    rollNo:
-                        data.rollNo ??
-                        data.rollNumber ??
-                        data.roll_no ??
-                        data.roll ??
-                        "",
-
-                    email:
-                        data.email ||
-                        data.studentEmail ||
-                        "",
-
-                    branch:
-                        getField(data, [
-                            "branch",
-                            "branchName",
-                            "course",
-                            "program"
-                        ]),
-
-                    department:
-                        getField(data, [
-                            "department",
-                            "departmentName",
-                            "dept"
-                        ]),
-
-                    status: "Not Marked"
-                }));
-
-                loading.style.display = "none";
-                populateBranches();
-
-                if (allStudents.length === 0) {
-                    showMessage(
-                        "⚠️ index.html me koi student record nahi mila.",
-                        "info"
-                    );
-                }
-
-            } catch (error) {
-
-                console.error("INDEX STUDENTS ERROR:", error);
-
-                loading.style.display = "none";
-
-                showMessage(
-                    "❌ " + error.message,
-                    "error"
-                );
-            }
-        }
-
 
         /* =========================================
            LEGACY FIRESTORE STUDENT LOADER
@@ -2585,7 +2461,7 @@
                     );
 
                     window.location.href =
-                        "index.html";
+                        "login.html";
 
                 }
 
@@ -2617,4 +2493,4 @@
 </body>
 
 </html>
-
+```
