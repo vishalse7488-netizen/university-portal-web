@@ -8,18 +8,23 @@
 *{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef4ff;color:#102654}
 button,input,select{font:inherit}button{cursor:pointer}
 .topbar{height:86px;background:#fff;border-bottom:1px solid #dbe5f4;display:flex;align-items:center;padding:0 32px;gap:26px;position:sticky;top:0;z-index:20}
-.menu{font-size:32px;color:#102654;background:none;border:0}.title{font-size:30px;font-weight:800;flex:1}.back{border:0;color:#fff;font-weight:700;font-size:20px;padding:17px 27px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9);box-shadow:0 7px 18px #3978d52d}.refresh{border:0;background:none;font-size:36px;color:#102654}
-.wrap{max-width:1100px;margin:30px auto;padding:0 20px}
-.card{background:#fff;border-radius:34px;padding:30px;box-shadow:0 7px 30px #8ea5c31d;margin-bottom:26px}
+.menu,.refresh{border:0;background:none;color:#102654}.menu{font-size:32px}.refresh{font-size:36px}.title{font-size:30px;font-weight:900;flex:1}
+.back{border:0;color:#fff;font-weight:800;font-size:20px;padding:17px 27px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9)}
+.wrap{max-width:1100px;margin:30px auto;padding:0 20px}.card{background:#fff;border-radius:34px;padding:30px;box-shadow:0 7px 30px #8ea5c31d;margin-bottom:26px}
 .filter-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}.filter-title{font-size:23px;font-weight:800}.clear{border:0;background:#fff5f5;color:#e45353;padding:12px 20px;border-radius:18px;font-weight:700}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.field label{display:block;font-weight:800;font-size:18px;margin-bottom:14px}.control{width:100%;height:66px;border:2px solid #dce6f5;border-radius:20px;background:#f5f8fe;padding:0 18px;color:#8e9ab0;font-size:18px;outline:none}.control:focus{border-color:#6aa7eb}
 .summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}.stat{padding:26px 18px;border-radius:24px;text-align:center;border:2px solid #d8e6fb}.stat .num{font-size:32px;font-weight:900;margin:8px}.stat .lab{font-size:17px;color:#9aa6bb}.blue{background:#edf5ff}.green{background:#edf9f3;border-color:#c7eadb}.red{background:#fff0f2;border-color:#f0c7cf}
-.overall{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.card-title{font-size:27px;font-weight:900;margin:0}.muted{color:#8793a9;font-size:18px;margin-top:6px}.donut{width:300px;height:300px;border-radius:50%;margin:20px auto;position:relative;background:conic-gradient(#49b978 var(--present),#ed686b 0)}.donut:after{content:"";position:absolute;inset:63px;background:#fff;border-radius:50%}.donut-center{position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.percent{font-size:35px;font-weight:900;color:#e59b55}.legend{font-size:18px}.legend-row{display:flex;align-items:center;gap:12px;margin:20px 0}.dot{width:20px;height:20px;border-radius:50%;display:inline-block}.p{background:#2faf6c}.a{background:#e53d42}.t{background:#3a86dc}.legend b{color:#2b3956}.warning{display:inline-block;margin-top:8px;padding:12px 20px;border:2px solid #f3d2ae;background:#fff7ec;color:#e49a4b;border-radius:22px;font-weight:800}
+.overall{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.card-title{font-size:27px;font-weight:900;margin:0}.muted{color:#8793a9;font-size:18px;margin-top:6px}
+.donut{width:300px;height:300px;border-radius:50%;margin:20px auto;position:relative;background:conic-gradient(#49b978 var(--present),#ed686b 0)}.donut:after{content:"";position:absolute;inset:63px;background:#fff;border-radius:50%}.donut-center{position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.percent{font-size:35px;font-weight:900;color:#e59b55}
+.legend{font-size:18px}.legend-row{display:flex;align-items:center;gap:12px;margin:20px 0}.dot{width:20px;height:20px;border-radius:50%;display:inline-block}.p{background:#2faf6c}.a{background:#e53d42}.t{background:#3a86dc}.legend b{color:#2b3956}
+.warning{display:inline-block;margin-top:8px;padding:12px 20px;border:2px solid #f3d2ae;background:#fff7ec;color:#e49a4b;border-radius:22px;font-weight:800}
 .breakdown .row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #e4e9f1;font-size:19px}.breakdown .value{font-weight:800;color:#3980d9}.details-btn{display:block;margin:25px auto 0;color:#397fd4;font-size:19px;font-weight:800;text-decoration:underline;background:none;border:0}
-.empty{text-align:center;padding:80px 20px}.empty-icon{font-size:62px;color:#3985de}.empty h2{font-size:28px;margin:15px 0 8px}.empty p{color:#8b97aa;font-size:18px}.primary{border:0;color:#fff;background:linear-gradient(100deg,#4bc2e8,#2458d9);padding:17px 32px;border-radius:30px;font-weight:800;font-size:18px;box-shadow:0 8px 20px #3978d530}
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.show{display:flex}.modal-box{background:#fff;border-radius:30px;width:min(1050px,100%);max-height:90vh;overflow:auto}.modal-head{padding:24px 30px;border-bottom:1px solid #e1e7ef;display:flex;align-items:center}.modal-head h2{flex:1}.close{border:0;background:none;font-size:34px;color:#71809a}.table-wrap{overflow:auto;padding:25px 30px}.table{border-collapse:collapse;min-width:800px;width:100%}.table th{background:#edf4fd;text-align:left;padding:16px 20px}.table td{padding:14px 20px;border-bottom:1px solid #e3e7ed}.badge{display:inline-block;padding:8px 12px;border-radius:8px;font-weight:800}.badge.P{background:#e8f7ef;color:#2ca76b}.badge.A{background:#fff0f1;color:#dc4248}
-.loading{text-align:center;padding:50px;color:#71809a}
-@media(max-width:700px){.topbar{padding:0 15px;height:80px;gap:12px}.title{font-size:25px}.back{font-size:16px;padding:13px 17px}.wrap{margin:20px auto;padding:0 12px}.card{border-radius:27px;padding:22px}.grid,.overall{grid-template-columns:1fr}.summary{gap:9px}.stat{padding:20px 8px}.stat .num{font-size:27px}.donut{width:260px;height:260px}.donut:after{inset:55px}.filter-head{gap:10px}.filter-title{font-size:21px}.clear{padding:10px 12px}.field label{font-size:17px}.control{height:60px}}
+.empty{text-align:center;padding:80px 20px}.empty-icon{font-size:62px;color:#3985de}.empty h2{font-size:28px;margin:15px 0 8px}.empty p{color:#8b97aa;font-size:18px}
+.primary{border:0;color:#fff;background:linear-gradient(100deg,#4bc2e8,#2458d9);padding:17px 32px;border-radius:30px;font-weight:800;font-size:18px}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.show{display:flex}.modal-box{background:#fff;border-radius:30px;width:min(1050px,100%);max-height:90vh;overflow:auto}.modal-head{padding:24px 30px;border-bottom:1px solid #e1e7ef;display:flex;align-items:center}.modal-head h2{flex:1}.close{border:0;background:none;font-size:34px;color:#71809a}
+.table-wrap{overflow:auto;padding:25px 30px}.table{border-collapse:collapse;min-width:760px;width:100%}.table th{background:#edf4fd;text-align:left;padding:16px 20px}.table td{padding:14px 20px;border-bottom:1px solid #e3e7ed}.badge{display:inline-block;padding:8px 12px;border-radius:8px;font-weight:800}.badge.P{background:#e8f7ef;color:#2ca76b}.badge.A{background:#fff0f1;color:#dc4248}
+.loading{text-align:center;padding:50px;color:#71809a}.error{text-align:center;padding:45px;color:#d8434b;background:#fff1f2;border-radius:20px}
+@media(max-width:700px){.topbar{padding:0 15px;height:80px;gap:12px}.title{font-size:25px}.back{font-size:16px;padding:13px 17px}.wrap{margin:20px auto;padding:0 12px}.card{border-radius:27px;padding:22px}.grid,.overall{grid-template-columns:1fr}.summary{gap:9px}.stat{padding:20px 8px}.stat .num{font-size:27px}.donut{width:260px;height:260px}.donut:after{inset:55px}.filter-head{gap:10px}.filter-title{font-size:21px}.field label{font-size:17px}.control{height:60px}}
 </style>
 </head>
 <body>
@@ -36,102 +41,133 @@ button,input,select{font:inherit}button{cursor:pointer}
 <div class="grid">
 <div class="field"><label>From</label><input id="fromDate" class="control" type="date"></div>
 <div class="field"><label>To</label><input id="toDate" class="control" type="date"></div>
-<div class="field"><label>Section</label><select id="section" class="control"><option value="">Select section</option></select></div>
+<div class="field"><label>Section</label><select id="section" class="control"><option value="">All sections</option></select></div>
 <div class="field"><label>Type</label><select id="type" class="control"><option value="Overall">Overall</option><option value="Theory">Theory</option><option value="Practical">Practical</option></select></div>
 </div>
 </section>
-
-<div id="content"><div class="loading">Loading attendance…</div></div>
+<div id="content"><div class="card loading">Loading attendance…</div></div>
 </main>
 
 <div id="modal" class="modal" onclick="if(event.target===this)closeDetails()">
-<div class="modal-box"><div class="modal-head"><h2>▥ &nbsp;Attendance Details</h2><button class="close" onclick="closeDetails()">×</button></div><div class="table-wrap"><div id="detailTable"></div></div></div>
+<div class="modal-box">
+<div class="modal-head"><h2>▥ &nbsp;Attendance Details</h2><button class="close" onclick="closeDetails()">×</button></div>
+<div class="table-wrap"><div id="detailTable"></div></div>
+</div>
 </div>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getFirestore,collection,getDocs,query,where,orderBy} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import {firebaseConfig} from "./firebase-config.js";
+import {getFirestore,collection,getDocs} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-const app=initializeApp(firebaseConfig), db=getFirestore(app);
+const firebaseConfig = {
+  apiKey:"AIzaSyCS7fUaY2HAov1ezfLN9_lchZHHUA4lj8g",
+  authDomain:"university-portal-2107e.firebaseapp.com",
+  projectId:"university-portal-2107e",
+  storageBucket:"university-portal-2107e.firebasestorage.app",
+  messagingSenderId:"50848903813",
+  appId:"1:50848903813:web:8296090d0d9268cfd2efec",
+  measurementId:"G-LKTX7C7F0E"
+};
+
+const app=initializeApp(firebaseConfig),db=getFirestore(app);
 const attendanceRef=collection(db,"attendance");
-let allRecords=[];
+let allRecords=[],resolvedStudentIds=[];
 
-const today=new Date(), fmt=d=>d.toISOString().slice(0,10);
-document.getElementById("fromDate").value=fmt(new Date(today.getFullYear(),today.getMonth(),today.getDate()-30));
-document.getElementById("toDate").value=fmt(today);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const today=new Date(),todayStr=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
+$("fromDate").value=new Date(today.getFullYear(),today.getMonth(),today.getDate()-30).toISOString().slice(0,10);
+$("toDate").value=todayStr;
 
-function studentId(){
-  const u=JSON.parse(localStorage.getItem("currentUser")||"{}");
-  return u.studentId||u.uid||u.id||localStorage.getItem("studentId")||"";
+function currentUser(){try{return JSON.parse(localStorage.getItem("currentUser")||"{}")}catch{return {}}}
+function vals(o,keys){return keys.map(k=>o?.[k]).filter(v=>v!==undefined&&v!==null&&String(v).trim()!=="").map(String)}
+function studentIdentifiers(u){
+  return [...new Set(vals(u,["studentId","studentID","rollNumber","rollNo","registrationNo","enrollmentNo","uid","id","email","username"]))];
 }
-function userSection(){
-  const u=JSON.parse(localStorage.getItem("currentUser")||"{}");
-  return u.section||localStorage.getItem("section")||"";
+function sectionValue(r){return String(r.section??r.Section??"").trim()}
+function statusValue(r){return String(r.status??"").trim().toUpperCase()}
+function dateDisplay(s){if(!s)return"-";const p=s.split("-");return p.length===3?`${p[2]}-${p[1]}-${p[0]}`:s}
+
+async function resolveStudentIds(){
+  const u=currentUser(), ids=studentIdentifiers(u);
+  if(!ids.length)return [];
+  const snap=await getDocs(collection(db,"students"));
+  const found=[];
+  snap.forEach(d=>{
+    const x=d.data();
+    const candidate=vals(x,["studentId","studentID","rollNumber","rollNo","registrationNo","enrollmentNo","uid","id","email","username"]);
+    if(candidate.some(v=>ids.includes(v))) {
+      found.push(...candidate);
+      found.push(d.id);
+    }
+  });
+  return [...new Set([...ids,...found])];
 }
-function dateDisplay(s){if(!s)return "-";const [y,m,d]=s.split("-");return `${d}-${m}-${y}`}
-function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
 async function loadSections(){
   try{
-    const snap=await getDocs(collection(db,"students"));
-    const set=new Set();
-    snap.forEach(d=>{const x=d.data();if(x.section)set.add(x.section)});
-    const sel=document.getElementById("section");
-    [...set].sort().forEach(s=>sel.insertAdjacentHTML("beforeend",`<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`));
-    if(userSection())sel.value=userSection();
-  }catch(e){console.warn(e)}
+    const snap=await getDocs(collection(db,"students")),set=new Set();
+    snap.forEach(d=>{const s=sectionValue(d.data());if(s)set.add(s)});
+    [...set].sort().forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=s;$("section").appendChild(o)});
+  }catch(e){console.warn("Section load:",e)}
 }
 
 async function loadAttendance(){
-  document.getElementById("content").innerHTML='<div class="card loading">Loading attendance…</div>';
+  $("content").innerHTML='<div class="card loading">Loading attendance…</div>';
   try{
-    const sid=studentId();
-    let snap;
-    if(sid){
-      snap=await getDocs(query(attendanceRef,where("studentId","==",sid)));
+    resolvedStudentIds=await resolveStudentIds();
+    const u=currentUser();
+    const snap=await getDocs(attendanceRef);
+    const raw=snap.docs.map(d=>({id:d.id,...d.data()}));
+
+    // If a logged-in student can be identified, only show that student's records.
+    // If no student identity is present in localStorage, show records so the page
+    // can still be tested/admin-used.
+    if(resolvedStudentIds.length){
+      allRecords=raw.filter(r=>resolvedStudentIds.includes(String(r.studentId))||resolvedStudentIds.includes(String(r.studentDocId)));
     }else{
-      snap=await getDocs(attendanceRef);
+      const sec=u.section||"";
+      allRecords=sec?raw.filter(r=>sectionValue(r)===String(sec)):raw;
     }
-    allRecords=snap.docs.map(d=>({id:d.id,...d.data()}));
     render();
   }catch(e){
     console.error(e);
-    document.getElementById("content").innerHTML=`<div class="card empty"><div class="empty-icon">⚠</div><h2>Unable to load attendance</h2><p>${escapeHtml(e.message)}</p><button class="primary" onclick="loadAttendance()">Retry</button></div>`;
+    $("content").innerHTML='<div class="card error"><h2>Unable to load attendance</h2><p>'+esc(e.message)+'</p><p>Check Firestore rules and the Firebase project configuration.</p></div>';
   }
 }
 
 function filtered(){
-  const from=document.getElementById("fromDate").value,to=document.getElementById("toDate").value,sec=document.getElementById("section").value,type=document.getElementById("type").value;
+  const from=$("fromDate").value,to=$("toDate").value,sec=$("section").value,type=$("type").value;
   return allRecords.filter(r=>{
-    if(from&&r.date<from)return false;if(to&&r.date>to)return false;if(sec&&r.section!==sec)return false;
-    if(type!=="Overall"&&r.lectureType!==type)return false;return true;
+    if(from&&String(r.date)<from)return false;
+    if(to&&String(r.date)>to)return false;
+    if(sec&&sectionValue(r)!==sec)return false;
+    if(type!=="Overall"&&String(r.lectureType||"")!==type)return false;
+    return statusValue(r)==="P"||statusValue(r)==="A";
   });
 }
+
 function render(){
   const rows=filtered();
   if(!rows.length){
-    document.getElementById("content").innerHTML='<section class="card empty"><div class="empty-icon">▣</div><h2>No Attendance Data</h2><p>Try changing the filters.</p><button class="primary" onclick="clearFilters()">⌁ &nbsp;Clear Filters</button></section>';
+    $("content").innerHTML='<section class="card empty"><div class="empty-icon">▣</div><h2>No Attendance Data</h2><p>Try changing the filters or save attendance from Manage Attendance.</p><button class="primary" onclick="clearFilters()">⌁ &nbsp;Clear Filters</button></section>';
     return;
   }
-  const present=rows.filter(r=>String(r.status).toUpperCase()==="P").length;
-  const absent=rows.filter(r=>String(r.status).toUpperCase()==="A").length;
-  const total=present+absent, pct=total?((present/total)*100):0;
-  const theory=rows.filter(r=>r.lectureType==="Theory").length, practical=rows.filter(r=>r.lectureType==="Practical").length;
-  const sec=document.getElementById("section").value || rows[0].section || "—";
-  document.getElementById("content").innerHTML=`
-  <section class="card">
-    <div class="overall">
-      <div><div style="display:flex;gap:16px;align-items:center"><div style="font-size:40px">◔</div><div><h2 class="card-title">Overall Attendance</h2><div class="muted">${escapeHtml(sec)}</div></div></div>
-      <div class="donut" style="--present:${pct*3.6}deg"><div class="donut-center"><div class="percent">${pct.toFixed(1)}%</div><div class="muted">Attendance</div></div></div></div>
-      <div class="legend">
-        <div class="legend-row"><span class="dot p"></span><span>Present <b>${present} classes</b></span></div>
-        <div class="legend-row"><span class="dot a"></span><span>Absent <b>${absent} classes</b></span></div>
-        <div class="legend-row"><span class="dot t"></span><span>Total <b>${total} classes</b></span></div>
-        ${pct<75?'<span class="warning">⚠ Attendance low</span>':'<span class="warning" style="color:#2ca76b;border-color:#bfe7d2;background:#effbf5">✓ Attendance good</span>'}
-      </div>
+  const present=rows.filter(r=>statusValue(r)==="P").length,absent=rows.filter(r=>statusValue(r)==="A").length,total=present+absent,pct=total?present/total*100:0;
+  const theory=rows.filter(r=>String(r.lectureType||"")!=="Practical").length,practical=rows.filter(r=>String(r.lectureType||"")==="Practical").length;
+  const sec=$("section").value||sectionValue(rows[0])||"—",semester=rows.find(r=>r.semester)?.semester||"—";
+  $("content").innerHTML=`
+  <section class="card"><div class="overall">
+    <div><div style="display:flex;gap:16px;align-items:center"><div style="font-size:40px">◔</div><div><h2 class="card-title">Overall Attendance</h2><div class="muted">${esc(semester)}</div></div></div>
+      <div class="donut" style="--present:${pct*3.6}deg"><div class="donut-center"><div class="percent">${pct.toFixed(1)}%</div><div class="muted">Attendance</div></div></div>
     </div>
-  </section>
+    <div class="legend">
+      <div class="legend-row"><span class="dot p"></span><span>Present <b>${present} classes</b></span></div>
+      <div class="legend-row"><span class="dot a"></span><span>Absent <b>${absent} classes</b></span></div>
+      <div class="legend-row"><span class="dot t"></span><span>Total <b>${total} classes</b></span></div>
+      ${pct<75?'<span class="warning">⚠ Attendance low</span>':'<span class="warning" style="color:#2ca76b;border-color:#bfe7d2;background:#effbf5">✓ Attendance good</span>'}
+    </div>
+  </div></section>
   <div class="summary">
     <div class="stat blue"><div style="font-size:26px">▣</div><div class="num">${total}</div><div class="lab">Total</div></div>
     <div class="stat green"><div style="font-size:26px">✓</div><div class="num">${present}</div><div class="lab">Present</div></div>
@@ -141,23 +177,31 @@ function render(){
     <div style="display:flex;gap:16px;align-items:center"><div style="font-size:35px">▥</div><div><h2 class="card-title">Lecture Breakdown</h2></div></div>
     <div class="row"><span>▣ &nbsp; Theory Lectures</span><span class="value">${theory}</span></div>
     <div class="row"><span>⚗ &nbsp; Practical Lectures</span><span class="value">${practical}</span></div>
-    <div class="row"><span>🎓 &nbsp; Semester</span><span class="value">${escapeHtml((rows[0].semester||"").toString()||"—")}</span></div>
+    <div class="row"><span>🎓 &nbsp; Semester</span><span class="value">${esc(semester)}</span></div>
     <button class="details-btn" onclick="openDetails()">View Details attendance</button>
   </section>`;
 }
-window.clearFilters=()=>{document.getElementById("fromDate").value="";document.getElementById("toDate").value="";document.getElementById("section").value="";document.getElementById("type").value="Overall";render()};
+
+window.clearFilters=()=>{$("fromDate").value="";$("toDate").value="";$("section").value="";$("type").value="Overall";render()};
 window.loadAttendance=loadAttendance;
 window.openDetails=()=>{
-  const rows=filtered().sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-  const subjects=[...new Set(rows.map(r=>r.subject).filter(Boolean))];
-  document.getElementById("detailTable").innerHTML=`<table class="table"><thead><tr><th>Date</th>${subjects.map(s=>`<th>${escapeHtml(s)}</th>`).join("")}</tr></thead><tbody>${
-    [...new Set(rows.map(r=>r.date))].map(date=>`<tr><td><b>${dateDisplay(date)}</b></td>${subjects.map(s=>{const r=rows.find(x=>x.date===date&&x.subject===s);return `<td>${r?`<span class="badge ${String(r.status).toUpperCase()==="P"?"P":"A"}">${String(r.status).toUpperCase()}</span>`:""}</td>`}).join("")}</tr>`).join("")
+  const rows=filtered().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
+  const subjects=[...new Set(rows.map(r=>r.subject||"Subject").filter(Boolean))];
+  const dates=[...new Set(rows.map(r=>r.date).filter(Boolean))];
+  $("detailTable").innerHTML=`<table class="table"><thead><tr><th>Date</th>${subjects.map(s=>`<th>${esc(s)}</th>`).join("")}</tr></thead><tbody>${
+    dates.map(date=>`<tr><td><b>${dateDisplay(date)}</b></td>${subjects.map(s=>{
+      const rs=rows.filter(x=>x.date===date&&(x.subject||"Subject")===s);
+      const r=rs[0];
+      return `<td>${r?`<span class="badge ${statusValue(r)==="P"?"P":"A"}">${statusValue(r)}</span>`:""}</td>`;
+    }).join("")}</tr>`).join("")
   }</tbody></table>`;
-  document.getElementById("modal").classList.add("show");
+  $("modal").classList.add("show");
 };
-window.closeDetails=()=>document.getElementById("modal").classList.remove("show");
-["fromDate","toDate","section","type"].forEach(id=>document.getElementById(id).addEventListener("change",render));
-await loadSections(); await loadAttendance();
+window.closeDetails=()=>$("modal").classList.remove("show");
+
+["fromDate","toDate","section","type"].forEach(id=>$(id).addEventListener("change",render));
+await loadSections();
+await loadAttendance();
 </script>
 </body>
 </html>
