@@ -1189,1951 +1189,421 @@ tbody tr:hover td{
 ===================================================== -->
 
 <script type="module">
-
-
-/* =====================================================
-   FIREBASE IMPORTS
-===================================================== */
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-import {
-    getFirestore,
-    collection,
-    getDocs,
-    query,
-    where,
-    doc,
-    setDoc,
-    serverTimestamp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+  getFirestore, collection, getDocs, query, where, doc, setDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
-
-    authDomain:
-        "university-portal-2107e.firebaseapp.com",
-
-    projectId:
-        "university-portal-2107e",
-
-    storageBucket:
-        "university-portal-2107e.firebasestorage.app",
-
-    messagingSenderId:
-        "50848903813",
-
-    appId:
-        "1:50848903813:web:8296090d0d9268cfd2efec",
-
-    measurementId:
-        "G-LKTX7C7F0E"
-
+  apiKey:"AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+  authDomain:"university-portal-2107e.firebaseapp.com",
+  projectId:"university-portal-2107e",
+  storageBucket:"university-portal-2107e.firebasestorage.app",
+  messagingSenderId:"50848903813",
+  appId:"1:50848903813:web:8296090d0d9268cfd2efec",
+  measurementId:"G-LKTX7C7F0E"
 };
 
-
-
-/* =====================================================
-   INITIALIZE FIREBASE
-===================================================== */
-
-const app =
-    initializeApp(
-        firebaseConfig
-    );
-
-
-const db =
-    getFirestore(app);
-
-
-
-/* =====================================================
-   DOM HELPERS
-===================================================== */
-
-const $ = (id) =>
-    document.getElementById(id);
-
-
-
-/* =====================================================
-   GLOBAL DATA
-===================================================== */
+const db = getFirestore(initializeApp(firebaseConfig));
+const $ = id => document.getElementById(id);
 
 let allStudents = [];
-
 let allSubjects = [];
-
 let attendanceRecords = [];
-
 let selectedSubject = null;
 
+const norm = v => String(v ?? "").trim().toLowerCase();
 
-
-/* =====================================================
-   CURRENT USER
-===================================================== */
-
-function getCurrentUser(){
-
-    try{
-
-        return JSON.parse(
-
-            localStorage.getItem(
-                "universityUser"
-            )
-
-            ||
-
-            localStorage.getItem(
-                "currentUser"
-            )
-
-            ||
-
-            localStorage.getItem(
-                "user"
-            )
-
-            ||
-
-            "null"
-
-        );
-
-    }
-
-    catch(error){
-
-        return null;
-
-    }
-
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[c]));
 }
 
-
-const currentUser =
-    getCurrentUser();
-
-
-
-/* =====================================================
-   NORMALIZE
-===================================================== */
-
-function normalize(value){
-
-    return String(
-        value ?? ""
-    )
-    .trim()
-    .toLowerCase();
-
+function today(){
+  const d = new Date();
+  return new Date(d.getTime()-d.getTimezoneOffset()*60000)
+    .toISOString().slice(0,10);
 }
 
+function error(msg){
+  console.error("Manage Attendance:",msg);
+  $("errorMessage").textContent = msg;
+  $("errorMessage").classList.remove("hidden");
+}
 
+function clearError(){
+  $("errorMessage").classList.add("hidden");
+}
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+function success(msg){
+  $("successMessage").textContent = msg;
+  $("successMessage").classList.remove("hidden");
+  setTimeout(()=>$("successMessage").classList.add("hidden"),5000);
+}
 
-function escapeHtml(value){
+/* ==================== STUDENTS ==================== */
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /[&<>"']/g,
-        function(character){
+async function loadStudents(){
+  const snap = await getDocs(collection(db,"students"));
 
-            return {
+  allStudents = snap.docs.map(d=>({id:d.id,...d.data()}));
 
-                "&":"&amp;",
+  console.log("TOTAL STUDENTS:",allStudents.length);
+  console.table(allStudents);
 
-                "<":"&lt;",
+  renderStudents();
+}
 
-                ">":"&gt;",
+function filteredStudents(){
+  const section = norm($("section").value);
+  const semester = norm($("semester").value);
 
-                '"':"&quot;",
+  return allStudents
+    .filter(s=>{
+      if(s.active === false) return false;
+      return norm(s.section) === section &&
+             norm(s.semester) === semester;
+    })
+    .sort((a,b)=>
+      String(a.rollNo || a.roll || "")
+      .localeCompare(
+        String(b.rollNo || b.roll || ""),
+        undefined,
+        {numeric:true}
+      )
+    );
+}
 
-                "'":"&#039;"
+function renderStudents(){
+  const list = filteredStudents();
+  const tbody = $("studentTableBody");
 
-            }[character];
+  $("studentCount").textContent = list.length + " students";
 
-        }
+  if(!list.length){
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5" class="empty">
+          <div class="empty-icon">👨‍🎓</div>
+          No students found for
+          <b>${esc($("section").value)}</b> /
+          <b>${esc($("semester").value)}</b>
+          <br><br>
+          Firebase total students: ${allStudents.length}
+        </td>
+      </tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map((s,i)=>{
+    const st = getStatus(s.id);
+    return `
+      <tr data-student-id="${esc(s.id)}" data-status="${st}">
+        <td>${i+1}</td>
+        <td><b>${esc(s.rollNo || s.roll || "—")}</b></td>
+        <td>${esc(s.name || s.studentName || "Unnamed Student")}</td>
+        <td>${esc(s.section || "—")}</td>
+        <td>
+          <div class="status-buttons">
+            <button type="button"
+              class="status-btn present ${st==="P"?"active":""}"
+              data-status="P">P</button>
+            <button type="button"
+              class="status-btn absent ${st==="A"?"active":""}"
+              data-status="A">A</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join("");
+
+  document.querySelectorAll("#studentTableBody [data-status]")
+    .forEach(btn=>{
+      btn.onclick=()=>{
+        const row=btn.closest("tr");
+        row.dataset.status=btn.dataset.status;
+        row.querySelectorAll("[data-status]")
+          .forEach(x=>x.classList.remove("active"));
+        btn.classList.add("active");
+      };
+    });
+}
+
+/* ==================== SUBJECTS ==================== */
+
+async function loadSubjects(){
+  const snap = await getDocs(collection(db,"subjects"));
+
+  allSubjects = snap.docs.map(d=>({id:d.id,...d.data()}));
+
+  console.log("TOTAL SUBJECTS:",allSubjects.length);
+  console.table(allSubjects);
+
+  renderSubjects();
+}
+
+function renderSubjects(){
+  const section=norm($("section").value);
+  const semester=norm($("semester").value);
+
+  const list=allSubjects
+    .filter(s=>{
+      if(s.active===false) return false;
+
+      const ss=norm(s.section);
+      const sm=norm(s.semester);
+
+      return (!ss || ss===section) &&
+             (!sm || sm===semester);
+    })
+    .sort((a,b)=>
+      String(a.code || a.name || "")
+      .localeCompare(String(b.code || b.name || ""))
     );
 
+  $("subject").innerHTML =
+    `<option value="">Select subject / lecture</option>`;
+
+  list.forEach(s=>{
+    const o=document.createElement("option");
+    o.value=s.id;
+    o.textContent=(s.code?s.code+" — ":"")+
+                  (s.name||"Unnamed Subject");
+    $("subject").appendChild(o);
+  });
+
+  if(!list.length){
+    $("subject").innerHTML =
+      `<option value="">No subject found</option>`;
+  }
 }
 
+$("subject").onchange=()=>{
+  selectedSubject=allSubjects.find(
+    s=>s.id===$("subject").value
+  ) || null;
+  renderStudents();
+};
 
+/* ==================== ATTENDANCE ==================== */
 
-/* =====================================================
-   TODAY
-===================================================== */
+async function loadAttendance(){
+  attendanceRecords=[];
 
-function getToday(){
+  if(!$("date").value){
+    renderStudents();
+    return;
+  }
 
-    const now =
-        new Date();
+  const q=query(
+    collection(db,"attendance"),
+    where("date","==",$("date").value)
+  );
 
+  const snap=await getDocs(q);
 
-    return new Date(
+  attendanceRecords=snap.docs.map(
+    d=>({id:d.id,...d.data()})
+  );
 
-        now.getTime()
-
-        -
-
-        now.getTimezoneOffset()
-        * 60000
-
-    )
-    .toISOString()
-    .slice(
-        0,
-        10
-    );
-
+  renderStudents();
 }
 
+function getStatus(studentId){
+  if(!selectedSubject) return "";
 
+  const r=attendanceRecords.find(x=>
+    String(x.studentId)===String(studentId) &&
+    String(x.subjectId)===String(selectedSubject.id) &&
+    String(x.date)===String($("date").value)
+  );
 
-/* =====================================================
-   SHOW ERROR
-===================================================== */
-
-function showError(message){
-
-    $("errorMessage")
-        .textContent =
-            message;
-
-    $("errorMessage")
-        .classList
-        .remove("hidden");
-
+  return String(r?.status || "").toUpperCase();
 }
 
-
-function hideError(){
-
-    $("errorMessage")
-        .classList
-        .add("hidden");
-
+function attendanceId(studentId,date,subjectId){
+  return `${studentId}_${date}_${subjectId}`
+    .replace(/[\/\\#?\[\]\s]/g,"_");
 }
 
+/* ==================== FILTER EVENTS ==================== */
 
+$("date").onchange=async()=>{
+  try{
+    clearError();
+    await loadAttendance();
+  }catch(e){ error("Attendance load nahi hui: "+e.message); }
+};
 
-/* =====================================================
-   SHOW SUCCESS
-===================================================== */
+$("section").onchange=async()=>{
+  try{
+    clearError();
+    selectedSubject=null;
+    $("subject").value="";
+    renderSubjects();
+    renderStudents();
+    await loadAttendance();
+  }catch(e){ error("Section change error: "+e.message); }
+};
 
-function showSuccess(message){
+$("semester").onchange=async()=>{
+  try{
+    clearError();
+    selectedSubject=null;
+    $("subject").value="";
+    renderSubjects();
+    renderStudents();
+    await loadAttendance();
+  }catch(e){ error("Semester change error: "+e.message); }
+};
 
-    $("successMessage")
-        .textContent =
-            message;
+/* ==================== MARK ALL ==================== */
 
-    $("successMessage")
-        .classList
-        .remove("hidden");
+function markAll(status){
+  if(!selectedSubject){
+    alert("Pehle Subject / Lecture select karein.");
+    return;
+  }
 
+  document.querySelectorAll(
+    "#studentTableBody tr[data-student-id]"
+  ).forEach(row=>{
+    row.dataset.status=status;
+    row.querySelectorAll("[data-status]")
+      .forEach(b=>b.classList.remove("active"));
+    const b=row.querySelector(`[data-status="${status}"]`);
+    if(b) b.classList.add("active");
+  });
+}
 
-    setTimeout(
+$("allPresent").onclick=()=>markAll("P");
+$("allAbsent").onclick=()=>markAll("A");
 
-        function(){
+/* ==================== SAVE ==================== */
 
-            $("successMessage")
-                .classList
-                .add("hidden");
+$("saveAttendance").onclick=async()=>{
+  clearError();
 
+  if(!selectedSubject){
+    alert("Pehle Subject / Lecture select karein.");
+    return;
+  }
+
+  const rows=[...document.querySelectorAll(
+    "#studentTableBody tr[data-student-id]"
+  )];
+
+  const marked=rows.filter(r=>
+    r.dataset.status==="P" || r.dataset.status==="A"
+  );
+
+  if(!marked.length){
+    alert("Students ko P ya A mark karein.");
+    return;
+  }
+
+  const btn=$("saveAttendance");
+  btn.disabled=true;
+  btn.textContent="Saving...";
+
+  try{
+    let count=0;
+
+    for(const row of marked){
+      const student=allStudents.find(
+        s=>String(s.id)===String(row.dataset.studentId)
+      );
+
+      if(!student) continue;
+
+      await setDoc(
+        doc(
+          db,
+          "attendance",
+          attendanceId(
+            student.id,
+            $("date").value,
+            selectedSubject.id
+          )
+        ),
+        {
+          studentId:student.id,
+          studentName:student.name || student.studentName || "",
+          rollNo:student.rollNo || student.roll || "",
+          date:$("date").value,
+          section:student.section || $("section").value,
+          semester:student.semester || $("semester").value,
+          subjectId:selectedSubject.id,
+          subjectCode:selectedSubject.code || "",
+          subjectName:selectedSubject.name || "",
+          lectureType:selectedSubject.lectureType || "Theory",
+          status:row.dataset.status,
+          markedBy:"faculty",
+          updatedAt:serverTimestamp()
         },
+        {merge:true}
+      );
 
-        5000
-
-    );
-
-}
-
-
-
-/* =====================================================
-   LOAD ALL STUDENTS
-===================================================== */
-
-async function loadAllStudents(){
-
-    try{
-
-        console.log(
-            "Loading students..."
-        );
-
-
-        const snapshot =
-            await getDocs(
-
-                collection(
-                    db,
-                    "students"
-                )
-
-            );
-
-
-        allStudents =
-            snapshot.docs.map(
-
-                function(document){
-
-                    return {
-
-                        id:
-                            document.id,
-
-                        ...document.data()
-
-                    };
-
-                }
-
-            );
-
-
-        console.log(
-            "Students loaded:",
-            allStudents.length
-        );
-
-
-        filterAndRenderStudents();
-
-
+      count++;
     }
 
-    catch(error){
-
-        console.error(
-            "Students error:",
-            error
-        );
-
-
-        showError(
-            "Students load nahi ho rahe: " +
-            error.message
-        );
-
-
-        renderEmptyStudents(
-            "Students load nahi ho paaye."
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   FILTER STUDENTS
-===================================================== */
-
-function getFilteredStudents(){
-
-    const selectedSection =
-        normalize(
-            $("section").value
-        );
-
-
-    const selectedSemester =
-        normalize(
-            $("semester").value
-        );
-
-
-    return allStudents
-        .filter(
-
-            function(student){
-
-                /*
-                 * active false ko hide karo
-                 */
-
-                if(
-                    student.active === false
-                ){
-
-                    return false;
-
-                }
-
-
-                const section =
-                    normalize(
-                        student.section
-                    );
-
-
-                const semester =
-                    normalize(
-                        student.semester
-                    );
-
-
-                /*
-                 * Section match
-                 */
-
-                if(
-                    selectedSection
-                    &&
-                    section !==
-                        selectedSection
-                ){
-
-                    return false;
-
-                }
-
-
-                /*
-                 * Semester match
-                 */
-
-                if(
-                    selectedSemester
-                    &&
-                    semester !==
-                        selectedSemester
-                ){
-
-                    return false;
-
-                }
-
-
-                return true;
-
-            }
-
-        )
-        .sort(
-
-            function(a,b){
-
-                return String(
-                    a.rollNo ||
-                    a.roll ||
-                    ""
-                )
-                .localeCompare(
-
-                    String(
-                        b.rollNo ||
-                        b.roll ||
-                        ""
-                    ),
-
-                    undefined,
-
-                    {
-                        numeric:true
-                    }
-
-                );
-
-            }
-
-        );
-
-}
-
-
-
-/* =====================================================
-   FILTER AND RENDER
-===================================================== */
-
-function filterAndRenderStudents(){
-
-    const filtered =
-        getFilteredStudents();
-
-
-    renderStudents(
-        filtered
-    );
-
-}
-
-
-
-/* =====================================================
-   RENDER STUDENTS
-===================================================== */
-
-function renderStudents(students){
-
-    const tbody =
-        $("studentTableBody");
-
-
-    if(
-        !students.length
-    ){
-
-        renderEmptyStudents(
-
-            "No students found for " +
-
-            $("section").value +
-
-            " / " +
-
-            $("semester").value
-
-        );
-
-        return;
-
-    }
-
-
-    $("studentCount")
-        .textContent =
-            students.length +
-            " students";
-
-
-    tbody.innerHTML =
-
-
-        students.map(
-
-            function(student,index){
-
-                const status =
-                    getExistingStatus(
-                        student.id
-                    );
-
-
-                return `
-
-                    <tr
-                        data-student-id="${escapeHtml(
-                            student.id
-                        )}"
-                    >
-
-                        <td>
-                            ${index + 1}
-                        </td>
-
-
-                        <td>
-
-                            <b>
-                                ${escapeHtml(
-                                    student.rollNo ||
-                                    student.roll ||
-                                    "—"
-                                )}
-                            </b>
-
-                        </td>
-
-
-                        <td>
-
-                            ${escapeHtml(
-                                student.name ||
-                                student.studentName ||
-                                "Unnamed Student"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${escapeHtml(
-                                student.section ||
-                                "—"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            <div
-                                class="status-buttons"
-                            >
-
-                                <button
-                                    type="button"
-                                    class="status-btn present ${
-                                        status === "P"
-                                            ? "active"
-                                            : ""
-                                    }"
-                                    data-status="P"
-                                >
-                                    P
-                                </button>
-
-
-                                <button
-                                    type="button"
-                                    class="status-btn absent ${
-                                        status === "A"
-                                            ? "active"
-                                            : ""
-                                    }"
-                                    data-status="A"
-                                >
-                                    A
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-
-        )
-        .join("");
-
-
-    attachStatusEvents();
-
-}
-
-
-
-/* =====================================================
-   EMPTY STUDENTS
-===================================================== */
-
-function renderEmptyStudents(message){
-
-    $("studentCount")
-        .textContent =
-            "0 students";
-
-
-    $("studentTableBody")
-        .innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="5"
-                    class="empty"
-                >
-
-                    <div class="empty-icon">
-                        👨‍🎓
-                    </div>
-
-                    ${escapeHtml(message)}
-
-                </td>
-
-            </tr>
-
-        `;
-
-}
-
-
-
-/* =====================================================
-   STATUS EVENT
-===================================================== */
-
-function attachStatusEvents(){
-
-    document
-        .querySelectorAll(
-            "#studentTableBody [data-status]"
-        )
-        .forEach(
-
-            function(button){
-
-                button.addEventListener(
-
-                    "click",
-
-                    function(){
-
-                        const row =
-                            button.closest(
-                                "tr"
-                            );
-
-
-                        row
-                            .querySelectorAll(
-                                "[data-status]"
-                            )
-                            .forEach(
-
-                                function(btn){
-
-                                    btn.classList
-                                        .remove(
-                                            "active"
-                                        );
-
-                                }
-
-                            );
-
-
-                        button.classList
-                            .add(
-                                "active"
-                            );
-
-
-                        row.dataset.status =
-                            button.dataset.status;
-
-                    }
-
-                );
-
-            }
-
-        );
-
-}
-
-
-
-/* =====================================================
-   LOAD ALL SUBJECTS
-===================================================== */
-
-async function loadAllSubjects(){
-
-    try{
-
-        console.log(
-            "Loading subjects..."
-        );
-
-
-        const snapshot =
-            await getDocs(
-
-                collection(
-                    db,
-                    "subjects"
-                )
-
-            );
-
-
-        allSubjects =
-            snapshot.docs.map(
-
-                function(document){
-
-                    return {
-
-                        id:
-                            document.id,
-
-                        ...document.data()
-
-                    };
-
-                }
-
-            );
-
-
-        console.log(
-            "Subjects loaded:",
-            allSubjects.length
-        );
-
-
-        renderSubjectOptions();
-
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Subjects error:",
-            error
-        );
-
-
-        showError(
-            "Subjects load nahi ho rahe: " +
-            error.message
-        );
-
-
-        $("subject").innerHTML = `
-
-            <option value="">
-                No subjects found
-            </option>
-
-        `;
-
-    }
-
-}
-
-
-
-/* =====================================================
-   RENDER SUBJECTS
-===================================================== */
-
-function renderSubjectOptions(){
-
-    const selectedSection =
-        normalize(
-            $("section").value
-        );
-
-
-    const selectedSemester =
-        normalize(
-            $("semester").value
-        );
-
-
-    const filteredSubjects =
-        allSubjects.filter(
-
-            function(subject){
-
-                if(
-                    subject.active === false
-                ){
-
-                    return false;
-
-                }
-
-
-                const subjectSection =
-                    normalize(
-                        subject.section
-                    );
-
-
-                const subjectSemester =
-                    normalize(
-                        subject.semester
-                    );
-
-
-                /*
-                 * If section exists,
-                 * match it.
-                 */
-
-                if(
-                    subjectSection
-                    &&
-                    selectedSection
-                    &&
-                    subjectSection !==
-                        selectedSection
-                ){
-
-                    return false;
-
-                }
-
-
-                /*
-                 * If semester exists,
-                 * match it.
-                 */
-
-                if(
-                    subjectSemester
-                    &&
-                    selectedSemester
-                    &&
-                    subjectSemester !==
-                        selectedSemester
-                ){
-
-                    return false;
-
-                }
-
-
-                return true;
-
-            }
-
-        )
-        .sort(
-
-            function(a,b){
-
-                return String(
-                    a.code ||
-                    a.name ||
-                    ""
-                )
-                .localeCompare(
-                    String(
-                        b.code ||
-                        b.name ||
-                        ""
-                    )
-                );
-
-            }
-
-        );
-
-
-    $("subject").innerHTML = `
-
-        <option value="">
-            Select subject / lecture
-        </option>
-
-    `;
-
-
-    filteredSubjects.forEach(
-
-        function(subject){
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                subject.id;
-
-
-            const code =
-                subject.code
-                ? subject.code + " — "
-                : "";
-
-
-            option.textContent =
-                code +
-                (
-                    subject.name ||
-                    "Unnamed Subject"
-                );
-
-
-            $("subject")
-                .appendChild(
-                    option
-                );
-
-        }
-
-    );
-
+    await loadAttendance();
+    success(`✓ Attendance saved successfully for ${count} students.`);
+  }catch(e){
+    error("Attendance save nahi hui: "+e.message);
+  }finally{
+    btn.disabled=false;
+    btn.textContent="Save Attendance";
+  }
+};
+
+/* ==================== REFRESH ==================== */
+
+$("refreshBtn").onclick=async()=>{
+  const btn=$("refreshBtn");
+  btn.disabled=true;
+
+  try{
+    clearError();
+    await loadSubjects();
+    await loadStudents();
+    await loadAttendance();
+    success("✓ Data refreshed.");
+  }catch(e){
+    error("Refresh failed: "+e.message);
+  }finally{
+    btn.disabled=false;
+  }
+};
+
+/* ==================== INIT ==================== */
+
+async function init(){
+  try{
+    clearError();
+
+    $("date").value=today();
+    $("semester").value="Sem-3";
+    $("section").value="A";
 
     /*
-     * No subject
-     */
+      IMPORTANT:
+      No localStorage/login dependency.
+      Students and subjects are read directly
+      from Firestore and filtered in the browser.
+    */
 
-    if(
-        filteredSubjects.length === 0
-    ){
+    await loadSubjects();
+    await loadStudents();
+    await loadAttendance();
 
-        const option =
-            document.createElement(
-                "option"
-            );
-
-
-        option.value = "";
-
-        option.textContent =
-            "No subject found";
-
-
-        $("subject")
-            .appendChild(
-                option
-            );
-
-    }
-
+    console.log("MANAGE ATTENDANCE READY");
+  }catch(e){
+    error("Page load error: "+e.message);
+  }
 }
 
-
-
-/* =====================================================
-   SUBJECT CHANGE
-===================================================== */
-
-$("subject")
-    .addEventListener(
-
-        "change",
-
-        function(){
-
-            selectedSubject =
-                allSubjects.find(
-
-                    function(subject){
-
-                        return (
-                            subject.id ===
-                            $("subject").value
-                        );
-
-                    }
-
-                ) || null;
-
-
-            filterAndRenderStudents();
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   LOAD EXISTING ATTENDANCE
-===================================================== */
-
-async function loadExistingAttendance(){
-
-    try{
-
-        attendanceRecords = [];
-
-
-        const selectedDate =
-            $("date").value;
-
-
-        if(
-            !selectedDate
-        ){
-
-            return;
-
-        }
-
-
-        /*
-         * Only DATE query.
-         *
-         * This avoids composite indexes.
-         */
-
-        const attendanceQuery =
-            query(
-
-                collection(
-                    db,
-                    "attendance"
-                ),
-
-                where(
-                    "date",
-                    "==",
-                    selectedDate
-                )
-
-            );
-
-
-        const snapshot =
-            await getDocs(
-                attendanceQuery
-            );
-
-
-        attendanceRecords =
-            snapshot.docs.map(
-
-                function(document){
-
-                    return {
-
-                        id:
-                            document.id,
-
-                        ...document.data()
-
-                    };
-
-                }
-
-            );
-
-
-        console.log(
-            "Existing attendance:",
-            attendanceRecords.length
-        );
-
-
-        filterAndRenderStudents();
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Existing attendance error:",
-            error
-        );
-
-
-        showError(
-            "Existing attendance load nahi hui: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   EXISTING STATUS
-===================================================== */
-
-function getExistingStatus(studentId){
-
-    if(
-        !selectedSubject
-    ){
-
-        return "";
-
-    }
-
-
-    const record =
-        attendanceRecords.find(
-
-            function(item){
-
-                return (
-
-                    String(
-                        item.studentId
-                    ) ===
-                    String(
-                        studentId
-                    )
-
-                    &&
-
-                    String(
-                        item.subjectId
-                    ) ===
-                    String(
-                        selectedSubject.id
-                    )
-
-                );
-
-            }
-
-        );
-
-
-    if(
-        !record
-    ){
-
-        return "";
-
-    }
-
-
-    return (
-        record.status || ""
-    )
-    .toUpperCase();
-
-}
-
-
-
-/* =====================================================
-   DATE CHANGE
-===================================================== */
-
-$("date")
-    .addEventListener(
-
-        "change",
-
-        async function(){
-
-            hideError();
-
-            await loadExistingAttendance();
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   SECTION CHANGE
-===================================================== */
-
-$("section")
-    .addEventListener(
-
-        "change",
-
-        async function(){
-
-            hideError();
-
-
-            /*
-             * Subject list update
-             */
-
-            renderSubjectOptions();
-
-
-            /*
-             * Existing selected subject
-             * clear karo
-             */
-
-            selectedSubject = null;
-
-
-            $("subject").value = "";
-
-
-            /*
-             * Students update
-             */
-
-            filterAndRenderStudents();
-
-
-            /*
-             * Existing attendance
-             */
-
-            await loadExistingAttendance();
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   SEMESTER CHANGE
-===================================================== */
-
-$("semester")
-    .addEventListener(
-
-        "change",
-
-        async function(){
-
-            hideError();
-
-
-            renderSubjectOptions();
-
-
-            selectedSubject = null;
-
-
-            $("subject").value = "";
-
-
-            filterAndRenderStudents();
-
-
-            await loadExistingAttendance();
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   MARK ALL PRESENT
-===================================================== */
-
-$("allPresent")
-    .addEventListener(
-
-        "click",
-
-        function(){
-
-            if(
-                !selectedSubject
-            ){
-
-                alert(
-                    "Pehle Subject / Lecture select karein."
-                );
-
-                return;
-
-            }
-
-
-            document
-                .querySelectorAll(
-                    "#studentTableBody tr[data-student-id]"
-                )
-                .forEach(
-
-                    function(row){
-
-                        row.dataset.status =
-                            "P";
-
-
-                        row
-                            .querySelectorAll(
-                                "[data-status]"
-                            )
-                            .forEach(
-
-                                function(button){
-
-                                    button.classList
-                                        .remove(
-                                            "active"
-                                        );
-
-                                }
-
-                            );
-
-
-                        const presentButton =
-                            row.querySelector(
-                                '[data-status="P"]'
-                            );
-
-
-                        if(
-                            presentButton
-                        ){
-
-                            presentButton
-                                .classList
-                                .add(
-                                    "active"
-                                );
-
-                        }
-
-                    }
-
-                );
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   MARK ALL ABSENT
-===================================================== */
-
-$("allAbsent")
-    .addEventListener(
-
-        "click",
-
-        function(){
-
-            if(
-                !selectedSubject
-            ){
-
-                alert(
-                    "Pehle Subject / Lecture select karein."
-                );
-
-                return;
-
-            }
-
-
-            document
-                .querySelectorAll(
-                    "#studentTableBody tr[data-student-id]"
-                )
-                .forEach(
-
-                    function(row){
-
-                        row.dataset.status =
-                            "A";
-
-
-                        row
-                            .querySelectorAll(
-                                "[data-status]"
-                            )
-                            .forEach(
-
-                                function(button){
-
-                                    button.classList
-                                        .remove(
-                                            "active"
-                                        );
-
-                                }
-
-                            );
-
-
-                        const absentButton =
-                            row.querySelector(
-                                '[data-status="A"]'
-                            );
-
-
-                        if(
-                            absentButton
-                        ){
-
-                            absentButton
-                                .classList
-                                .add(
-                                    "active"
-                                );
-
-                        }
-
-                    }
-
-                );
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   CREATE ATTENDANCE DOCUMENT ID
-===================================================== */
-
-function createAttendanceId(
-    studentId,
-    date,
-    subjectId
-){
-
-    return (
-
-        String(studentId)
-
-        + "_"
-
-        + String(date)
-
-        + "_"
-
-        + String(subjectId)
-
-    )
-    .replace(
-        /[\/\\#?[\]\s]/g,
-        "_"
-    );
-
-}
-
-
-
-/* =====================================================
-   SAVE ATTENDANCE
-===================================================== */
-
-$("saveAttendance")
-    .addEventListener(
-
-        "click",
-
-        async function(){
-
-            hideError();
-
-
-            if(
-                !selectedSubject
-            ){
-
-                alert(
-                    "Pehle Subject / Lecture select karein."
-                );
-
-                return;
-
-            }
-
-
-            const rows =
-                Array.from(
-
-                    document.querySelectorAll(
-                        "#studentTableBody tr[data-student-id]"
-                    )
-
-                );
-
-
-            if(
-                rows.length === 0
-            ){
-
-                alert(
-                    "Koi student nahi mila."
-                );
-
-                return;
-
-            }
-
-
-            const markedRows =
-                rows.filter(
-
-                    function(row){
-
-                        return (
-
-                            row.dataset.status ===
-                            "P"
-
-                            ||
-
-                            row.dataset.status ===
-                            "A"
-
-                        );
-
-                    }
-
-                );
-
-
-            if(
-                markedRows.length === 0
-            ){
-
-                alert(
-                    "Students ko P ya A mark karein."
-                );
-
-                return;
-
-            }
-
-
-            const saveButton =
-                $("saveAttendance");
-
-
-            saveButton.disabled =
-                true;
-
-
-            saveButton.textContent =
-                "Saving...";
-
-
-            try{
-
-                let savedCount = 0;
-
-
-                for(
-                    const row of markedRows
-                ){
-
-                    const studentId =
-                        row.dataset.studentId;
-
-
-                    const student =
-                        allStudents.find(
-
-                            function(item){
-
-                                return (
-                                    String(
-                                        item.id
-                                    ) ===
-                                    String(
-                                        studentId
-                                    )
-                                );
-
-                            }
-
-                        );
-
-
-                    if(
-                        !student
-                    ){
-
-                        continue;
-
-                    }
-
-
-                    const documentId =
-                        createAttendanceId(
-
-                            student.id,
-
-                            $("date").value,
-
-                            selectedSubject.id
-
-                        );
-
-
-                    await setDoc(
-
-                        doc(
-                            db,
-                            "attendance",
-                            documentId
-                        ),
-
-                        {
-
-                            studentId:
-                                student.id,
-
-                            studentName:
-                                student.name ||
-                                student.studentName ||
-                                "",
-
-                            rollNo:
-                                student.rollNo ||
-                                student.roll ||
-                                "",
-
-                            date:
-                                $("date").value,
-
-                            section:
-                                student.section ||
-                                $("section").value,
-
-                            semester:
-                                student.semester ||
-                                $("semester").value,
-
-                            subjectId:
-                                selectedSubject.id,
-
-                            subjectCode:
-                                selectedSubject.code ||
-                                "",
-
-                            subjectName:
-                                selectedSubject.name ||
-                                "",
-
-                            lectureType:
-                                selectedSubject.lectureType ||
-                                "Theory",
-
-                            status:
-                                row.dataset.status,
-
-                            markedBy:
-                                currentUser?.uid ||
-                                currentUser?.id ||
-                                currentUser?.username ||
-                                currentUser?.email ||
-                                "faculty",
-
-                            updatedAt:
-                                serverTimestamp()
-
-                        },
-
-                        {
-                            merge:true
-                        }
-
-                    );
-
-
-                    savedCount++;
-
-                }
-
-
-                await loadExistingAttendance();
-
-
-                showSuccess(
-
-                    "✓ Attendance saved successfully for "
-
-                    +
-
-                    savedCount
-
-                    +
-
-                    " students."
-
-                );
-
-            }
-
-            catch(error){
-
-                console.error(
-                    "SAVE ERROR:",
-                    error
-                );
-
-
-                showError(
-
-                    "Attendance save nahi hui: "
-
-                    +
-
-                    error.message
-
-                );
-
-            }
-
-            finally{
-
-                saveButton.disabled =
-                    false;
-
-
-                saveButton.textContent =
-                    "Save Attendance";
-
-            }
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   REFRESH
-===================================================== */
-
-$("refreshBtn")
-    .addEventListener(
-
-        "click",
-
-        async function(){
-
-            const button =
-                $("refreshBtn");
-
-
-            button.disabled =
-                true;
-
-
-            button.textContent =
-                "↻";
-
-
-            try{
-
-                hideError();
-
-
-                await loadAllSubjects();
-
-                await loadAllStudents();
-
-                await loadExistingAttendance();
-
-
-                showSuccess(
-                    "✓ Data refreshed."
-                );
-
-            }
-
-            catch(error){
-
-                showError(
-                    error.message
-                );
-
-            }
-
-            finally{
-
-                button.disabled =
-                    false;
-
-            }
-
-        }
-
-    );
-
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-async function initializePage(){
-
-    try{
-
-        hideError();
-
-
-        /*
-         * Today's date
-         */
-
-        $("date").value =
-            getToday();
-
-
-        /*
-         * Default semester
-         */
-
-        $("semester").value =
-            "Sem-3";
-
-
-        /*
-         * Default section
-         */
-
-        $("section").value =
-            "A";
-
-
-        /*
-         * IMPORTANT:
-         *
-         * Login check intentionally
-         * nahi lagaya gaya.
-         *
-         * Isse students/subjects
-         * load hone ke liye localStorage
-         * dependency nahi rahegi.
-         */
-
-
-        await loadAllSubjects();
-
-
-        await loadAllStudents();
-
-
-        await loadExistingAttendance();
-
-
-        console.log(
-            "Manage Attendance initialized."
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "INITIALIZATION ERROR:",
-            error
-        );
-
-
-        showError(
-            "Page load error: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-initializePage();
-
-
+init();
 </script>
 
 
