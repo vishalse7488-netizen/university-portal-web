@@ -177,6 +177,16 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
 
 const firebaseConfig = {
     apiKey: "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
@@ -188,17 +198,26 @@ const firebaseConfig = {
     measurementId: "G-LKTX7C7F0E"
 };
 
-const db = getFirestore(initializeApp(firebaseConfig));
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
 const $ = id => document.getElementById(id);
 
-let attendanceRecords = [];
+let allAttendance = [];
 let subjects = [];
+let currentUid = "";
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
 
 const norm = value =>
     String(value ?? "").trim().toLowerCase();
 
 function esc(value){
-    return String(value ?? "").replace(/[&<>"']/g,c=>({
+    return String(value ?? "").replace(/[&<>"']/g, c => ({
         "&":"&amp;",
         "<":"&lt;",
         ">":"&gt;",
@@ -220,160 +239,60 @@ function clearError(){
 function showSuccess(message){
     $("successMessage").textContent = message;
     $("successMessage").classList.remove("hidden");
-    setTimeout(()=>$("successMessage").classList.add("hidden"),4000);
+
+    setTimeout(() => {
+        $("successMessage").classList.add("hidden");
+    }, 3000);
 }
 
 function getCurrentMonth(){
     const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
-}
 
-
-/*
-=====================================================
-GET LOGGED-IN STUDENT
-=====================================================
-
-This page supports these localStorage keys:
-
-studentId
-userId
-username
-
-If your login stores studentId, it will be used first.
-*/
-
-async function loadStudentsForAttendance(){
-
-    const snap =
-        await getDocs(
-            collection(db,"students")
-        );
-
-    allStudents =
-        snap.docs.map(d=>({
-            id:d.id,
-            ...d.data()
-        }));
-
-    console.log(
-        "Students loaded:",
-        allStudents.length
+    return (
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth()+1).padStart(2,"0")
     );
 }
 
-async function resolveStudent(){
 
-    /*
-     * UID-FIRST ATTENDANCE
-     *
-     * The logged-in user's Firebase UID is the primary identity.
-     * Attendance is read using userUid, not roll number/name.
-     */
-    const loginUid =
-        (
-            localStorage.getItem("userUid") ||
-            localStorage.getItem("uid") ||
-            localStorage.getItem("userId") ||
-            ""
-        ).trim();
+/* =====================================================
+   GET USER UID
+   PRIMARY = Firebase Authentication UID
+   FALLBACK = localStorage userUid
+===================================================== */
 
-    console.log("Logged-in USER UID:", loginUid);
+function getLoggedInUid(){
 
-    if(!loginUid){
-        return null;
+    if(auth.currentUser?.uid){
+        return auth.currentUser.uid.trim();
     }
 
-    /*
-     * 1. First try students collection where uid/userUid/userId
-     *    equals the logged-in UID.
-     */
-    const studentSnap =
-        await getDocs(collection(db,"students"));
+    const keys = [
+        "userUid",
+        "uid",
+        "userId",
+        "firebaseUid",
+        "firebaseUID"
+    ];
 
-    const students =
-        studentSnap.docs.map(d=>({
-            id:d.id,
-            ...d.data()
-        }));
+    for(const key of keys){
 
-    let student =
-        students.find(s =>
-            String(s.uid || "").trim() === loginUid ||
-            String(s.userUid || "").trim() === loginUid ||
-            String(s.userId || "").trim() === loginUid
-        );
+        const value =
+            localStorage.getItem(key);
 
-    /*
-     * 2. If students document ID itself is the UID.
-     */
-    if(!student){
-        student =
-            students.find(s =>
-                String(s.id).trim() === loginUid
-            );
-    }
-
-    /*
-     * 3. Resolve through users collection using UID.
-     * This supports a setup where users/{uid} contains studentId,
-     * rollNo or username.
-     */
-    if(!student){
-
-        const userRef =
-            await getDocs(
-                query(
-                    collection(db,"users"),
-                    where("__name__","==",loginUid)
-                )
-            );
-
-        if(!userRef.empty){
-
-            const user =
-                userRef.docs[0].data();
-
-            const studentRef =
-                user.studentId ||
-                user.studentID ||
-                user.student_id ||
-                user.rollNo ||
-                user.roll ||
-                user.username;
-
-            if(studentRef){
-
-                student =
-                    students.find(s =>
-                    [
-                        s.id,
-                        s.studentId,
-                        s.rollNo,
-                        s.roll,
-                        s.username,
-                        s.email
-                    ].some(v =>
-                        norm(v) === norm(studentRef)
-                    )
-                );
-            }
+        if(value && value.trim()){
+            return value.trim();
         }
     }
 
-    if(student){
-        console.log("UID MATCHED STUDENT:", student);
-    }
-
-    return student || null;
+    return "";
 }
 
 
-/*
-=====================================================
-LOAD SUBJECTS
-=====================================================
-*/
+/* =====================================================
+   LOAD SUBJECTS
+===================================================== */
 
 async function loadSubjects(){
 
@@ -383,7 +302,7 @@ async function loadSubjects(){
         );
 
     subjects =
-        snap.docs.map(d=>({
+        snap.docs.map(d => ({
             id:d.id,
             ...d.data()
         }));
@@ -392,28 +311,104 @@ async function loadSubjects(){
 }
 
 
-/*
-=====================================================
-LOAD ATTENDANCE BY USER UID
-=====================================================
-*/
+/* =====================================================
+   SUBJECT DROPDOWN
+===================================================== */
+
+function renderSubjectOptions(){
+
+    const section =
+        norm($("section").value);
+
+    const semester =
+        norm($("semester").value);
+
+    const select =
+        $("subject");
+
+    select.innerHTML =
+        `<option value="">All Subjects</option>`;
+
+    subjects
+        .filter(subject => {
+
+            if(subject.active === false){
+                return false;
+            }
+
+            const subjectSection =
+                norm(subject.section);
+
+            const subjectSemester =
+                norm(
+                    subject.semester ||
+                    subject.semeter
+                );
+
+            return (
+                (!subjectSection ||
+                 subjectSection === section) &&
+
+                (!subjectSemester ||
+                 subjectSemester === semester)
+            );
+        })
+        .forEach(subject => {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                subject.id;
+
+            option.textContent =
+                (
+                    subject.code
+                    ? subject.code + " — "
+                    : ""
+                ) +
+                (
+                    subject.name ||
+                    subject.lectureName ||
+                    "Unnamed Subject"
+                );
+
+            select.appendChild(option);
+        });
+}
+
+
+/* =====================================================
+   LOAD ATTENDANCE STRICTLY BY USER UID
+===================================================== */
 
 async function loadAttendance(){
 
     clearError();
 
-    const loginUid =
-        (
-            localStorage.getItem("userUid") ||
-            localStorage.getItem("uid") ||
-            localStorage.getItem("userId") ||
-            ""
-        ).trim();
+    $("studentName").textContent =
+        "Loading...";
 
-    if(!loginUid){
+    $("attendanceTableBody").innerHTML = `
+        <tr>
+            <td colspan="5" class="loading">
+                Loading attendance...
+            </td>
+        </tr>
+    `;
+
+    currentUid =
+        getLoggedInUid();
+
+    console.log(
+        "ATTENDANCE USER UID:",
+        currentUid
+    );
+
+    if(!currentUid){
 
         $("studentName").textContent =
-            "User UID not found";
+            "Student login required";
 
         $("attendanceTableBody").innerHTML = `
             <tr>
@@ -426,249 +421,205 @@ async function loadAttendance(){
             </tr>
         `;
 
+        resetSummary();
         return;
     }
 
+
     /*
-     * PRIMARY QUERY:
+     * PRIMARY:
      * attendance.userUid == logged-in Firebase UID
      */
-    let snap =
-        await getDocs(
-            query(
-                collection(db,"attendance"),
-                where("userUid","==",loginUid)
+    const uidQuery =
+        query(
+            collection(db,"attendance"),
+            where(
+                "userUid",
+                "==",
+                currentUid
             )
         );
 
-    attendanceRecords =
-        snap.docs.map(d=>({
+    const uidSnap =
+        await getDocs(uidQuery);
+
+    allAttendance =
+        uidSnap.docs.map(d => ({
             id:d.id,
             ...d.data()
         }));
 
+
     /*
-     * Existing old attendance records may have only studentId.
-     * If no UID records exist yet, resolve the student and load
-     * its old records as a compatibility fallback.
+     * COMPATIBILITY:
+     * If old attendance records were created before userUid
+     * was added, find the matching student and read studentId
+     * records once. New records should always contain userUid.
      */
-    if(!attendanceRecords.length){
+    if(!allAttendance.length){
 
         const student =
-            await resolveStudent();
+            await findStudentByUid(currentUid);
 
         if(student){
+
+            const oldQuery =
+                query(
+                    collection(db,"attendance"),
+                    where(
+                        "studentId",
+                        "==",
+                        student.id
+                    )
+                );
+
+            const oldSnap =
+                await getDocs(oldQuery);
+
+            allAttendance =
+                oldSnap.docs.map(d => ({
+                    id:d.id,
+                    ...d.data(),
+                    _legacyStudentId:true
+                }));
 
             $("studentName").textContent =
                 student.name ||
                 student.studentName ||
                 student.rollNo ||
                 "Student";
-
-            snap =
-                await getDocs(
-                    query(
-                        collection(db,"attendance"),
-                        where("studentId","==",student.id)
-                    )
-                );
-
-            attendanceRecords =
-                snap.docs.map(d=>({
-                    id:d.id,
-                    ...d.data()
-                }));
         }
-    }else{
+    }
+
+
+    /*
+     * If UID records exist, get name from them.
+     */
+    if(allAttendance.length){
+
+        const first =
+            allAttendance[0];
 
         $("studentName").textContent =
-            attendanceRecords[0]?.studentName ||
+            first.studentName ||
+            first.name ||
             "Student";
     }
 
+
     console.log(
-        "ATTENDANCE BY USER UID:",
-        loginUid,
-        "Records:",
-        attendanceRecords.length
+        "UID ATTENDANCE RECORDS:",
+        allAttendance.length
     );
 
     renderAttendance();
 }
 
-/*
-=====================================================
-LOAD SUBJECTS
-=====================================================
-*/
 
-async function loadSubjects(){
+/* =====================================================
+   FIND STUDENT BY UID
+===================================================== */
+
+async function findStudentByUid(uid){
 
     const snap =
         await getDocs(
-            collection(db,"subjects")
+            collection(db,"students")
         );
 
-    subjects =
-        snap.docs.map(d=>({
+    const students =
+        snap.docs.map(d => ({
             id:d.id,
             ...d.data()
         }));
 
-    renderSubjectOptions();
-}
-
-
-function renderSubjectOptions(){
-
-    const section =
-        norm($("section").value);
-
-    const semester =
-        norm($("semester").value);
-
-    const list =
-        subjects.filter(subject=>{
-
-            if(subject.active === false){
-                return false;
-            }
-
-            const sSection =
-                norm(subject.section);
-
-            const sSemester =
-                norm(subject.semester);
-
-            return (
-                (!sSection || sSection === section) &&
-                (!sSemester || sSemester === semester)
-            );
-        });
-
-    $("subject").innerHTML =
-        `<option value="">All Subjects</option>`;
-
-    list.forEach(subject=>{
-
-        const option =
-            document.createElement("option");
-
-        option.value =
-            subject.id;
-
-        option.textContent =
-            (subject.code ? subject.code+" — " : "") +
-            (subject.name || "Unnamed Subject");
-
-        $("subject").appendChild(option);
-    });
-}
-
-
-/*
-=====================================================
-LOAD ATTENDANCE
-=====================================================
-*/
-
-async function loadAttendance(){
-
-    clearError();
-
-    $("studentName").textContent = "Loading...";
-
     /*
-     * Students are loaded first so we can resolve the logged-in
-     * student even when localStorage contains username/rollNo
-     * instead of the Firestore document ID.
+     * Most important:
+     * students/{uid}
      */
-    if(!allStudents.length){
-        await loadStudentsForAttendance();
+    let student =
+        students.find(s =>
+            s.id === uid
+        );
+
+    if(student){
+        return student;
     }
 
-    const student =
-        await resolveStudent();
+    /*
+     * Or student document contains UID field.
+     */
+    student =
+        students.find(s =>
+            String(s.userUid || "").trim() === uid ||
+            String(s.uid || "").trim() === uid ||
+            String(s.userId || "").trim() === uid
+        );
 
-    if(!student){
+    if(student){
+        return student;
+    }
 
-        $("studentName").textContent =
-            "Student not found";
 
-        $("attendanceTableBody").innerHTML = `
-            <tr>
-                <td colspan="5" class="empty">
-                    <div class="empty-icon">👨‍🎓</div>
-                    Student record nahi mila.
-                    <br>
-                    Login ke baad page refresh karein.
-                </td>
-            </tr>
-        `;
+    /*
+     * Last compatibility check:
+     * users/{uid} -> studentId / rollNo / username
+     */
+    try{
+
+        const userSnap =
+            await getDocs(
+                query(
+                    collection(db,"users"),
+                    where("__name__","==",uid)
+                )
+            );
+
+        if(!userSnap.empty){
+
+            const user =
+                userSnap.docs[0].data();
+
+            const ref =
+                user.studentId ||
+                user.studentID ||
+                user.student_id ||
+                user.rollNo ||
+                user.roll ||
+                user.username;
+
+            if(ref){
+
+                return students.find(s =>
+                    [
+                        s.id,
+                        s.studentId,
+                        s.rollNo,
+                        s.roll,
+                        s.username,
+                        s.email
+                    ].some(value =>
+                        norm(value) === norm(ref)
+                    )
+                ) || null;
+            }
+        }
+
+    }catch(error){
 
         console.warn(
-            "Student resolve failed. localStorage:",
-            {...localStorage}
+            "users UID lookup failed:",
+            error.message
         );
-
-        return;
     }
 
-    $("studentName").textContent =
-        student.name ||
-        student.studentName ||
-        student.rollNo ||
-        "Student";
-
-
-    console.log(
-        "Loading attendance for:",
-        student.id,
-        student.name
-    );
-
-
-    /*
-     * Query attendance by the exact student document ID
-     * used by manage-attendance.html while saving.
-     */
-    const q =
-        query(
-            collection(db,"attendance"),
-            where(
-                "studentId",
-                "==",
-                student.id
-            )
-        );
-
-
-    const snap =
-        await getDocs(q);
-
-
-    attendanceRecords =
-        snap.docs.map(d=>({
-            id:d.id,
-            ...d.data()
-        }));
-
-
-    console.log(
-        "Attendance records:",
-        attendanceRecords.length
-    );
-
-
-    renderAttendance();
+    return null;
 }
 
 
-/*
-=====================================================
-FILTER + RENDER
-=====================================================
-*/
+/* =====================================================
+   FILTER
+===================================================== */
 
 function getFilteredRecords(){
 
@@ -685,42 +636,54 @@ function getFilteredRecords(){
         norm($("section").value);
 
 
-    return attendanceRecords
-        .filter(record=>{
+    return allAttendance
+        .filter(record => {
 
             if(
                 month &&
-                !String(record.date || "")
-                    .startsWith(month)
+                !String(
+                    record.date || ""
+                ).startsWith(month)
             ){
                 return false;
             }
 
+
             if(
                 subjectId &&
-                String(record.subjectId) !==
+                String(record.subjectId || "") !==
                 String(subjectId)
             ){
                 return false;
             }
 
+
             if(
                 record.section &&
-                norm(record.section) !== section
+                norm(record.section) !==
+                section
             ){
                 return false;
             }
 
+
+            const recordSemester =
+                norm(
+                    record.semester ||
+                    record.semeter
+                );
+
             if(
-                record.semester &&
-                norm(record.semester) !== semester
+                recordSemester &&
+                recordSemester !== semester
             ){
                 return false;
             }
+
 
             return true;
         })
-        .sort((a,b)=>
+        .sort((a,b) =>
             String(b.date || "")
                 .localeCompare(
                     String(a.date || "")
@@ -729,27 +692,48 @@ function getFilteredRecords(){
 }
 
 
+/* =====================================================
+   SUMMARY RESET
+===================================================== */
+
+function resetSummary(){
+
+    $("totalClasses").textContent = "0";
+    $("presentClasses").textContent = "0";
+    $("attendancePercent").textContent = "0%";
+    $("recordCount").textContent = "0 records";
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
 function renderAttendance(){
 
     const records =
         getFilteredRecords();
 
-
     const present =
-        records.filter(
-            r =>
-                norm(r.status) === "p" ||
-                norm(r.status) === "present"
-        ).length;
+        records.filter(record => {
 
+            const status =
+                norm(record.status);
+
+            return (
+                status === "p" ||
+                status === "present"
+            );
+        }).length;
 
     const total =
         records.length;
 
-
     const percentage =
         total
-        ? Math.round((present / total) * 100)
+        ? Math.round(
+            (present / total) * 100
+        )
         : 0;
 
 
@@ -782,11 +766,14 @@ function renderAttendance(){
 
 
     $("attendanceTableBody").innerHTML =
-        records.map((record,index)=>{
+        records.map((record,index) => {
+
+            const status =
+                norm(record.status);
 
             const isPresent =
-                norm(record.status) === "p" ||
-                norm(record.status) === "present";
+                status === "p" ||
+                status === "present";
 
             const statusText =
                 isPresent
@@ -808,7 +795,9 @@ function renderAttendance(){
 
                     <td>
                         <b>
-                            ${esc(record.date || "—")}
+                            ${esc(
+                                record.date || "—"
+                            )}
                         </b>
                     </td>
 
@@ -817,9 +806,13 @@ function renderAttendance(){
                             record.subjectCode
                             ? record.subjectCode +
                               " — " +
-                              (record.subjectName || "")
+                              (
+                                  record.subjectName ||
+                                  ""
+                              )
                             : (
                                 record.subjectName ||
+                                record.subject ||
                                 "—"
                             )
                         )}
@@ -828,6 +821,7 @@ function renderAttendance(){
                     <td>
                         ${esc(
                             record.lectureType ||
+                            record.type ||
                             "Theory"
                         )}
                     </td>
@@ -844,74 +838,58 @@ function renderAttendance(){
             `;
 
         }).join("");
-
-
-    /*
-     * Show student name if available
-     * in attendance records.
-     */
-
-    const first =
-        records[0];
-
-    if(first?.studentName){
-
-        $("studentName").textContent =
-            first.studentName;
-
-    }
 }
 
 
-/*
-=====================================================
-FILTER EVENTS
-=====================================================
-*/
+/* =====================================================
+   EVENTS
+===================================================== */
 
 $("semester").addEventListener(
     "change",
-    async ()=>{
+    () => {
+
         renderSubjectOptions();
         renderAttendance();
+
     }
 );
 
 
 $("section").addEventListener(
     "change",
-    async ()=>{
+    () => {
+
         renderSubjectOptions();
         renderAttendance();
+
     }
 );
 
 
 $("subject").addEventListener(
     "change",
-    ()=>{
+    () => {
+
         renderAttendance();
+
     }
 );
 
 
 $("month").addEventListener(
     "change",
-    ()=>{
+    () => {
+
         renderAttendance();
+
     }
 );
 
 
-/*
-=====================================================
-REFRESH
-=====================================================
-*/
-
 $("refreshBtn").addEventListener(
     "click",
-    async ()=>{
+    async () => {
 
         try{
 
@@ -942,47 +920,52 @@ $("refreshBtn").addEventListener(
 );
 
 
-/*
-=====================================================
-INITIALIZE
-=====================================================
-*/
+/* =====================================================
+   FIREBASE AUTH
+===================================================== */
 
-async function init(){
+onAuthStateChanged(
+    auth,
+    async user => {
 
-    try{
+        try{
 
-        $("month").value =
-            getCurrentMonth();
+            if(user){
 
-        $("semester").value =
-            "Sem-3";
+                currentUid =
+                    user.uid;
 
-        $("section").value =
-            "A";
+                console.log(
+                    "Firebase Auth UID:",
+                    currentUid
+                );
 
+            }else{
 
-        await loadSubjects();
+                /*
+                 * If the portal uses its own login/localStorage,
+                 * getLoggedInUid() will still work.
+                 */
+                currentUid =
+                    getLoggedInUid();
 
-        await loadAttendance();
+            }
 
+            await loadSubjects();
+            await loadAttendance();
 
-        console.log(
-            "ATTENDANCE PAGE READY"
-        );
+        }catch(error){
 
-    }catch(error){
+            showError(
+                "Attendance load error: " +
+                error.message
+            );
 
-        showError(
-            "Attendance load error: " +
-            error.message
-        );
+        }
+
     }
-}
-
-init();
+);
 
 </script>
-
 </body>
 </html>
