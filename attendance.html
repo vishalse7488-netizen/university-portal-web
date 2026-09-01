@@ -7,270 +7,161 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#eef4ff;color:#102653;font-family:Arial,Helvetica,sans-serif}
-.top{height:85px;background:#fff;display:flex;align-items:center;padding:15px 28px;gap:20px;border-bottom:1px solid #dce5f4;position:sticky;top:0;z-index:20}
-.menu{font-size:30px}
-.title{font-size:29px;font-weight:800;flex:1}
-.back{background:linear-gradient(100deg,#46c4e7,#2057dc);color:#fff;border:0;border-radius:16px;padding:13px 22px;font-size:17px;font-weight:700;cursor:pointer}
-.refresh{border:0;background:none;font-size:30px;color:#102653;cursor:pointer}
-.wrap{max-width:900px;margin:auto;padding:25px}
-.card{background:#fff;border-radius:28px;padding:25px;margin-bottom:22px;box-shadow:0 5px 22px #dce5f2}
-.filter-head{display:flex;justify-content:space-between;align-items:center;font-size:22px;font-weight:800}
-.clear{border:0;background:#fff2f2;color:#db5252;padding:10px 16px;border-radius:20px;cursor:pointer;font-weight:700}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
-.field label{display:block;margin-bottom:8px;font-weight:700}
-.field input,.field select{width:100%;height:56px;border:2px solid #d9e3f1;border-radius:15px;padding:0 13px;background:#f7faff;color:#17335e;font-size:16px}
-.hero{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
-.ringbox{position:relative;text-align:center}
-.ring{width:250px;height:250px;transform:rotate(-90deg)}
-.ring circle{fill:none;stroke-width:28}
-.ringBg{stroke:#eb6868}
-.ringPresent{stroke:#46b878;stroke-linecap:butt}
-.ringtext{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center}
-.pct{font-size:34px;font-weight:800;color:#e79c4d}
-.sub{color:#99a7ba;font-size:17px;margin-top:5px}
-.legend h2{font-size:24px;margin-top:0}
-.legend p{color:#7d899d;font-size:18px}
-.dot{display:inline-block;width:17px;height:17px;border-radius:50%;margin-right:8px}
-.green{background:#27ad6b}.red{background:#e63d3d}.blue{background:#347fe0}
-.legend b{color:#31496e}
-.warning{display:inline-block;background:#fff7ec;color:#e39a47;border:2px solid #f4d4ae;border-radius:20px;padding:10px 15px;font-weight:700}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.stat{text-align:center;padding:22px;border-radius:22px;background:#e9f2ff;border:2px solid #c8dcfa}
-.stat:nth-child(2){background:#eaf8f2;border-color:#bce3d1}
-.stat:nth-child(3){background:#fff0f1;border-color:#efc6cc}
-.num{font-size:30px;font-weight:800;margin-bottom:8px}
-.lab{color:#98a7bc;font-size:16px}
-.line{display:flex;justify-content:space-between;padding:17px 0;border-top:1px solid #e3e9f2;font-size:18px}
-.line b{color:#3782dd}
-.details{text-align:center;margin-top:20px}
-.link{background:none;border:0;color:#347bd6;text-decoration:underline;font-size:17px;font-weight:700;cursor:pointer}
-.error{background:#ffe8e8;color:#b52f2f;padding:15px;border-radius:13px;margin-bottom:18px}
-.empty{text-align:center;padding:60px 20px}
-.emptyIcon{font-size:55px}
-.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
-.modal[hidden],#content[hidden],#empty[hidden],#error[hidden],#warning[hidden]{display:none}
-.modal-card{background:white;width:min(95vw,900px);max-height:85vh;overflow:auto;border-radius:28px}
-.modal-head{padding:22px 25px;display:flex;justify-content:space-between;border-bottom:1px solid #ddd;font-size:23px;font-weight:800}
-.close{background:none;border:0;font-size:32px;cursor:pointer;color:#73829c}
-.table-scroll{overflow:auto}
-table{border-collapse:collapse;width:100%;min-width:600px}
-th{background:#edf4ff;padding:15px;text-align:left}
-td{padding:14px;border-bottom:1px solid #e1e6ef}
-.badge{display:inline-flex;width:42px;height:34px;align-items:center;justify-content:center;border-radius:8px;font-weight:800}
-.badge.p{background:#e5f7ed;color:#1fa362}
-.badge.a{background:#ffe7e9;color:#dc3943}
+html,body{margin:0;padding:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#eef4ff;color:#102653}
+.topbar{height:84px;background:#fff;display:flex;align-items:center;gap:18px;padding:14px 28px;border-bottom:1px solid #dce5f4;position:sticky;top:0;z-index:100}
+.menu-btn{border:0;background:transparent;color:#102653;font-size:31px;cursor:pointer;padding:4px}
+.page-title{flex:1;font-size:29px;font-weight:800}
+.top-btn{border:0;border-radius:16px;min-height:50px;padding:0 20px;font-size:17px;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(100deg,#46c4e7,#2057dc)}
+.refresh-btn{width:52px;padding:0;font-size:26px}
+.container{width:100%;max-width:1180px;margin:auto;padding:28px}
+.card{background:#fff;border-radius:28px;padding:25px;margin-bottom:23px;box-shadow:0 6px 24px rgba(44,83,145,.10)}
+.message{padding:15px 18px;border-radius:14px;margin-bottom:18px;font-size:15px;line-height:1.5}
+.error{background:#ffe8e8;color:#b92e38;border:1px solid #f3b9bd}
+.success{background:#e6f8ee;color:#168b55;border:1px solid #bfe6d1}
+.hidden{display:none!important}
+.form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.form-group label{display:block;margin-bottom:9px;font-size:15px;font-weight:700}
+.form-control{width:100%;height:56px;padding:0 14px;border:2px solid #d8e3f3;border-radius:15px;background:#f7faff;color:#18345e;font-size:16px;outline:none}
+.form-control:focus{border-color:#5da1ed;background:#fff}
+.student-header{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.student-header h2{margin:0;flex:1;font-size:25px}
+.count{color:#8492a7;font-weight:700}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.summary-box{padding:20px;border-radius:18px;background:#f4f8ff;text-align:center}
+.summary-box strong{display:block;font-size:28px;margin-bottom:5px}
+.summary-box span{color:#71809a;font-weight:700}
+.table-container{width:100%;overflow-x:auto}
+table{width:100%;min-width:700px;border-collapse:collapse}
+thead th{background:#edf4ff;color:#102653;text-align:left;padding:16px 15px;font-size:15px;font-weight:800}
+tbody td{padding:15px;border-bottom:1px solid #e4e9f1;font-size:15px}
+tbody tr:hover td{background:#fafcff}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:85px;padding:8px 13px;border-radius:10px;font-weight:800}
+.present{background:#dff5e9;color:#15995a}
+.absent{background:#ffe3e6;color:#db3945}
+.pending{background:#edf1f7;color:#71809a}
+.empty{text-align:center;padding:45px 20px;color:#8492a7}
+.empty-icon{font-size:46px;margin-bottom:10px}
+.loading{text-align:center;padding:35px;color:#5d6f8b}
 
-@media(max-width:650px){
-.top{height:72px;padding:10px 14px;gap:10px}
-.title{font-size:23px}
-.back{padding:10px 13px;font-size:14px}
-.refresh{font-size:26px}
-.wrap{padding:14px}
-.card{padding:19px;border-radius:23px}
-.grid{grid-template-columns:1fr 1fr;gap:10px}
-.hero{grid-template-columns:1fr}
-.ring{width:210px;height:210px}
-.stats{gap:7px}
-.stat{padding:17px 5px}
-.num{font-size:25px}
-.line{font-size:16px}
+@media(max-width:900px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+.topbar{height:72px;padding:10px 13px;gap:9px}
+.menu-btn{font-size:27px}.page-title{font-size:22px}
+.top-btn{min-height:44px;padding:0 12px;border-radius:13px;font-size:14px}
+.refresh-btn{width:45px;font-size:24px}
+.container{padding:14px}.card{padding:19px;border-radius:23px}
+.form-grid{grid-template-columns:1fr 1fr;gap:11px}
+.form-control{height:51px;font-size:14px}
+.summary{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<header class="top">
-<span class="menu">☰</span>
-<div class="title">Attendance</div>
-<button class="back" onclick="history.back()">‹ Back</button>
-<button class="refresh" id="refresh">↻</button>
+<header class="topbar">
+    <button class="menu-btn" type="button" onclick="history.back()">☰</button>
+    <div class="page-title">Attendance</div>
+    <button class="top-btn" type="button" onclick="history.back()">‹ Back</button>
+    <button id="refreshBtn" class="top-btn refresh-btn" type="button" title="Refresh">↻</button>
 </header>
 
-<main class="wrap">
+<main class="container">
 
-<div id="error" class="error" hidden></div>
+    <div id="errorMessage" class="message error hidden"></div>
+    <div id="successMessage" class="message success hidden"></div>
 
-<section class="card">
+    <section class="card">
+        <div class="form-grid">
 
-<div class="filter-head">
-<span>☷ &nbsp; Filters</span>
-<button class="clear" id="clear">× Clear all</button>
-</div>
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <select id="semester" class="form-control">
+                    <option value="Sem-1">Sem-1</option>
+                    <option value="Sem-2">Sem-2</option>
+                    <option value="Sem-3" selected>Sem-3</option>
+                    <option value="Sem-4">Sem-4</option>
+                    <option value="Sem-5">Sem-5</option>
+                    <option value="Sem-6">Sem-6</option>
+                    <option value="Sem-7">Sem-7</option>
+                    <option value="Sem-8">Sem-8</option>
+                </select>
+            </div>
 
-<div class="grid">
+            <div class="form-group">
+                <label for="section">Section</label>
+                <select id="section" class="form-control">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>From</label>
-<input type="date" id="from">
-</div>
+            <div class="form-group">
+                <label for="subject">Subject / Lecture</label>
+                <select id="subject" class="form-control">
+                    <option value="">All Subjects</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>To</label>
-<input type="date" id="to">
-</div>
+            <div class="form-group">
+                <label for="month">Month</label>
+                <input id="month" class="form-control" type="month">
+            </div>
 
-<div class="field">
-<label>Section</label>
-<select id="section">
-<option value="">All Sections</option>
-<option>A</option>
-<option>B</option>
-<option>C</option>
-</select>
-</div>
+        </div>
+    </section>
 
-<div class="field">
-<label>Type</label>
-<select id="type">
-<option value="Overall">Overall</option>
-<option value="Theory">Theory</option>
-<option value="Practical">Practical</option>
-</select>
-</div>
+    <section class="card">
+        <div class="student-header">
+            <h2>Attendance Summary</h2>
+            <span id="studentName" class="count">Loading...</span>
+        </div>
 
-</div>
-</section>
+        <div class="summary">
+            <div class="summary-box">
+                <strong id="totalClasses">0</strong>
+                <span>Total Classes</span>
+            </div>
+            <div class="summary-box">
+                <strong id="presentClasses">0</strong>
+                <span>Present</span>
+            </div>
+            <div class="summary-box">
+                <strong id="attendancePercent">0%</strong>
+                <span>Attendance</span>
+            </div>
+        </div>
+    </section>
 
+    <section class="card">
+        <div class="student-header">
+            <h2>Attendance Records</h2>
+            <span id="recordCount" class="count">0 records</span>
+        </div>
 
-<section id="empty" class="card empty" hidden>
-<div class="emptyIcon">☑</div>
-<h2>No Attendance Data</h2>
-<p>Try changing the filters.</p>
-<button class="back" id="clearEmpty">Clear Filters</button>
-</section>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Lecture Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
 
+                <tbody id="attendanceTableBody">
+                    <tr>
+                        <td colspan="5" class="loading">Loading attendance...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-<div id="content">
-
-<section class="card">
-
-<div class="hero">
-
-<div class="ringbox">
-
-<svg class="ring" viewBox="0 0 220 220">
-
-<circle class="ringBg" cx="110" cy="110" r="82"></circle>
-
-<circle id="ring" class="ringPresent" cx="110" cy="110" r="82"></circle>
-
-</svg>
-
-<div class="ringtext">
-<div id="percent" class="pct">0.0%</div>
-<div class="sub">Attendance</div>
-</div>
-
-</div>
-
-
-<div class="legend">
-
-<h2>Overall Attendance</h2>
-
-<p id="studentName">Student</p>
-<p id="studentRoll"></p>
-
-<p>
-<span class="dot green"></span>
-Present
-<b id="pLegend">0</b>
-classes
-</p>
-
-<p>
-<span class="dot red"></span>
-Absent
-<b id="aLegend">0</b>
-classes
-</p>
-
-<p>
-<span class="dot blue"></span>
-Total
-<b id="tLegend">0</b>
-classes
-</p>
-
-<div id="warning" class="warning" hidden>
-⚠ Attendance low
-</div>
-
-</div>
-</div>
-</section>
-
-
-<section class="stats">
-
-<div class="stat">
-<div class="num" id="total">0</div>
-<div class="lab">Total</div>
-</div>
-
-<div class="stat">
-<div class="num" id="present">0</div>
-<div class="lab">Present</div>
-</div>
-
-<div class="stat">
-<div class="num" id="absent">0</div>
-<div class="lab">Absent</div>
-</div>
-
-</section>
-
-
-<section class="card">
-
-<h2>▥ &nbsp; Lecture Breakdown</h2>
-
-<div class="line">
-<span>📖 Theory Lectures</span>
-<b id="theory">0</b>
-</div>
-
-<div class="line">
-<span>⚗ Practical Lectures</span>
-<b id="practical">0</b>
-</div>
-
-<div class="line">
-<span>Semester</span>
-<b id="semester">—</b>
-</div>
-
-<div class="details">
-<button class="link" id="details">
-View Details attendance
-</button>
-</div>
-
-</section>
-
-</div>
 </main>
-
-
-<div class="modal" id="modal" hidden>
-
-<div class="modal-card">
-
-<div class="modal-head">
-
-<span>▥ &nbsp; Attendance Details</span>
-
-<button class="close" id="close">×</button>
-
-</div>
-
-<div id="detailBody" style="padding:25px"></div>
-
-</div>
-</div>
-
 
 <script type="module">
 
@@ -278,433 +169,554 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
-getFirestore,
-collection,
-doc,
-getDoc,
-getDocs,
-query,
-where
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    where
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-/* ================= FIREBASE CONFIG ================= */
-
 const firebaseConfig = {
-
-apiKey:"AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
-
-authDomain:"university-portal-2107e.firebaseapp.com",
-
-projectId:"university-portal-2107e",
-
-storageBucket:"university-portal-2107e.firebasestorage.app",
-
-messagingSenderId:"50848903813",
-
-appId:"1:50848903813:web:8296090d0d9268cfd2efec",
-
-measurementId:"G-LKTX7C7F0E"
-
+    apiKey: "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+    authDomain: "university-portal-2107e.firebaseapp.com",
+    projectId: "university-portal-2107e",
+    storageBucket: "university-portal-2107e.firebasestorage.app",
+    messagingSenderId: "50848903813",
+    appId: "1:50848903813:web:8296090d0d9268cfd2efec",
+    measurementId: "G-LKTX7C7F0E"
 };
 
+const db = getFirestore(initializeApp(firebaseConfig));
+const $ = id => document.getElementById(id);
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
+let attendanceRecords = [];
+let subjects = [];
 
+const norm = value =>
+    String(value ?? "").trim().toLowerCase();
 
-/* ================= HELPERS ================= */
+function esc(value){
+    return String(value ?? "").replace(/[&<>"']/g,c=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+    }[c]));
+}
 
-const $=id=>document.getElementById(id);
+function showError(message){
+    console.error(message);
+    $("errorMessage").textContent = message;
+    $("errorMessage").classList.remove("hidden");
+}
 
-function today(){
+function clearError(){
+    $("errorMessage").classList.add("hidden");
+}
 
-const d=new Date();
+function showSuccess(message){
+    $("successMessage").textContent = message;
+    $("successMessage").classList.remove("hidden");
+    setTimeout(()=>$("successMessage").classList.add("hidden"),4000);
+}
 
-return new Date(
-d.getTime()-d.getTimezoneOffset()*60000
-).toISOString().slice(0,10);
-
+function getCurrentMonth(){
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
 }
 
 
-function getUser(){
+/*
+=====================================================
+GET LOGGED-IN STUDENT
+=====================================================
 
-try{
+This page supports these localStorage keys:
 
-return JSON.parse(
-localStorage.getItem("universityUser") ||
-localStorage.getItem("currentUser") ||
-localStorage.getItem("user") ||
-"null"
+studentId
+userId
+username
+
+If your login stores studentId, it will be used first.
+*/
+
+function getStudentId(){
+
+    return (
+        localStorage.getItem("studentId") ||
+        localStorage.getItem("userId") ||
+        localStorage.getItem("username") ||
+        ""
+    ).trim();
+}
+
+
+/*
+=====================================================
+LOAD SUBJECTS
+=====================================================
+*/
+
+async function loadSubjects(){
+
+    const snap =
+        await getDocs(
+            collection(db,"subjects")
+        );
+
+    subjects =
+        snap.docs.map(d=>({
+            id:d.id,
+            ...d.data()
+        }));
+
+    renderSubjectOptions();
+}
+
+
+function renderSubjectOptions(){
+
+    const section =
+        norm($("section").value);
+
+    const semester =
+        norm($("semester").value);
+
+    const list =
+        subjects.filter(subject=>{
+
+            if(subject.active === false){
+                return false;
+            }
+
+            const sSection =
+                norm(subject.section);
+
+            const sSemester =
+                norm(subject.semester);
+
+            return (
+                (!sSection || sSection === section) &&
+                (!sSemester || sSemester === semester)
+            );
+        });
+
+    $("subject").innerHTML =
+        `<option value="">All Subjects</option>`;
+
+    list.forEach(subject=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            subject.id;
+
+        option.textContent =
+            (subject.code ? subject.code+" — " : "") +
+            (subject.name || "Unnamed Subject");
+
+        $("subject").appendChild(option);
+    });
+}
+
+
+/*
+=====================================================
+LOAD ATTENDANCE
+=====================================================
+*/
+
+async function loadAttendance(){
+
+    clearError();
+
+    const studentId =
+        getStudentId();
+
+    if(!studentId){
+
+        $("studentName").textContent =
+            "Student login required";
+
+        $("attendanceTableBody").innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    <div class="empty-icon">🔐</div>
+                    Student ID nahi mila.
+                    <br>
+                    Login karke attendance page open karein.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    console.log(
+        "Loading attendance for student:",
+        studentId
+    );
+
+
+    /*
+     * Only studentId query.
+     * No composite index required.
+     */
+
+    const q =
+        query(
+            collection(db,"attendance"),
+            where(
+                "studentId",
+                "==",
+                studentId
+            )
+        );
+
+
+    const snap =
+        await getDocs(q);
+
+
+    attendanceRecords =
+        snap.docs.map(d=>({
+            id:d.id,
+            ...d.data()
+        }));
+
+
+    console.log(
+        "Attendance records:",
+        attendanceRecords.length
+    );
+
+
+    renderAttendance();
+}
+
+
+/*
+=====================================================
+FILTER + RENDER
+=====================================================
+*/
+
+function getFilteredRecords(){
+
+    const month =
+        $("month").value;
+
+    const subjectId =
+        $("subject").value;
+
+    const semester =
+        norm($("semester").value);
+
+    const section =
+        norm($("section").value);
+
+
+    return attendanceRecords
+        .filter(record=>{
+
+            if(
+                month &&
+                !String(record.date || "")
+                    .startsWith(month)
+            ){
+                return false;
+            }
+
+            if(
+                subjectId &&
+                String(record.subjectId) !==
+                String(subjectId)
+            ){
+                return false;
+            }
+
+            if(
+                record.section &&
+                norm(record.section) !== section
+            ){
+                return false;
+            }
+
+            if(
+                record.semester &&
+                norm(record.semester) !== semester
+            ){
+                return false;
+            }
+
+            return true;
+        })
+        .sort((a,b)=>
+            String(b.date || "")
+                .localeCompare(
+                    String(a.date || "")
+                )
+        );
+}
+
+
+function renderAttendance(){
+
+    const records =
+        getFilteredRecords();
+
+
+    const present =
+        records.filter(
+            r =>
+                norm(r.status) === "p" ||
+                norm(r.status) === "present"
+        ).length;
+
+
+    const total =
+        records.length;
+
+
+    const percentage =
+        total
+        ? Math.round((present / total) * 100)
+        : 0;
+
+
+    $("totalClasses").textContent =
+        total;
+
+    $("presentClasses").textContent =
+        present;
+
+    $("attendancePercent").textContent =
+        percentage + "%";
+
+    $("recordCount").textContent =
+        total + " records";
+
+
+    if(!records.length){
+
+        $("attendanceTableBody").innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    <div class="empty-icon">📋</div>
+                    No attendance records found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    $("attendanceTableBody").innerHTML =
+        records.map((record,index)=>{
+
+            const isPresent =
+                norm(record.status) === "p" ||
+                norm(record.status) === "present";
+
+            const statusText =
+                isPresent
+                ? "✓ Present"
+                : "✕ Absent";
+
+            const statusClass =
+                isPresent
+                ? "present"
+                : "absent";
+
+
+            return `
+                <tr>
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        <b>
+                            ${esc(record.date || "—")}
+                        </b>
+                    </td>
+
+                    <td>
+                        ${esc(
+                            record.subjectCode
+                            ? record.subjectCode +
+                              " — " +
+                              (record.subjectName || "")
+                            : (
+                                record.subjectName ||
+                                "—"
+                            )
+                        )}
+                    </td>
+
+                    <td>
+                        ${esc(
+                            record.lectureType ||
+                            "Theory"
+                        )}
+                    </td>
+
+                    <td>
+                        <span
+                            class="badge ${statusClass}"
+                        >
+                            ${statusText}
+                        </span>
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
+
+
+    /*
+     * Show student name if available
+     * in attendance records.
+     */
+
+    const first =
+        records[0];
+
+    if(first?.studentName){
+
+        $("studentName").textContent =
+            first.studentName;
+
+    }
+}
+
+
+/*
+=====================================================
+FILTER EVENTS
+=====================================================
+*/
+
+$("semester").addEventListener(
+    "change",
+    async ()=>{
+        renderSubjectOptions();
+        renderAttendance();
+    }
 );
 
-}catch{
-return null;
-}
 
-}
-
-
-function esc(v){
-
-return String(v??"")
-.replace(/[&<>"']/g,c=>({
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[c]));
-
-}
-
-
-/* ================= VARIABLES ================= */
-
-let user=null;
-let student=null;
-let attendance=[];
-
-
-/* ================= LOAD ================= */
-
-async function load(){
-
-try{
-
-$("error").hidden=true;
-
-user=getUser();
-
-if(!user)
-throw new Error("Please login first.");
-
-const studentId=
-user.studentId ||
-user.uid ||
-user.id;
-
-if(!studentId)
-throw new Error("Student ID not found.");
-
-
-const studentSnap=
-await getDoc(
-doc(db,"students",studentId)
+$("section").addEventListener(
+    "change",
+    async ()=>{
+        renderSubjectOptions();
+        renderAttendance();
+    }
 );
 
 
-if(!studentSnap.exists())
-throw new Error("Student profile not found.");
-
-
-student={
-id:studentSnap.id,
-...studentSnap.data()
-};
-
-
-const q=query(
-collection(db,"attendance"),
-where("studentId","==",studentId)
+$("subject").addEventListener(
+    "change",
+    ()=>{
+        renderAttendance();
+    }
 );
 
 
-const snap=await getDocs(q);
+$("month").addEventListener(
+    "change",
+    ()=>{
+        renderAttendance();
+    }
+);
 
 
-attendance=snap.docs.map(d=>({
-id:d.id,
-...d.data()
-}));
+/*
+=====================================================
+REFRESH
+=====================================================
+*/
+
+$("refreshBtn").addEventListener(
+    "click",
+    async ()=>{
+
+        try{
+
+            $("refreshBtn").disabled =
+                true;
+
+            await loadSubjects();
+            await loadAttendance();
+
+            showSuccess(
+                "✓ Attendance refreshed."
+            );
+
+        }catch(error){
+
+            showError(
+                "Refresh failed: " +
+                error.message
+            );
+
+        }finally{
+
+            $("refreshBtn").disabled =
+                false;
+
+        }
+    }
+);
 
 
-$("studentName").textContent=
-student.name ||
-user.name ||
-"Student";
+/*
+=====================================================
+INITIALIZE
+=====================================================
+*/
+
+async function init(){
+
+    try{
+
+        $("month").value =
+            getCurrentMonth();
+
+        $("semester").value =
+            "Sem-3";
+
+        $("section").value =
+            "A";
 
 
-$("studentRoll").textContent=
-student.rollNo
-?"Roll No. "+student.rollNo
-:"";
+        await loadSubjects();
+
+        await loadAttendance();
 
 
-$("semester").textContent=
-student.semester||"—";
+        console.log(
+            "ATTENDANCE PAGE READY"
+        );
 
+    }catch(error){
 
-$("section").value=
-student.section||"";
-
-
-render();
-
-}catch(e){
-
-console.error(e);
-
-$("error").textContent=
-e.message ||
-"Unable to load attendance.";
-
-$("error").hidden=false;
-
+        showError(
+            "Attendance load error: " +
+            error.message
+        );
+    }
 }
 
-}
-
-
-/* ================= FILTER ================= */
-
-function filtered(){
-
-return attendance.filter(r=>{
-
-if($("from").value &&
-r.date<$("from").value)
-return false;
-
-if($("to").value &&
-r.date>$("to").value)
-return false;
-
-if($("section").value &&
-r.section!==$("section").value)
-return false;
-
-if($("type").value!=="Overall" &&
-r.lectureType!==$("type").value)
-return false;
-
-return true;
-
-});
-
-}
-
-
-/* ================= RENDER ================= */
-
-function render(){
-
-const data=filtered();
-
-const total=data.length;
-
-const present=
-data.filter(x=>x.status==="P").length;
-
-const absent=
-data.filter(x=>x.status==="A").length;
-
-const percentage=
-total?present/total*100:0;
-
-
-$("total").textContent=total;
-$("present").textContent=present;
-$("absent").textContent=absent;
-
-$("tLegend").textContent=total;
-$("pLegend").textContent=present;
-$("aLegend").textContent=absent;
-
-$("percent").textContent=
-percentage.toFixed(1)+"%";
-
-
-const circumference=2*Math.PI*82;
-
-const presentLength=
-total?circumference*present/total:0;
-
-
-$("ring").style.strokeDasharray=
-`${presentLength} ${circumference-presentLength}`;
-
-
-$("warning").hidden=
-total===0 || percentage>=75;
-
-$("content").hidden=total===0;
-$("empty").hidden=total!==0;
-
-
-const theory=
-new Set(
-data
-.filter(x=>x.lectureType==="Theory")
-.map(x=>x.date)
-).size;
-
-
-const practical=
-new Set(
-data
-.filter(x=>x.lectureType==="Practical")
-.map(x=>x.date)
-).size;
-
-
-$("theory").textContent=
-theory+" days";
-
-$("practical").textContent=
-practical+" days";
-
-
-buildDetails(data);
-
-}
-
-
-/* ================= DETAILS ================= */
-
-function buildDetails(data){
-
-if(!data.length){
-
-$("detailBody").innerHTML=
-"<p>No attendance data.</p>";
-
-return;
-
-}
-
-
-const dates=[
-...new Set(data.map(x=>x.date))
-].sort().reverse();
-
-
-let html=`
-
-<div class="table-scroll">
-
-<table>
-
-<thead>
-<tr>
-<th>Date</th>
-<th>Subject</th>
-<th>Type</th>
-<th>Status</th>
-</tr>
-</thead>
-
-<tbody>
-`;
-
-
-dates.forEach(date=>{
-
-data
-.filter(x=>x.date===date)
-.forEach(r=>{
-
-html+=`
-
-<tr>
-
-<td>
-${esc(
-new Date(r.date+"T00:00:00")
-.toLocaleDateString("en-IN")
-)}
-</td>
-
-<td>
-${esc(r.subjectCode||r.subjectName||"—")}
-</td>
-
-<td>
-${esc(r.lectureType||"Theory")}
-</td>
-
-<td>
-
-<span class="badge ${
-r.status==="P"?"p":"a"
-}">
-
-${esc(r.status)}
-
-</span>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-});
-
-
-html+=`
-
-</tbody>
-</table>
-</div>
-`;
-
-$("detailBody").innerHTML=html;
-
-}
-
-
-/* ================= EVENTS ================= */
-
-$("from").onchange=render;
-$("to").onchange=render;
-$("section").onchange=render;
-$("type").onchange=render;
-
-$("clear").onclick=()=>{
-
-$("from").value="";
-$("to").value=today();
-$("section").value=student?.section||"";
-$("type").value="Overall";
-
-render();
-
-};
-
-$("clearEmpty").onclick=()=>$("clear").click();
-
-$("refresh").onclick=load;
-
-$("details").onclick=()=>$("modal").hidden=false;
-
-$("close").onclick=()=>$("modal").hidden=true;
-
-$("modal").onclick=e=>{
-
-if(e.target.id==="modal")
-$("modal").hidden=true;
-
-};
-
-
-/* ================= START ================= */
-
-$("to").value=today();
-
-const d=new Date();
-d.setMonth(d.getMonth()-2);
-
-$("from").value=
-d.toISOString().slice(0,10);
-
-load();
+init();
 
 </script>
 
