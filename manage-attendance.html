@@ -1,1340 +1,3142 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>Manage Attendance</title>
 
+
 <style>
 
-*{box-sizing:border-box}
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+}
 
 body{
-margin:0;
-background:#eef4ff;
-color:#102653;
-font-family:Arial,Helvetica,sans-serif;
+    background:#eef4ff;
+    color:#102653;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
-.top{
-height:85px;
-background:white;
-display:flex;
-align-items:center;
-gap:18px;
-padding:15px 28px;
-border-bottom:1px solid #dce5f4;
-position:sticky;
-top:0;
-z-index:20;
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.topbar{
+
+    height:84px;
+
+    background:#ffffff;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:
+        14px
+        28px;
+
+    border-bottom:
+        1px solid
+        #dce5f4;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+
 }
 
-.menu{font-size:30px}
 
-.title{
-font-size:29px;
-font-weight:800;
-flex:1;
+.menu-btn{
+
+    border:0;
+
+    background:transparent;
+
+    color:#102653;
+
+    font-size:31px;
+
+    cursor:pointer;
+
+    padding:4px;
+
 }
 
-.faculty{
-color:#78869b;
-font-weight:600;
+
+.page-title{
+
+    flex:1;
+
+    font-size:29px;
+
+    font-weight:800;
+
+    color:#102653;
+
 }
 
-.back,
-.refresh,
-.save{
-border:0;
-cursor:pointer;
-border-radius:16px;
-background:linear-gradient(100deg,#46c4e7,#2057dc);
-color:white;
-padding:13px 20px;
-font-size:17px;
-font-weight:700;
+
+.top-btn{
+
+    border:0;
+
+    border-radius:16px;
+
+    min-height:50px;
+
+    padding:
+        0 20px;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    color:#ffffff;
+
+    background:
+        linear-gradient(
+            100deg,
+            #46c4e7,
+            #2057dc
+        );
+
 }
 
-.wrap{
-max-width:1150px;
-margin:auto;
-padding:25px;
+
+.refresh-btn{
+
+    width:52px;
+
+    padding:0;
+
+    font-size:26px;
+
 }
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.container{
+
+    width:100%;
+
+    max-width:1180px;
+
+    margin:0 auto;
+
+    padding:28px;
+
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
 
 .card{
-background:white;
-border-radius:28px;
-padding:25px;
-margin-bottom:22px;
-box-shadow:0 5px 22px #dce5f2;
+
+    background:#ffffff;
+
+    border-radius:28px;
+
+    padding:25px;
+
+    margin-bottom:23px;
+
+    box-shadow:
+        0 6px 24px
+        rgba(
+            44,
+            83,
+            145,
+            .10
+        );
+
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:16px;
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.message{
+
+    padding:15px 18px;
+
+    border-radius:14px;
+
+    margin-bottom:18px;
+
+    font-size:15px;
+
+    line-height:1.5;
+
 }
 
-.field label{
-display:block;
-font-weight:700;
-margin-bottom:8px;
-}
-
-.field input,
-.field select{
-width:100%;
-height:56px;
-border:2px solid #d8e2f1;
-border-radius:15px;
-padding:0 13px;
-background:#f7faff;
-color:#17335e;
-font-size:16px;
-}
-
-.actions{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-top:20px;
-}
-
-.action{
-border:0;
-border-radius:13px;
-padding:13px 18px;
-font-size:16px;
-font-weight:700;
-cursor:pointer;
-}
-
-.present{
-background:#e3f7ed;
-color:#15945a;
-}
-
-.absent{
-background:#ffe8ea;
-color:#d53c45;
-}
-
-.info{
-margin-top:18px;
-padding:14px 17px;
-border-radius:13px;
-background:#edf5ff;
-color:#3979c9;
-}
-
-.headrow{
-display:flex;
-align-items:center;
-gap:15px;
-margin-bottom:20px;
-}
-
-.headrow h2{
-flex:1;
-margin:0;
-}
-
-.count{
-color:#8492a7;
-font-weight:600;
-}
-
-.tablewrap{
-overflow:auto;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-min-width:750px;
-}
-
-th{
-background:#edf4ff;
-padding:16px;
-text-align:left;
-}
-
-td{
-padding:14px;
-border-bottom:1px solid #e3e8ef;
-}
-
-tr:hover td{
-background:#fafcff;
-}
-
-.status-buttons{
-display:flex;
-gap:8px;
-}
-
-.status-buttons button{
-width:47px;
-height:39px;
-border:0;
-border-radius:9px;
-font-weight:800;
-cursor:pointer;
-opacity:.35;
-}
-
-.status-buttons .p{
-background:#dff5e9;
-color:#1da462;
-}
-
-.status-buttons .a{
-background:#ffe3e6;
-color:#dd3943;
-}
-
-.status-buttons button.active{
-opacity:1;
-outline:2px solid currentColor;
-}
 
 .error{
-background:#ffe9e9;
-color:#b72f2f;
-padding:15px;
-border-radius:13px;
-margin-bottom:18px;
+
+    background:#ffe8e8;
+
+    color:#b92e38;
+
+    border:
+        1px solid
+        #f3b9bd;
+
 }
+
 
 .success{
-background:#e5f8ed;
-color:#168b55;
-padding:15px;
-border-radius:13px;
-margin-bottom:18px;
+
+    background:#e6f8ee;
+
+    color:#168b55;
+
+    border:
+        1px solid
+        #bfe6d1;
+
 }
+
+
+.hidden{
+
+    display:none !important;
+
+}
+
+
+/* =====================================================
+   FORM GRID
+===================================================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(
+                0,
+                1fr
+            )
+        );
+
+    gap:17px;
+
+}
+
+
+.form-group{
+
+    min-width:0;
+
+}
+
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:9px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#102653;
+
+}
+
+
+.form-control{
+
+    width:100%;
+
+    height:56px;
+
+    padding:
+        0 14px;
+
+    border:
+        2px solid
+        #d8e3f3;
+
+    border-radius:15px;
+
+    background:#f7faff;
+
+    color:#18345e;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.2s;
+
+}
+
+
+.form-control:focus{
+
+    border-color:#5da1ed;
+
+    background:#ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            64,
+            143,
+            229,
+            .10
+        );
+
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:11px;
+
+    margin-top:20px;
+
+}
+
+
+.action-btn{
+
+    border:0;
+
+    border-radius:13px;
+
+    padding:
+        13px
+        19px;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.present-btn{
+
+    background:#e1f7eb;
+
+    color:#14945a;
+
+}
+
+
+.absent-btn{
+
+    background:#ffe6e9;
+
+    color:#d43b46;
+
+}
+
+
+.action-btn:disabled{
+
+    opacity:.55;
+
+    cursor:not-allowed;
+
+}
+
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.info-box{
+
+    margin-top:18px;
+
+    padding:
+        14px
+        17px;
+
+    border-radius:14px;
+
+    background:#edf5ff;
+
+    color:#3979c9;
+
+    line-height:1.5;
+
+}
+
+
+/* =====================================================
+   STUDENT HEADER
+===================================================== */
+
+.student-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+
+.student-header h2{
+
+    margin:0;
+
+    flex:1;
+
+    font-size:25px;
+
+}
+
+
+.student-count{
+
+    color:#8492a7;
+
+    font-weight:700;
+
+}
+
+
+.save-btn{
+
+    border:0;
+
+    border-radius:16px;
+
+    padding:
+        13px
+        21px;
+
+    background:
+        linear-gradient(
+            100deg,
+            #46c4e7,
+            #2057dc
+        );
+
+    color:#ffffff;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.save-btn:disabled{
+
+    opacity:.55;
+
+    cursor:not-allowed;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-container{
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+
+table{
+
+    width:100%;
+
+    min-width:760px;
+
+    border-collapse:collapse;
+
+}
+
+
+thead th{
+
+    background:#edf4ff;
+
+    color:#102653;
+
+    text-align:left;
+
+    padding:
+        16px
+        15px;
+
+    font-size:15px;
+
+    font-weight:800;
+
+}
+
+
+tbody td{
+
+    padding:
+        14px
+        15px;
+
+    border-bottom:
+        1px solid
+        #e4e9f1;
+
+    font-size:15px;
+
+}
+
+
+tbody tr:hover td{
+
+    background:#fafcff;
+
+}
+
+
+/* =====================================================
+   STATUS BUTTONS
+===================================================== */
+
+.status-buttons{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+.status-btn{
+
+    width:47px;
+
+    height:39px;
+
+    border:0;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    opacity:.35;
+
+    transition:.15s;
+
+}
+
+
+.status-btn.present{
+
+    background:#dff5e9;
+
+    color:#15995a;
+
+}
+
+
+.status-btn.absent{
+
+    background:#ffe3e6;
+
+    color:#db3945;
+
+}
+
+
+.status-btn.active{
+
+    opacity:1;
+
+    transform:scale(1.03);
+
+    box-shadow:
+        0 0 0 2px
+        currentColor;
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
 
 .empty{
-text-align:center;
-padding:40px;
-color:#8795a8;
-}
 
-@media(max-width:850px){
+    text-align:center;
 
-.grid{
-grid-template-columns:1fr 1fr;
-}
+    padding:
+        45px
+        20px;
 
-.faculty{
-display:none;
-}
+    color:#8492a7;
 
 }
 
-@media(max-width:550px){
 
-.top{
-height:72px;
-padding:10px 13px;
-gap:8px;
+.empty-icon{
+
+    font-size:46px;
+
+    margin-bottom:10px;
+
 }
 
-.title{
-font-size:22px;
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading{
+
+    text-align:center;
+
+    padding:35px;
+
+    color:#5d6f8b;
+
 }
 
-.menu{
-font-size:26px;
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:900px){
+
+    .form-grid{
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
+
+    }
+
 }
 
-.back,
-.refresh{
-padding:10px 12px;
-font-size:14px;
-}
 
-.wrap{
-padding:14px;
-}
+@media(max-width:600px){
 
-.card{
-padding:19px;
-border-radius:23px;
-}
+    .topbar{
 
-.grid{
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
+        height:72px;
 
-.field label{
-font-size:14px;
-}
+        padding:
+            10px
+            13px;
 
-.field input,
-.field select{
-height:51px;
-font-size:14px;
-padding:0 8px;
-}
+        gap:9px;
 
-.headrow{
-flex-wrap:wrap;
-}
+    }
 
-.headrow h2{
-width:100%;
-flex:none;
-}
 
-.save{
-padding:11px 14px;
-font-size:14px;
-}
+    .menu-btn{
+
+        font-size:27px;
+
+    }
+
+
+    .page-title{
+
+        font-size:22px;
+
+    }
+
+
+    .top-btn{
+
+        min-height:44px;
+
+        padding:
+            0 12px;
+
+        border-radius:13px;
+
+        font-size:14px;
+
+    }
+
+
+    .refresh-btn{
+
+        width:45px;
+
+        font-size:24px;
+
+    }
+
+
+    .container{
+
+        padding:14px;
+
+    }
+
+
+    .card{
+
+        padding:19px;
+
+        border-radius:23px;
+
+        margin-bottom:16px;
+
+    }
+
+
+    .form-grid{
+
+        grid-template-columns:
+            1fr
+            1fr;
+
+        gap:11px;
+
+    }
+
+
+    .form-group label{
+
+        font-size:13px;
+
+    }
+
+
+    .form-control{
+
+        height:51px;
+
+        font-size:14px;
+
+        padding:
+            0 9px;
+
+    }
+
+
+    .student-header{
+
+        flex-wrap:wrap;
+
+    }
+
+
+    .student-header h2{
+
+        flex-basis:100%;
+
+        font-size:22px;
+
+    }
+
+
+    .student-count{
+
+        flex:1;
+
+    }
+
+
+    .save-btn{
+
+        padding:
+            11px
+            14px;
+
+        font-size:14px;
+
+    }
+
+
+    .action-btn{
+
+        padding:
+            11px
+            13px;
+
+        font-size:14px;
+
+    }
 
 }
 
 </style>
+
 </head>
 
 
 <body>
 
-<header class="top">
 
-<span class="menu">☰</span>
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-<div class="title">
-Manage Attendance
-</div>
+<header class="topbar">
 
-<span id="facultyName" class="faculty"></span>
+    <button
+        class="menu-btn"
+        type="button"
+        aria-label="Menu"
+        onclick="history.back()"
+    >
+        ☰
+    </button>
 
-<button class="back" onclick="history.back()">
-‹ Back
-</button>
 
-<button class="refresh" id="refresh">
-↻
-</button>
+    <div class="page-title">
+        Manage Attendance
+    </div>
+
+
+    <button
+        class="top-btn"
+        type="button"
+        onclick="history.back()"
+    >
+        ‹ Back
+    </button>
+
+
+    <button
+        id="refreshBtn"
+        class="top-btn refresh-btn"
+        type="button"
+        title="Refresh"
+    >
+        ↻
+    </button>
 
 </header>
 
 
-<main class="wrap">
 
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-<div id="error" class="error" hidden></div>
+<main class="container">
 
-<div id="success" class="success" hidden></div>
 
+    <!-- ERROR -->
 
-<section class="card">
+    <div
+        id="errorMessage"
+        class="message error hidden"
+    ></div>
 
 
-<div class="grid">
+    <!-- SUCCESS -->
 
+    <div
+        id="successMessage"
+        class="message success hidden"
+    ></div>
 
-<div class="field">
 
-<label>Date</label>
 
-<input id="date" type="date">
+    <!-- =================================================
+         FILTER CARD
+    ================================================== -->
 
-</div>
+    <section class="card">
 
 
-<div class="field">
+        <div class="form-grid">
 
-<label>Semester</label>
 
-<select id="semester">
+            <!-- DATE -->
 
-<option>Sem-1</option>
-<option>Sem-2</option>
-<option selected>Sem-3</option>
-<option>Sem-4</option>
-<option>Sem-5</option>
-<option>Sem-6</option>
-<option>Sem-7</option>
-<option>Sem-8</option>
+            <div class="form-group">
 
-</select>
+                <label for="date">
+                    Date
+                </label>
 
-</div>
+                <input
+                    id="date"
+                    class="form-control"
+                    type="date"
+                >
 
+            </div>
 
-<div class="field">
 
-<label>Section</label>
 
-<select id="section">
+            <!-- SEMESTER -->
 
-<option>A</option>
-<option>B</option>
-<option>C</option>
+            <div class="form-group">
 
-</select>
+                <label for="semester">
+                    Semester
+                </label>
 
-</div>
+                <select
+                    id="semester"
+                    class="form-control"
+                >
 
+                    <option value="Sem-1">
+                        Sem-1
+                    </option>
 
-<div class="field">
+                    <option value="Sem-2">
+                        Sem-2
+                    </option>
 
-<label>Subject / Lecture</label>
+                    <option
+                        value="Sem-3"
+                        selected
+                    >
+                        Sem-3
+                    </option>
 
-<select id="subject">
+                    <option value="Sem-4">
+                        Sem-4
+                    </option>
 
-<option value="">
-Select subject / lecture
-</option>
+                    <option value="Sem-5">
+                        Sem-5
+                    </option>
 
-</select>
+                    <option value="Sem-6">
+                        Sem-6
+                    </option>
 
-</div>
+                    <option value="Sem-7">
+                        Sem-7
+                    </option>
 
+                    <option value="Sem-8">
+                        Sem-8
+                    </option>
 
-</div>
+                </select>
 
+            </div>
 
-<div class="actions">
 
-<button
-id="allPresent"
-class="action present">
 
-✓ Mark All Present
+            <!-- SECTION -->
 
-</button>
+            <div class="form-group">
 
+                <label for="section">
+                    Section
+                </label>
 
-<button
-id="allAbsent"
-class="action absent">
+                <select
+                    id="section"
+                    class="form-control"
+                >
 
-× Mark All Absent
+                    <option value="A">
+                        A
+                    </option>
 
-</button>
+                    <option value="B">
+                        B
+                    </option>
 
-</div>
+                    <option value="C">
+                        C
+                    </option>
 
+                </select>
 
-<div class="info">
+            </div>
 
-Select date, semester, section and lecture,
-then mark <b>P</b> or <b>A</b>.
 
-</div>
 
+            <!-- SUBJECT -->
 
-</section>
+            <div class="form-group">
 
+                <label for="subject">
+                    Subject / Lecture
+                </label>
 
-<section class="card">
+                <select
+                    id="subject"
+                    class="form-control"
+                >
 
+                    <option value="">
+                        Loading subjects...
+                    </option>
 
-<div class="headrow">
+                </select>
 
-<h2>Students</h2>
+            </div>
 
-<span id="count" class="count">
-0 students
-</span>
 
-<button id="save" class="save">
-Save Attendance
-</button>
+        </div>
 
-</div>
 
 
-<div class="tablewrap">
+        <!-- ACTIONS -->
 
-<table>
+        <div class="actions">
 
-<thead>
+            <button
+                id="allPresent"
+                class="action-btn present-btn"
+                type="button"
+            >
+                ✓ Mark All Present
+            </button>
 
-<tr>
-<th>#</th>
-<th>Roll No.</th>
-<th>Student Name</th>
-<th>Section</th>
-<th>Attendance</th>
-</tr>
 
-</thead>
+            <button
+                id="allAbsent"
+                class="action-btn absent-btn"
+                type="button"
+            >
+                × Mark All Absent
+            </button>
 
+        </div>
 
-<tbody id="students">
 
-<tr>
 
-<td colspan="5" class="empty">
-Loading students...
-</td>
+        <div class="info-box">
 
-</tr>
+            Select date, semester, section and lecture,
+            then mark <b>P</b> or <b>A</b>.
 
-</tbody>
+        </div>
 
-</table>
 
-</div>
+    </section>
 
-</section>
+
+
+    <!-- =================================================
+         STUDENTS CARD
+    ================================================== -->
+
+    <section class="card">
+
+
+        <div class="student-header">
+
+            <h2>
+                Students
+            </h2>
+
+
+            <span
+                id="studentCount"
+                class="student-count"
+            >
+                0 students
+            </span>
+
+
+            <button
+                id="saveAttendance"
+                class="save-btn"
+                type="button"
+            >
+                Save Attendance
+            </button>
+
+        </div>
+
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Roll No.
+                        </th>
+
+                        <th>
+                            Student Name
+                        </th>
+
+                        <th>
+                            Section
+                        </th>
+
+                        <th>
+                            Attendance
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody id="studentTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="loading"
+                        >
+                            Loading students...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
 
 </main>
 
 
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
 <script type="module">
 
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
 
 import {
-getFirestore,
-collection,
-doc,
-getDocs,
-query,
-where,
-setDoc,
-serverTimestamp
+    initializeApp
 }
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    where,
+    doc,
+    setDoc,
+    serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
 
 
 /* =====================================================
    FIREBASE CONFIG
 ===================================================== */
 
-const firebaseConfig={
+const firebaseConfig = {
 
-apiKey:"AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+    apiKey:
+        "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
 
-authDomain:"university-portal-2107e.firebaseapp.com",
+    authDomain:
+        "university-portal-2107e.firebaseapp.com",
 
-projectId:"university-portal-2107e",
+    projectId:
+        "university-portal-2107e",
 
-storageBucket:"university-portal-2107e.firebasestorage.app",
+    storageBucket:
+        "university-portal-2107e.firebasestorage.app",
 
-messagingSenderId:"50848903813",
+    messagingSenderId:
+        "50848903813",
 
-appId:"1:50848903813:web:8296090d0d9268cfd2efec",
+    appId:
+        "1:50848903813:web:8296090d0d9268cfd2efec",
 
-measurementId:"G-LKTX7C7F0E"
+    measurementId:
+        "G-LKTX7C7F0E"
 
 };
 
 
-const app=initializeApp(firebaseConfig);
 
-const db=getFirestore(app);
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
+const app =
+    initializeApp(
+        firebaseConfig
+    );
+
+
+const db =
+    getFirestore(app);
+
 
 
 /* =====================================================
-   HELPERS
+   DOM HELPERS
 ===================================================== */
 
-const $=id=>
-document.getElementById(id);
+const $ = (id) =>
+    document.getElementById(id);
 
-
-function today(){
-
-const d=new Date();
-
-return new Date(
-d.getTime()-
-d.getTimezoneOffset()*60000
-)
-.toISOString()
-.slice(0,10);
-
-}
-
-
-function getUser(){
-
-try{
-
-return JSON.parse(
-
-localStorage.getItem("universityUser") ||
-
-localStorage.getItem("currentUser") ||
-
-localStorage.getItem("user") ||
-
-"null"
-
-);
-
-}catch{
-
-return null;
-
-}
-
-}
-
-
-function esc(v){
-
-return String(v??"")
-.replace(/[&<>"']/g,c=>({
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[c]));
-
-}
-
-
-function attendanceId(
-studentId,
-date,
-subjectId
-){
-
-return (
-
-studentId+
-"_"+date+
-"_"+subjectId
-
-)
-.replace(/[\/\s#?[\]]/g,"_");
-
-}
 
 
 /* =====================================================
-   VARIABLES
+   GLOBAL DATA
 ===================================================== */
 
-const currentUser=getUser();
+let allStudents = [];
 
-let students=[];
+let allSubjects = [];
 
-let subjects=[];
+let attendanceRecords = [];
 
-let existing=[];
+let selectedSubject = null;
 
-let selectedSubject=null;
 
 
 /* =====================================================
-   SUBJECTS
+   CURRENT USER
 ===================================================== */
 
-async function loadSubjects(){
+function getCurrentUser(){
 
-const q=query(
+    try{
 
-collection(db,"subjects"),
+        return JSON.parse(
 
-where(
-"section",
-"==",
-$("section").value
-),
+            localStorage.getItem(
+                "universityUser"
+            )
 
-where(
-"semester",
-"==",
-$("semester").value
-)
+            ||
 
-);
+            localStorage.getItem(
+                "currentUser"
+            )
 
+            ||
 
-const snap=
-await getDocs(q);
+            localStorage.getItem(
+                "user"
+            )
 
+            ||
 
-subjects=
-snap.docs.map(d=>({
+            "null"
 
-id:d.id,
-...d.data()
+        );
 
-}));
+    }
 
+    catch(error){
 
-$("subject").innerHTML=`
+        return null;
 
-<option value="">
-Select subject / lecture
-</option>
-
-`;
-
-
-subjects.forEach(s=>{
-
-const option=
-document.createElement("option");
-
-option.value=s.id;
-
-option.textContent=
-`${s.code||""} — ${s.name||""}`;
-
-$("subject")
-.appendChild(option);
-
-});
-
-
-selectedSubject=null;
+    }
 
 }
 
 
+const currentUser =
+    getCurrentUser();
+
+
+
 /* =====================================================
-   STUDENTS
+   NORMALIZE
 ===================================================== */
 
-async function loadStudents(){
+function normalize(value){
 
-const q=query(
-
-collection(db,"students"),
-
-where(
-"section",
-"==",
-$("section").value
-),
-
-where(
-"semester",
-"==",
-$("semester").value
-)
-
-);
-
-
-const snap=
-await getDocs(q);
-
-
-students=
-snap.docs
-.map(d=>({
-
-id:d.id,
-...d.data()
-
-}))
-.filter(s=>s.active!==false)
-.sort((a,b)=>
-
-String(a.rollNo||"")
-.localeCompare(
-String(b.rollNo||""),
-undefined,
-{numeric:true}
-)
-
-);
-
-
-await loadExisting();
-
-renderStudents();
+    return String(
+        value ?? ""
+    )
+    .trim()
+    .toLowerCase();
 
 }
 
 
+
 /* =====================================================
-   EXISTING ATTENDANCE
+   ESCAPE HTML
 ===================================================== */
 
-async function loadExisting(){
+function escapeHtml(value){
 
-const q=query(
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /[&<>"']/g,
+        function(character){
 
-collection(db,"attendance"),
+            return {
 
-where(
-"date",
-"==",
-$("date").value
-),
+                "&":"&amp;",
 
-where(
-"section",
-"==",
-$("section").value
-),
+                "<":"&lt;",
 
-where(
-"semester",
-"==",
-$("semester").value
-)
+                ">":"&gt;",
 
-);
+                '"':"&quot;",
 
+                "'":"&#039;"
 
-const snap=
-await getDocs(q);
+            }[character];
 
-
-existing=
-snap.docs.map(d=>({
-
-id:d.id,
-...d.data()
-
-}));
+        }
+    );
 
 }
 
 
+
 /* =====================================================
-   STATUS
+   TODAY
 ===================================================== */
 
-function statusFor(studentId){
+function getToday(){
 
-if(!selectedSubject)
-return "";
+    const now =
+        new Date();
 
-const record=
-existing.find(x=>
 
-x.studentId===studentId &&
-x.subjectId===selectedSubject.id
+    return new Date(
 
-);
+        now.getTime()
 
-return record?.status||"";
+        -
+
+        now.getTimezoneOffset()
+        * 60000
+
+    )
+    .toISOString()
+    .slice(
+        0,
+        10
+    );
 
 }
+
+
+
+/* =====================================================
+   SHOW ERROR
+===================================================== */
+
+function showError(message){
+
+    $("errorMessage")
+        .textContent =
+            message;
+
+    $("errorMessage")
+        .classList
+        .remove("hidden");
+
+}
+
+
+function hideError(){
+
+    $("errorMessage")
+        .classList
+        .add("hidden");
+
+}
+
+
+
+/* =====================================================
+   SHOW SUCCESS
+===================================================== */
+
+function showSuccess(message){
+
+    $("successMessage")
+        .textContent =
+            message;
+
+    $("successMessage")
+        .classList
+        .remove("hidden");
+
+
+    setTimeout(
+
+        function(){
+
+            $("successMessage")
+                .classList
+                .add("hidden");
+
+        },
+
+        5000
+
+    );
+
+}
+
+
+
+/* =====================================================
+   LOAD ALL STUDENTS
+===================================================== */
+
+async function loadAllStudents(){
+
+    try{
+
+        console.log(
+            "Loading students..."
+        );
+
+
+        const snapshot =
+            await getDocs(
+
+                collection(
+                    db,
+                    "students"
+                )
+
+            );
+
+
+        allStudents =
+            snapshot.docs.map(
+
+                function(document){
+
+                    return {
+
+                        id:
+                            document.id,
+
+                        ...document.data()
+
+                    };
+
+                }
+
+            );
+
+
+        console.log(
+            "Students loaded:",
+            allStudents.length
+        );
+
+
+        filterAndRenderStudents();
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Students error:",
+            error
+        );
+
+
+        showError(
+            "Students load nahi ho rahe: " +
+            error.message
+        );
+
+
+        renderEmptyStudents(
+            "Students load nahi ho paaye."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FILTER STUDENTS
+===================================================== */
+
+function getFilteredStudents(){
+
+    const selectedSection =
+        normalize(
+            $("section").value
+        );
+
+
+    const selectedSemester =
+        normalize(
+            $("semester").value
+        );
+
+
+    return allStudents
+        .filter(
+
+            function(student){
+
+                /*
+                 * active false ko hide karo
+                 */
+
+                if(
+                    student.active === false
+                ){
+
+                    return false;
+
+                }
+
+
+                const section =
+                    normalize(
+                        student.section
+                    );
+
+
+                const semester =
+                    normalize(
+                        student.semester
+                    );
+
+
+                /*
+                 * Section match
+                 */
+
+                if(
+                    selectedSection
+                    &&
+                    section !==
+                        selectedSection
+                ){
+
+                    return false;
+
+                }
+
+
+                /*
+                 * Semester match
+                 */
+
+                if(
+                    selectedSemester
+                    &&
+                    semester !==
+                        selectedSemester
+                ){
+
+                    return false;
+
+                }
+
+
+                return true;
+
+            }
+
+        )
+        .sort(
+
+            function(a,b){
+
+                return String(
+                    a.rollNo ||
+                    a.roll ||
+                    ""
+                )
+                .localeCompare(
+
+                    String(
+                        b.rollNo ||
+                        b.roll ||
+                        ""
+                    ),
+
+                    undefined,
+
+                    {
+                        numeric:true
+                    }
+
+                );
+
+            }
+
+        );
+
+}
+
+
+
+/* =====================================================
+   FILTER AND RENDER
+===================================================== */
+
+function filterAndRenderStudents(){
+
+    const filtered =
+        getFilteredStudents();
+
+
+    renderStudents(
+        filtered
+    );
+
+}
+
 
 
 /* =====================================================
    RENDER STUDENTS
 ===================================================== */
 
-function renderStudents(){
+function renderStudents(students){
 
-if(!students.length){
+    const tbody =
+        $("studentTableBody");
 
-$("students").innerHTML=`
 
-<tr>
+    if(
+        !students.length
+    ){
 
-<td colspan="5" class="empty">
-No students found.
-</td>
+        renderEmptyStudents(
 
-</tr>
+            "No students found for " +
 
-`;
+            $("section").value +
 
-$("count").textContent=
-"0 students";
+            " / " +
 
-return;
+            $("semester").value
+
+        );
+
+        return;
+
+    }
+
+
+    $("studentCount")
+        .textContent =
+            students.length +
+            " students";
+
+
+    tbody.innerHTML =
+
+
+        students.map(
+
+            function(student,index){
+
+                const status =
+                    getExistingStatus(
+                        student.id
+                    );
+
+
+                return `
+
+                    <tr
+                        data-student-id="${escapeHtml(
+                            student.id
+                        )}"
+                    >
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+
+                        <td>
+
+                            <b>
+                                ${escapeHtml(
+                                    student.rollNo ||
+                                    student.roll ||
+                                    "—"
+                                )}
+                            </b>
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                student.name ||
+                                student.studentName ||
+                                "Unnamed Student"
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                student.section ||
+                                "—"
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <div
+                                class="status-buttons"
+                            >
+
+                                <button
+                                    type="button"
+                                    class="status-btn present ${
+                                        status === "P"
+                                            ? "active"
+                                            : ""
+                                    }"
+                                    data-status="P"
+                                >
+                                    P
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="status-btn absent ${
+                                        status === "A"
+                                            ? "active"
+                                            : ""
+                                    }"
+                                    data-status="A"
+                                >
+                                    A
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        )
+        .join("");
+
+
+    attachStatusEvents();
 
 }
 
-
-$("students").innerHTML=
-
-students.map((s,i)=>{
-
-const status=
-statusFor(s.id);
-
-return `
-
-<tr data-id="${esc(s.id)}">
-
-<td>
-${i+1}
-</td>
-
-<td>
-<b>${esc(s.rollNo||"—")}</b>
-</td>
-
-<td>
-${esc(s.name||"Unnamed")}
-</td>
-
-<td>
-${esc(s.section||"—")}
-</td>
-
-<td>
-
-<div class="status-buttons">
-
-<button
-class="p ${
-status==="P"?"active":""
-}"
-data-status="P">
-P
-</button>
-
-<button
-class="a ${
-status==="A"?"active":""
-}"
-data-status="A">
-A
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-`;
-
-}).join("");
-
-
-$("count").textContent=
-students.length+" students";
-
-
-document
-.querySelectorAll(
-"#students [data-status]"
-)
-.forEach(button=>{
-
-button.onclick=()=>{
-
-const row=
-button.closest("tr");
-
-
-row
-.querySelectorAll(
-"[data-status]"
-)
-.forEach(b=>
-b.classList.remove("active")
-);
-
-
-button.classList.add("active");
-
-
-row.dataset.status=
-button.dataset.status;
-
-};
-
-});
-
-}
 
 
 /* =====================================================
-   RELOAD
+   EMPTY STUDENTS
 ===================================================== */
 
-async function reload(){
+function renderEmptyStudents(message){
 
-try{
+    $("studentCount")
+        .textContent =
+            "0 students";
 
-$("error").hidden=true;
 
-await loadSubjects();
+    $("studentTableBody")
+        .innerHTML = `
 
-await loadStudents();
+            <tr>
 
-}catch(e){
+                <td
+                    colspan="5"
+                    class="empty"
+                >
 
-console.error(e);
+                    <div class="empty-icon">
+                        👨‍🎓
+                    </div>
 
-$("error").textContent=
-e.message;
+                    ${escapeHtml(message)}
 
-$("error").hidden=false;
+                </td>
+
+            </tr>
+
+        `;
 
 }
 
+
+
+/* =====================================================
+   STATUS EVENT
+===================================================== */
+
+function attachStatusEvents(){
+
+    document
+        .querySelectorAll(
+            "#studentTableBody [data-status]"
+        )
+        .forEach(
+
+            function(button){
+
+                button.addEventListener(
+
+                    "click",
+
+                    function(){
+
+                        const row =
+                            button.closest(
+                                "tr"
+                            );
+
+
+                        row
+                            .querySelectorAll(
+                                "[data-status]"
+                            )
+                            .forEach(
+
+                                function(btn){
+
+                                    btn.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+                                }
+
+                            );
+
+
+                        button.classList
+                            .add(
+                                "active"
+                            );
+
+
+                        row.dataset.status =
+                            button.dataset.status;
+
+                    }
+
+                );
+
+            }
+
+        );
+
 }
+
+
+
+/* =====================================================
+   LOAD ALL SUBJECTS
+===================================================== */
+
+async function loadAllSubjects(){
+
+    try{
+
+        console.log(
+            "Loading subjects..."
+        );
+
+
+        const snapshot =
+            await getDocs(
+
+                collection(
+                    db,
+                    "subjects"
+                )
+
+            );
+
+
+        allSubjects =
+            snapshot.docs.map(
+
+                function(document){
+
+                    return {
+
+                        id:
+                            document.id,
+
+                        ...document.data()
+
+                    };
+
+                }
+
+            );
+
+
+        console.log(
+            "Subjects loaded:",
+            allSubjects.length
+        );
+
+
+        renderSubjectOptions();
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Subjects error:",
+            error
+        );
+
+
+        showError(
+            "Subjects load nahi ho rahe: " +
+            error.message
+        );
+
+
+        $("subject").innerHTML = `
+
+            <option value="">
+                No subjects found
+            </option>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   RENDER SUBJECTS
+===================================================== */
+
+function renderSubjectOptions(){
+
+    const selectedSection =
+        normalize(
+            $("section").value
+        );
+
+
+    const selectedSemester =
+        normalize(
+            $("semester").value
+        );
+
+
+    const filteredSubjects =
+        allSubjects.filter(
+
+            function(subject){
+
+                if(
+                    subject.active === false
+                ){
+
+                    return false;
+
+                }
+
+
+                const subjectSection =
+                    normalize(
+                        subject.section
+                    );
+
+
+                const subjectSemester =
+                    normalize(
+                        subject.semester
+                    );
+
+
+                /*
+                 * If section exists,
+                 * match it.
+                 */
+
+                if(
+                    subjectSection
+                    &&
+                    selectedSection
+                    &&
+                    subjectSection !==
+                        selectedSection
+                ){
+
+                    return false;
+
+                }
+
+
+                /*
+                 * If semester exists,
+                 * match it.
+                 */
+
+                if(
+                    subjectSemester
+                    &&
+                    selectedSemester
+                    &&
+                    subjectSemester !==
+                        selectedSemester
+                ){
+
+                    return false;
+
+                }
+
+
+                return true;
+
+            }
+
+        )
+        .sort(
+
+            function(a,b){
+
+                return String(
+                    a.code ||
+                    a.name ||
+                    ""
+                )
+                .localeCompare(
+                    String(
+                        b.code ||
+                        b.name ||
+                        ""
+                    )
+                );
+
+            }
+
+        );
+
+
+    $("subject").innerHTML = `
+
+        <option value="">
+            Select subject / lecture
+        </option>
+
+    `;
+
+
+    filteredSubjects.forEach(
+
+        function(subject){
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                subject.id;
+
+
+            const code =
+                subject.code
+                ? subject.code + " — "
+                : "";
+
+
+            option.textContent =
+                code +
+                (
+                    subject.name ||
+                    "Unnamed Subject"
+                );
+
+
+            $("subject")
+                .appendChild(
+                    option
+                );
+
+        }
+
+    );
+
+
+    /*
+     * No subject
+     */
+
+    if(
+        filteredSubjects.length === 0
+    ){
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value = "";
+
+        option.textContent =
+            "No subject found";
+
+
+        $("subject")
+            .appendChild(
+                option
+            );
+
+    }
+
+}
+
 
 
 /* =====================================================
    SUBJECT CHANGE
 ===================================================== */
 
-$("subject").onchange=()=>{
+$("subject")
+    .addEventListener(
 
-selectedSubject=
-subjects.find(
-s=>s.id===$("subject").value
-)||null;
+        "change",
 
-renderStudents();
+        function(){
 
-};
+            selectedSubject =
+                allSubjects.find(
+
+                    function(subject){
+
+                        return (
+                            subject.id ===
+                            $("subject").value
+                        );
+
+                    }
+
+                ) || null;
+
+
+            filterAndRenderStudents();
+
+        }
+
+    );
+
 
 
 /* =====================================================
-   SECTION
+   LOAD EXISTING ATTENDANCE
 ===================================================== */
 
-$("section").onchange=reload;
+async function loadExistingAttendance(){
+
+    try{
+
+        attendanceRecords = [];
 
 
-/* =====================================================
-   SEMESTER
-===================================================== */
-
-$("semester").onchange=reload;
+        const selectedDate =
+            $("date").value;
 
 
-/* =====================================================
-   DATE
-===================================================== */
+        if(
+            !selectedDate
+        ){
 
-$("date").onchange=async()=>{
+            return;
 
-try{
+        }
 
-await loadExisting();
 
-renderStudents();
+        /*
+         * Only DATE query.
+         *
+         * This avoids composite indexes.
+         */
 
-}catch(e){
+        const attendanceQuery =
+            query(
 
-$("error").textContent=
-e.message;
+                collection(
+                    db,
+                    "attendance"
+                ),
 
-$("error").hidden=false;
+                where(
+                    "date",
+                    "==",
+                    selectedDate
+                )
+
+            );
+
+
+        const snapshot =
+            await getDocs(
+                attendanceQuery
+            );
+
+
+        attendanceRecords =
+            snapshot.docs.map(
+
+                function(document){
+
+                    return {
+
+                        id:
+                            document.id,
+
+                        ...document.data()
+
+                    };
+
+                }
+
+            );
+
+
+        console.log(
+            "Existing attendance:",
+            attendanceRecords.length
+        );
+
+
+        filterAndRenderStudents();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Existing attendance error:",
+            error
+        );
+
+
+        showError(
+            "Existing attendance load nahi hui: " +
+            error.message
+        );
+
+    }
 
 }
 
-};
 
 
 /* =====================================================
-   ALL PRESENT
+   EXISTING STATUS
 ===================================================== */
 
-$("allPresent").onclick=()=>{
+function getExistingStatus(studentId){
 
-if(!selectedSubject){
+    if(
+        !selectedSubject
+    ){
 
-alert("Please select Subject / Lecture.");
+        return "";
 
-return;
+    }
+
+
+    const record =
+        attendanceRecords.find(
+
+            function(item){
+
+                return (
+
+                    String(
+                        item.studentId
+                    ) ===
+                    String(
+                        studentId
+                    )
+
+                    &&
+
+                    String(
+                        item.subjectId
+                    ) ===
+                    String(
+                        selectedSubject.id
+                    )
+
+                );
+
+            }
+
+        );
+
+
+    if(
+        !record
+    ){
+
+        return "";
+
+    }
+
+
+    return (
+        record.status || ""
+    )
+    .toUpperCase();
 
 }
 
 
-document
-.querySelectorAll(
-"#students tr[data-id]"
-)
-.forEach(row=>{
 
-row.dataset.status="P";
+/* =====================================================
+   DATE CHANGE
+===================================================== */
 
+$("date")
+    .addEventListener(
 
-row
-.querySelector(
-'[data-status="P"]'
-)
-.classList.add("active");
+        "change",
 
+        async function(){
 
-row
-.querySelector(
-'[data-status="A"]'
-)
-.classList.remove("active");
+            hideError();
 
-});
+            await loadExistingAttendance();
 
-};
+        }
+
+    );
+
 
 
 /* =====================================================
-   ALL ABSENT
+   SECTION CHANGE
 ===================================================== */
 
-$("allAbsent").onclick=()=>{
+$("section")
+    .addEventListener(
 
-if(!selectedSubject){
+        "change",
 
-alert("Please select Subject / Lecture.");
+        async function(){
 
-return;
+            hideError();
+
+
+            /*
+             * Subject list update
+             */
+
+            renderSubjectOptions();
+
+
+            /*
+             * Existing selected subject
+             * clear karo
+             */
+
+            selectedSubject = null;
+
+
+            $("subject").value = "";
+
+
+            /*
+             * Students update
+             */
+
+            filterAndRenderStudents();
+
+
+            /*
+             * Existing attendance
+             */
+
+            await loadExistingAttendance();
+
+        }
+
+    );
+
+
+
+/* =====================================================
+   SEMESTER CHANGE
+===================================================== */
+
+$("semester")
+    .addEventListener(
+
+        "change",
+
+        async function(){
+
+            hideError();
+
+
+            renderSubjectOptions();
+
+
+            selectedSubject = null;
+
+
+            $("subject").value = "";
+
+
+            filterAndRenderStudents();
+
+
+            await loadExistingAttendance();
+
+        }
+
+    );
+
+
+
+/* =====================================================
+   MARK ALL PRESENT
+===================================================== */
+
+$("allPresent")
+    .addEventListener(
+
+        "click",
+
+        function(){
+
+            if(
+                !selectedSubject
+            ){
+
+                alert(
+                    "Pehle Subject / Lecture select karein."
+                );
+
+                return;
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    "#studentTableBody tr[data-student-id]"
+                )
+                .forEach(
+
+                    function(row){
+
+                        row.dataset.status =
+                            "P";
+
+
+                        row
+                            .querySelectorAll(
+                                "[data-status]"
+                            )
+                            .forEach(
+
+                                function(button){
+
+                                    button.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+                                }
+
+                            );
+
+
+                        const presentButton =
+                            row.querySelector(
+                                '[data-status="P"]'
+                            );
+
+
+                        if(
+                            presentButton
+                        ){
+
+                            presentButton
+                                .classList
+                                .add(
+                                    "active"
+                                );
+
+                        }
+
+                    }
+
+                );
+
+        }
+
+    );
+
+
+
+/* =====================================================
+   MARK ALL ABSENT
+===================================================== */
+
+$("allAbsent")
+    .addEventListener(
+
+        "click",
+
+        function(){
+
+            if(
+                !selectedSubject
+            ){
+
+                alert(
+                    "Pehle Subject / Lecture select karein."
+                );
+
+                return;
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    "#studentTableBody tr[data-student-id]"
+                )
+                .forEach(
+
+                    function(row){
+
+                        row.dataset.status =
+                            "A";
+
+
+                        row
+                            .querySelectorAll(
+                                "[data-status]"
+                            )
+                            .forEach(
+
+                                function(button){
+
+                                    button.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+                                }
+
+                            );
+
+
+                        const absentButton =
+                            row.querySelector(
+                                '[data-status="A"]'
+                            );
+
+
+                        if(
+                            absentButton
+                        ){
+
+                            absentButton
+                                .classList
+                                .add(
+                                    "active"
+                                );
+
+                        }
+
+                    }
+
+                );
+
+        }
+
+    );
+
+
+
+/* =====================================================
+   CREATE ATTENDANCE DOCUMENT ID
+===================================================== */
+
+function createAttendanceId(
+    studentId,
+    date,
+    subjectId
+){
+
+    return (
+
+        String(studentId)
+
+        + "_"
+
+        + String(date)
+
+        + "_"
+
+        + String(subjectId)
+
+    )
+    .replace(
+        /[\/\\#?[\]\s]/g,
+        "_"
+    );
 
 }
 
-
-document
-.querySelectorAll(
-"#students tr[data-id]"
-)
-.forEach(row=>{
-
-row.dataset.status="A";
-
-
-row
-.querySelector(
-'[data-status="A"]'
-)
-.classList.add("active");
-
-
-row
-.querySelector(
-'[data-status="P"]'
-)
-.classList.remove("active");
-
-});
-
-};
 
 
 /* =====================================================
    SAVE ATTENDANCE
 ===================================================== */
 
-$("save").onclick=async()=>{
+$("saveAttendance")
+    .addEventListener(
 
-try{
+        "click",
 
-$("error").hidden=true;
+        async function(){
 
-$("success").hidden=true;
+            hideError();
 
 
-if(!selectedSubject){
+            if(
+                !selectedSubject
+            ){
 
-alert(
-"Please select Subject / Lecture."
-);
+                alert(
+                    "Pehle Subject / Lecture select karein."
+                );
 
-return;
+                return;
 
-}
+            }
 
 
-const rows=[
+            const rows =
+                Array.from(
 
-...document.querySelectorAll(
-"#students tr[data-id]"
-)
+                    document.querySelectorAll(
+                        "#studentTableBody tr[data-student-id]"
+                    )
 
-];
+                );
 
 
-const marked=
-rows.filter(row=>
+            if(
+                rows.length === 0
+            ){
 
-row.dataset.status==="P" ||
-row.dataset.status==="A"
+                alert(
+                    "Koi student nahi mila."
+                );
 
-);
+                return;
 
+            }
 
-if(!marked.length){
 
-alert(
-"Please mark P or A for students."
-);
+            const markedRows =
+                rows.filter(
 
-return;
+                    function(row){
 
-}
+                        return (
 
+                            row.dataset.status ===
+                            "P"
 
-$("save").disabled=true;
+                            ||
 
+                            row.dataset.status ===
+                            "A"
 
-let saved=0;
+                        );
 
+                    }
 
-for(const row of marked){
+                );
 
-const student=
-students.find(
-s=>s.id===row.dataset.id
-);
 
+            if(
+                markedRows.length === 0
+            ){
 
-const id=
-attendanceId(
+                alert(
+                    "Students ko P ya A mark karein."
+                );
 
-student.id,
+                return;
 
-$("date").value,
+            }
 
-selectedSubject.id
 
-);
+            const saveButton =
+                $("saveAttendance");
 
 
-await setDoc(
+            saveButton.disabled =
+                true;
 
-doc(
-db,
-"attendance",
-id
-),
 
-{
+            saveButton.textContent =
+                "Saving...";
 
-studentId:
-student.id,
 
-date:
-$("date").value,
+            try{
 
-section:
-student.section ||
-$("section").value,
+                let savedCount = 0;
 
-semester:
-student.semester ||
-$("semester").value,
 
-subjectId:
-selectedSubject.id,
+                for(
+                    const row of markedRows
+                ){
 
-subjectCode:
-selectedSubject.code||"",
+                    const studentId =
+                        row.dataset.studentId;
 
-subjectName:
-selectedSubject.name||"",
 
-lectureType:
-selectedSubject.lectureType ||
-"Theory",
+                    const student =
+                        allStudents.find(
 
-status:
-row.dataset.status,
+                            function(item){
 
-markedBy:
-currentUser?.uid ||
-currentUser?.id ||
-currentUser?.username ||
-"faculty",
+                                return (
+                                    String(
+                                        item.id
+                                    ) ===
+                                    String(
+                                        studentId
+                                    )
+                                );
 
-updatedAt:
-serverTimestamp()
+                            }
 
-},
+                        );
 
-{merge:true}
 
-);
+                    if(
+                        !student
+                    ){
 
+                        continue;
 
-saved++;
+                    }
 
-}
 
+                    const documentId =
+                        createAttendanceId(
 
-/*
- * IMPORTANT:
- * createdAt केवल नया record होने पर
- * अलग से जरूरत हो तो Firestore server timestamp
- * merge के साथ updateAt भी रहेगा.
- */
+                            student.id,
 
+                            $("date").value,
 
-await loadExisting();
+                            selectedSubject.id
 
-renderStudents();
+                        );
 
 
-$("success").textContent=
-`✓ Attendance saved successfully for ${saved} students.`;
+                    await setDoc(
 
-$("success").hidden=false;
+                        doc(
+                            db,
+                            "attendance",
+                            documentId
+                        ),
 
+                        {
 
-}catch(e){
+                            studentId:
+                                student.id,
 
-console.error(e);
+                            studentName:
+                                student.name ||
+                                student.studentName ||
+                                "",
 
-$("error").textContent=
-e.message||
-"Unable to save attendance.";
+                            rollNo:
+                                student.rollNo ||
+                                student.roll ||
+                                "",
 
-$("error").hidden=false;
+                            date:
+                                $("date").value,
 
-}finally{
+                            section:
+                                student.section ||
+                                $("section").value,
 
-$("save").disabled=false;
+                            semester:
+                                student.semester ||
+                                $("semester").value,
 
-}
+                            subjectId:
+                                selectedSubject.id,
 
-};
+                            subjectCode:
+                                selectedSubject.code ||
+                                "",
+
+                            subjectName:
+                                selectedSubject.name ||
+                                "",
+
+                            lectureType:
+                                selectedSubject.lectureType ||
+                                "Theory",
+
+                            status:
+                                row.dataset.status,
+
+                            markedBy:
+                                currentUser?.uid ||
+                                currentUser?.id ||
+                                currentUser?.username ||
+                                currentUser?.email ||
+                                "faculty",
+
+                            updatedAt:
+                                serverTimestamp()
+
+                        },
+
+                        {
+                            merge:true
+                        }
+
+                    );
+
+
+                    savedCount++;
+
+                }
+
+
+                await loadExistingAttendance();
+
+
+                showSuccess(
+
+                    "✓ Attendance saved successfully for "
+
+                    +
+
+                    savedCount
+
+                    +
+
+                    " students."
+
+                );
+
+            }
+
+            catch(error){
+
+                console.error(
+                    "SAVE ERROR:",
+                    error
+                );
+
+
+                showError(
+
+                    "Attendance save nahi hui: "
+
+                    +
+
+                    error.message
+
+                );
+
+            }
+
+            finally{
+
+                saveButton.disabled =
+                    false;
+
+
+                saveButton.textContent =
+                    "Save Attendance";
+
+            }
+
+        }
+
+    );
+
 
 
 /* =====================================================
    REFRESH
 ===================================================== */
 
-$("refresh").onclick=reload;
+$("refreshBtn")
+    .addEventListener(
+
+        "click",
+
+        async function(){
+
+            const button =
+                $("refreshBtn");
+
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "↻";
+
+
+            try{
+
+                hideError();
+
+
+                await loadAllSubjects();
+
+                await loadAllStudents();
+
+                await loadExistingAttendance();
+
+
+                showSuccess(
+                    "✓ Data refreshed."
+                );
+
+            }
+
+            catch(error){
+
+                showError(
+                    error.message
+                );
+
+            }
+
+            finally{
+
+                button.disabled =
+                    false;
+
+            }
+
+        }
+
+    );
+
 
 
 /* =====================================================
-   INIT
+   INITIALIZE
 ===================================================== */
 
-async function init(){
+async function initializePage(){
 
-if(!currentUser){
+    try{
 
-$("error").textContent=
-"Please login first.";
+        hideError();
 
-$("error").hidden=false;
 
-return;
+        /*
+         * Today's date
+         */
+
+        $("date").value =
+            getToday();
+
+
+        /*
+         * Default semester
+         */
+
+        $("semester").value =
+            "Sem-3";
+
+
+        /*
+         * Default section
+         */
+
+        $("section").value =
+            "A";
+
+
+        /*
+         * IMPORTANT:
+         *
+         * Login check intentionally
+         * nahi lagaya gaya.
+         *
+         * Isse students/subjects
+         * load hone ke liye localStorage
+         * dependency nahi rahegi.
+         */
+
+
+        await loadAllSubjects();
+
+
+        await loadAllStudents();
+
+
+        await loadExistingAttendance();
+
+
+        console.log(
+            "Manage Attendance initialized."
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "INITIALIZATION ERROR:",
+            error
+        );
+
+
+        showError(
+            "Page load error: " +
+            error.message
+        );
+
+    }
 
 }
 
 
-$("facultyName").textContent=
-currentUser.name ||
-currentUser.username ||
-"Faculty";
+initializePage();
 
-
-$("date").value=today();
-
-
-await reload();
-
-}
-
-
-init();
 
 </script>
 
+
 </body>
+
 </html>
