@@ -1,1862 +1,1340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Manage Attendance</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #eef4ff;
-      color: #102654;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    /* ================= HEADER ================= */
-
-    .topbar {
-      height: 86px;
-      background: #ffffff;
-      border-bottom: 1px solid #dbe5f4;
-
-      display: flex;
-      align-items: center;
 
-      gap: 24px;
-      padding: 0 32px;
-
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .menu-btn,
-    .refresh-btn {
-      border: none;
-      background: transparent;
-      color: #102654;
-      font-size: 32px;
-    }
-
-    .refresh-btn {
-      font-size: 36px;
-    }
-
-    .page-title {
-      flex: 1;
-      font-size: 29px;
-      font-weight: 900;
-    }
-
-    .back-btn {
-      border: none;
-      color: white;
-      font-size: 18px;
-      font-weight: 800;
-
-      padding: 15px 26px;
-
-      border-radius: 15px;
-
-      background: linear-gradient(
-        100deg,
-        #4bc2e8,
-        #2458d9
-      );
-    }
-
-    /* ================= MAIN ================= */
-
-    .container {
-      max-width: 1200px;
-      margin: 28px auto;
-      padding: 0 18px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 30px;
-      padding: 28px;
-      margin-bottom: 22px;
-
-      box-shadow: 0 8px 30px rgba(80, 110, 160, 0.10);
-    }
-
-    .card-title {
-      margin: 0 0 22px;
-
-      font-size: 25px;
-      font-weight: 900;
-    }
-
-    /* ================= SETUP ================= */
-
-    .setup-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 9px;
-
-      font-weight: 800;
-    }
-
-    .form-control {
-      width: 100%;
-      height: 58px;
-
-      border: 2px solid #dce6f5;
-      border-radius: 16px;
-
-      background: #f7f9fd;
-
-      padding: 0 14px;
-
-      color: #182b55;
-
-      outline: none;
-    }
-
-    .form-control:focus {
-      border-color: #65a8ee;
-    }
-
-    /* ================= STUDENT HEADER ================= */
-
-    .student-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      gap: 15px;
-
-      margin-bottom: 20px;
-    }
-
-    .search-box {
-      width: 280px;
-      height: 52px;
-
-      border: 2px solid #dce6f5;
-      border-radius: 15px;
-
-      padding: 0 15px;
-
-      outline: none;
-    }
-
-    .search-box:focus {
-      border-color: #65a8ee;
-    }
-
-    /* ================= INFO ================= */
-
-    .info-box {
-      background: #eef7ff;
-      color: #3975ad;
-
-      padding: 14px 17px;
-
-      border-radius: 14px;
-
-      margin-bottom: 17px;
-    }
-
-    .error-box {
-      background: #fff0f1;
-      color: #d33f49;
-
-      padding: 14px 17px;
-
-      border-radius: 14px;
-
-      margin-bottom: 17px;
-    }
-
-    .success-box {
-      background: #eaf9f1;
-      color: #24935d;
-
-      padding: 14px 17px;
-
-      border-radius: 14px;
-
-      margin-bottom: 17px;
-    }
-
-    /* ================= BUTTONS ================= */
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 12px;
-
-      margin-bottom: 20px;
-    }
-
-    .action-btn {
-      border: none;
-
-      padding: 13px 20px;
-
-      border-radius: 15px;
-
-      font-weight: 800;
-    }
-
-    .present-all {
-      background: #eaf3ff;
-      color: #2876cd;
-    }
-
-    .absent-all {
-      background: #fff0f2;
-      color: #db444b;
-    }
-
-    .save-btn {
-      color: white;
-
-      background: linear-gradient(
-        100deg,
-        #4bc2e8,
-        #2458d9
-      );
-    }
-
-    .save-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    /* ================= TABLE ================= */
-
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      min-width: 760px;
-
-      border-collapse: collapse;
-    }
-
-    th {
-      background: #edf4fd;
-
-      text-align: left;
-
-      padding: 15px;
-
-      font-size: 16px;
-    }
-
-    td {
-      padding: 14px 15px;
-
-      border-bottom: 1px solid #e4e9f0;
-    }
-
-    .student-name {
-      font-weight: 800;
-    }
-
-    /* ================= STATUS ================= */
-
-    .status-btn {
-      min-width: 50px;
-
-      padding: 9px 14px;
-
-      margin-right: 6px;
-
-      border-radius: 9px;
-
-      border: 2px solid #dce4ef;
-
-      background: white;
-
-      font-weight: 900;
-    }
-
-    .status-btn.present.active {
-      background: #e8f7ef;
-      color: #209e62;
-      border-color: #bde5d0;
-    }
-
-    .status-btn.absent.active {
-      background: #fff0f1;
-      color: #dc4047;
-      border-color: #f0c5cb;
-    }
-
-    /* ================= EMPTY ================= */
-
-    .empty {
-      text-align: center;
-
-      padding: 55px 20px;
-
-      color: #8290a7;
-    }
-
-    /* ================= TOAST ================= */
-
-    .toast {
-      display: none;
-
-      position: fixed;
-
-      right: 20px;
-      bottom: 20px;
-
-      z-index: 999;
-
-      color: white;
-
-      background: #13284f;
-
-      padding: 15px 20px;
-
-      border-radius: 14px;
-    }
-
-    .toast.show {
-      display: block;
-    }
-
-    /* ================= MOBILE ================= */
-
-    @media (max-width: 850px) {
-
-      .setup-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .topbar {
-        padding: 0 15px;
-      }
-
-      .page-title {
-        font-size: 23px;
-      }
-    }
-
-    @media (max-width: 550px) {
-
-      .setup-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .container {
-        padding: 0 10px;
-      }
-
-      .card {
-        padding: 20px;
-        border-radius: 25px;
-      }
-
-      .student-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .search-box {
-        width: 100%;
-      }
-
-      .back-btn {
-        padding: 12px 16px;
-        font-size: 15px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Manage Attendance</title>
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:#eef4ff;
+color:#102653;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+.top{
+height:85px;
+background:white;
+display:flex;
+align-items:center;
+gap:18px;
+padding:15px 28px;
+border-bottom:1px solid #dce5f4;
+position:sticky;
+top:0;
+z-index:20;
+}
+
+.menu{font-size:30px}
+
+.title{
+font-size:29px;
+font-weight:800;
+flex:1;
+}
+
+.faculty{
+color:#78869b;
+font-weight:600;
+}
+
+.back,
+.refresh,
+.save{
+border:0;
+cursor:pointer;
+border-radius:16px;
+background:linear-gradient(100deg,#46c4e7,#2057dc);
+color:white;
+padding:13px 20px;
+font-size:17px;
+font-weight:700;
+}
+
+.wrap{
+max-width:1150px;
+margin:auto;
+padding:25px;
+}
+
+.card{
+background:white;
+border-radius:28px;
+padding:25px;
+margin-bottom:22px;
+box-shadow:0 5px 22px #dce5f2;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+}
+
+.field label{
+display:block;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.field input,
+.field select{
+width:100%;
+height:56px;
+border:2px solid #d8e2f1;
+border-radius:15px;
+padding:0 13px;
+background:#f7faff;
+color:#17335e;
+font-size:16px;
+}
+
+.actions{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:20px;
+}
+
+.action{
+border:0;
+border-radius:13px;
+padding:13px 18px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+}
+
+.present{
+background:#e3f7ed;
+color:#15945a;
+}
+
+.absent{
+background:#ffe8ea;
+color:#d53c45;
+}
+
+.info{
+margin-top:18px;
+padding:14px 17px;
+border-radius:13px;
+background:#edf5ff;
+color:#3979c9;
+}
+
+.headrow{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:20px;
+}
+
+.headrow h2{
+flex:1;
+margin:0;
+}
+
+.count{
+color:#8492a7;
+font-weight:600;
+}
+
+.tablewrap{
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:750px;
+}
+
+th{
+background:#edf4ff;
+padding:16px;
+text-align:left;
+}
+
+td{
+padding:14px;
+border-bottom:1px solid #e3e8ef;
+}
+
+tr:hover td{
+background:#fafcff;
+}
+
+.status-buttons{
+display:flex;
+gap:8px;
+}
+
+.status-buttons button{
+width:47px;
+height:39px;
+border:0;
+border-radius:9px;
+font-weight:800;
+cursor:pointer;
+opacity:.35;
+}
+
+.status-buttons .p{
+background:#dff5e9;
+color:#1da462;
+}
+
+.status-buttons .a{
+background:#ffe3e6;
+color:#dd3943;
+}
+
+.status-buttons button.active{
+opacity:1;
+outline:2px solid currentColor;
+}
+
+.error{
+background:#ffe9e9;
+color:#b72f2f;
+padding:15px;
+border-radius:13px;
+margin-bottom:18px;
+}
+
+.success{
+background:#e5f8ed;
+color:#168b55;
+padding:15px;
+border-radius:13px;
+margin-bottom:18px;
+}
+
+.empty{
+text-align:center;
+padding:40px;
+color:#8795a8;
+}
+
+@media(max-width:850px){
+
+.grid{
+grid-template-columns:1fr 1fr;
+}
+
+.faculty{
+display:none;
+}
+
+}
+
+@media(max-width:550px){
+
+.top{
+height:72px;
+padding:10px 13px;
+gap:8px;
+}
+
+.title{
+font-size:22px;
+}
+
+.menu{
+font-size:26px;
+}
+
+.back,
+.refresh{
+padding:10px 12px;
+font-size:14px;
+}
+
+.wrap{
+padding:14px;
+}
+
+.card{
+padding:19px;
+border-radius:23px;
+}
+
+.grid{
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.field label{
+font-size:14px;
+}
+
+.field input,
+.field select{
+height:51px;
+font-size:14px;
+padding:0 8px;
+}
+
+.headrow{
+flex-wrap:wrap;
+}
+
+.headrow h2{
+width:100%;
+flex:none;
+}
+
+.save{
+padding:11px 14px;
+font-size:14px;
+}
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-  <!-- ================= HEADER ================= -->
+<header class="top">
 
-  <header class="topbar">
+<span class="menu">☰</span>
 
-    <button
-      class="menu-btn"
-      onclick="history.back()">
-      ☰
-    </button>
+<div class="title">
+Manage Attendance
+</div>
 
-    <div class="page-title">
-      Manage Attendance
-    </div>
+<span id="facultyName" class="faculty"></span>
 
-    <button
-      class="back-btn"
-      onclick="history.back()">
-      ‹ Back
-    </button>
+<button class="back" onclick="history.back()">
+‹ Back
+</button>
 
-    <button
-      class="refresh-btn"
-      id="refreshBtn">
-      ↻
-    </button>
+<button class="refresh" id="refresh">
+↻
+</button>
 
-  </header>
+</header>
 
 
-  <!-- ================= MAIN ================= -->
+<main class="wrap">
 
-  <main class="container">
 
-    <!-- ================= ATTENDANCE SETUP ================= -->
+<div id="error" class="error" hidden></div>
 
-    <section class="card">
+<div id="success" class="success" hidden></div>
 
-      <h2 class="card-title">
-        📋 Attendance Setup
-      </h2>
 
-      <div class="setup-grid">
+<section class="card">
 
-        <!-- DATE -->
 
-        <div class="form-group">
+<div class="grid">
 
-          <label for="attendanceDate">
-            Date
-          </label>
 
-          <input
-            type="date"
-            id="attendanceDate"
-            class="form-control">
+<div class="field">
 
-        </div>
+<label>Date</label>
 
+<input id="date" type="date">
 
-        <!-- SECTION -->
+</div>
 
-        <div class="form-group">
 
-          <label for="sectionSelect">
-            Section
-          </label>
+<div class="field">
 
-          <select
-            id="sectionSelect"
-            class="form-control">
+<label>Semester</label>
 
-            <option value="">
-              Loading sections...
-            </option>
+<select id="semester">
 
-          </select>
+<option>Sem-1</option>
+<option>Sem-2</option>
+<option selected>Sem-3</option>
+<option>Sem-4</option>
+<option>Sem-5</option>
+<option>Sem-6</option>
+<option>Sem-7</option>
+<option>Sem-8</option>
 
-        </div>
+</select>
 
+</div>
 
-        <!-- SUBJECT -->
 
-        <div class="form-group">
+<div class="field">
 
-          <label for="subjectInput">
-            Subject
-          </label>
+<label>Section</label>
 
-          <input
-            type="text"
-            id="subjectInput"
-            class="form-control"
-            placeholder="e.g. V-Lecture">
+<select id="section">
 
-        </div>
+<option>A</option>
+<option>B</option>
+<option>C</option>
 
+</select>
 
-        <!-- LECTURE TYPE -->
+</div>
 
-        <div class="form-group">
 
-          <label for="lectureType">
-            Lecture Type
-          </label>
+<div class="field">
 
-          <select
-            id="lectureType"
-            class="form-control">
+<label>Subject / Lecture</label>
 
-            <option value="Theory">
-              Theory
-            </option>
+<select id="subject">
 
-            <option value="Practical">
-              Practical
-            </option>
+<option value="">
+Select subject / lecture
+</option>
 
-          </select>
+</select>
 
-        </div>
+</div>
 
-      </div>
 
-    </section>
+</div>
 
 
-    <!-- ================= STUDENTS ================= -->
+<div class="actions">
 
-    <section class="card">
+<button
+id="allPresent"
+class="action present">
 
-      <div class="student-header">
+✓ Mark All Present
 
-        <h2 class="card-title">
-          👥 Student Attendance
-        </h2>
+</button>
 
-        <input
-          type="text"
-          id="searchStudent"
-          class="search-box"
-          placeholder="Search student...">
 
-      </div>
+<button
+id="allAbsent"
+class="action absent">
 
+× Mark All Absent
 
-      <div class="info-box">
+</button>
 
-        Students are loaded directly from
-        <b>Firestore → students</b>.
+</div>
 
-        Select a section, mark
-        <b>P</b> or <b>A</b>,
-        then save attendance.
 
-      </div>
+<div class="info">
 
+Select date, semester, section and lecture,
+then mark <b>P</b> or <b>A</b>.
 
-      <div id="messageBox"></div>
+</div>
 
 
-      <!-- BUTTONS -->
+</section>
 
-      <div class="toolbar">
 
-        <button
-          class="action-btn present-all"
-          id="markAllPresent">
+<section class="card">
 
-          ✓ Mark All Present
 
-        </button>
+<div class="headrow">
 
+<h2>Students</h2>
 
-        <button
-          class="action-btn absent-all"
-          id="markAllAbsent">
+<span id="count" class="count">
+0 students
+</span>
 
-          × Mark All Absent
+<button id="save" class="save">
+Save Attendance
+</button>
 
-        </button>
+</div>
 
 
-        <button
-          class="action-btn save-btn"
-          id="saveAttendance">
+<div class="tablewrap">
 
-          💾 Save Attendance
+<table>
 
-        </button>
+<thead>
 
-      </div>
+<tr>
+<th>#</th>
+<th>Roll No.</th>
+<th>Student Name</th>
+<th>Section</th>
+<th>Attendance</th>
+</tr>
 
+</thead>
 
-      <!-- TABLE -->
 
-      <div class="table-container">
+<tbody id="students">
 
-        <table>
+<tr>
 
-          <thead>
+<td colspan="5" class="empty">
+Loading students...
+</td>
 
-            <tr>
+</tr>
 
-              <th>
-                #
-              </th>
+</tbody>
 
-              <th>
-                Student
-              </th>
+</table>
 
-              <th>
-                Student ID
-              </th>
+</div>
 
-              <th>
-                Section
-              </th>
+</section>
 
-              <th>
-                Status
-              </th>
+</main>
 
-            </tr>
 
-          </thead>
+<script type="module">
 
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-          <tbody id="studentTableBody">
+import {
+getFirestore,
+collection,
+doc,
+getDocs,
+query,
+where,
+setDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-            <tr>
 
-              <td
-                colspan="5"
-                class="empty">
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
-                Loading students...
+const firebaseConfig={
 
-              </td>
+apiKey:"AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
 
-            </tr>
+authDomain:"university-portal-2107e.firebaseapp.com",
 
-          </tbody>
+projectId:"university-portal-2107e",
 
-        </table>
+storageBucket:"university-portal-2107e.firebasestorage.app",
 
-      </div>
+messagingSenderId:"50848903813",
 
-    </section>
+appId:"1:50848903813:web:8296090d0d9268cfd2efec",
 
-  </main>
+measurementId:"G-LKTX7C7F0E"
 
+};
 
-  <div
-    id="toast"
-    class="toast">
-  </div>
 
+const app=initializeApp(firebaseConfig);
 
-  <!-- ================= FIREBASE ================= -->
+const db=getFirestore(app);
 
-  <script type="module">
 
-    import {
-      initializeApp
-    }
-    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+/* =====================================================
+   HELPERS
+===================================================== */
 
+const $=id=>
+document.getElementById(id);
 
-    import {
-      getFirestore,
-      collection,
-      getDocs,
-      doc,
-      setDoc,
-      serverTimestamp
-    }
-    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+function today(){
 
-    /* ==================================================
-       FIREBASE CONFIG
-    ================================================== */
+const d=new Date();
 
-    const firebaseConfig = {
+return new Date(
+d.getTime()-
+d.getTimezoneOffset()*60000
+)
+.toISOString()
+.slice(0,10);
 
-      apiKey:
-        "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+}
 
-      authDomain:
-        "university-portal-2107e.firebaseapp.com",
 
-      projectId:
-        "university-portal-2107e",
+function getUser(){
 
-      storageBucket:
-        "university-portal-2107e.firebasestorage.app",
+try{
 
-      messagingSenderId:
-        "50848903813",
+return JSON.parse(
 
-      appId:
-        "1:50848903813:web:8296090d0d9268cfd2efec",
+localStorage.getItem("universityUser") ||
 
-      measurementId:
-        "G-LKTX7C7F0E"
+localStorage.getItem("currentUser") ||
 
-    };
+localStorage.getItem("user") ||
 
+"null"
 
-    /* ==================================================
-       INITIALIZE FIREBASE
-    ================================================== */
+);
 
-    const app =
-      initializeApp(firebaseConfig);
+}catch{
 
-    const db =
-      getFirestore(app);
+return null;
 
+}
 
-    const studentsCollection =
-      collection(db, "students  ");
+}
 
 
-    const attendanceCollection =
-      collection(db, "attendance");
+function esc(v){
 
+return String(v??"")
+.replace(/[&<>"']/g,c=>({
 
-    /* ==================================================
-       VARIABLES
-    ================================================== */
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
 
-    let students = [];
+}[c]));
 
-    let attendanceStatus = {};
+}
 
 
-    /* ==================================================
-       ELEMENTS
-    ================================================== */
+function attendanceId(
+studentId,
+date,
+subjectId
+){
 
-    const dateInput =
-      document.getElementById("attendanceDate");
+return (
 
-    const sectionSelect =
-      document.getElementById("sectionSelect");
+studentId+
+"_"+date+
+"_"+subjectId
 
-    const subjectInput =
-      document.getElementById("subjectInput");
+)
+.replace(/[\/\s#?[\]]/g,"_");
 
-    const lectureType =
-      document.getElementById("lectureType");
+}
 
-    const searchInput =
-      document.getElementById("searchStudent");
 
-    const tableBody =
-      document.getElementById("studentTableBody");
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-    const messageBox =
-      document.getElementById("messageBox");
+const currentUser=getUser();
 
-    const saveButton =
-      document.getElementById("saveAttendance");
+let students=[];
 
-    const refreshButton =
-      document.getElementById("refreshBtn");
+let subjects=[];
 
+let existing=[];
 
-    /* ==================================================
-       DEFAULT DATE
-    ================================================== */
+let selectedSubject=null;
 
-    const today =
-      new Date();
 
-    today.setMinutes(
-      today.getMinutes()
-      - today.getTimezoneOffset()
-    );
+/* =====================================================
+   SUBJECTS
+===================================================== */
 
-    dateInput.value =
-      today.toISOString()
-      .split("T")[0];
+async function loadSubjects(){
 
+const q=query(
 
-    /* ==================================================
-       ESCAPE HTML
-    ================================================== */
+collection(db,"subjects"),
 
-    function escapeHTML(value) {
+where(
+"section",
+"==",
+$("section").value
+),
 
-      return String(value ?? "")
-        .replace(
-          /[&<>"']/g,
-          function (character) {
+where(
+"semester",
+"==",
+$("semester").value
+)
 
-            return {
+);
 
-              "&": "&amp;",
-              "<": "&lt;",
-              ">": "&gt;",
-              '"': "&quot;",
-              "'": "&#039;"
 
-            }[character];
+const snap=
+await getDocs(q);
 
-          }
-        );
 
-    }
+subjects=
+snap.docs.map(d=>({
 
+id:d.id,
+...d.data()
 
-    /* ==================================================
-       GET FIELD
-    ================================================== */
+}));
 
-    function getField(
-      data,
-      possibleNames
-    ) {
 
-      for (
-        const fieldName
-        of possibleNames
-      ) {
+$("subject").innerHTML=`
 
-        if (
-          data[fieldName] !== undefined &&
-          data[fieldName] !== null &&
-          String(data[fieldName]).trim() !== ""
-        ) {
+<option value="">
+Select subject / lecture
+</option>
 
-          return String(
-            data[fieldName]
-          ).trim();
+`;
 
-        }
 
-      }
+subjects.forEach(s=>{
 
-      return "";
+const option=
+document.createElement("option");
 
-    }
+option.value=s.id;
 
+option.textContent=
+`${s.code||""} — ${s.name||""}`;
 
-    /* ==================================================
-       STUDENT ID
-    ================================================== */
+$("subject")
+.appendChild(option);
 
-    function getStudentId(
-      data,
-      documentId
-    ) {
+});
 
-      return (
 
-        getField(
-          data,
-          [
-            "studentId",
-            "studentID",
-            "rollNumber",
-            "rollNo",
-            "registrationNo",
-            "enrollmentNo"
-          ]
-        )
+selectedSubject=null;
 
-        || documentId
+}
 
-      );
 
-    }
+/* =====================================================
+   STUDENTS
+===================================================== */
 
+async function loadStudents(){
 
-    /* ==================================================
-       STUDENT NAME
-    ================================================== */
+const q=query(
 
-    function getStudentName(data) {
+collection(db,"students"),
 
-      return (
+where(
+"section",
+"==",
+$("section").value
+),
 
-        getField(
-          data,
-          [
-            "name",
-            "studentName",
-            "fullName",
-            "displayName"
-          ]
-        )
+where(
+"semester",
+"==",
+$("semester").value
+)
 
-        || "Unnamed Student"
+);
 
-      );
 
-    }
+const snap=
+await getDocs(q);
 
 
-    /* ==================================================
-       SECTION
-    ================================================== */
+students=
+snap.docs
+.map(d=>({
 
-    function getStudentSection(data) {
+id:d.id,
+...d.data()
 
-      return getField(
-        data,
-        [
-          "section",
-          "Section",
-          "classSection",
-          "class_section"
-        ]
-      );
+}))
+.filter(s=>s.active!==false)
+.sort((a,b)=>
 
-    }
+String(a.rollNo||"")
+.localeCompare(
+String(b.rollNo||""),
+undefined,
+{numeric:true}
+)
 
+);
 
-    /* ==================================================
-       MESSAGE
-    ================================================== */
 
-    function showError(message) {
+await loadExisting();
 
-      messageBox.innerHTML =
-        `<div class="error-box">
-          ${message}
-        </div>`;
+renderStudents();
 
-    }
+}
 
 
-    function showSuccess(message) {
+/* =====================================================
+   EXISTING ATTENDANCE
+===================================================== */
 
-      messageBox.innerHTML =
-        `<div class="success-box">
-          ${message}
-        </div>`;
+async function loadExisting(){
 
-    }
+const q=query(
 
+collection(db,"attendance"),
 
-    /* ==================================================
-       TOAST
-    ================================================== */
+where(
+"date",
+"==",
+$("date").value
+),
 
-    function showToast(message) {
+where(
+"section",
+"==",
+$("section").value
+),
 
-      const toast =
-        document.getElementById("toast");
+where(
+"semester",
+"==",
+$("semester").value
+)
 
-      toast.textContent =
-        message;
+);
 
-      toast.classList.add("show");
 
-      setTimeout(
-        () => {
-          toast.classList.remove("show");
-        },
-        3000
-      );
+const snap=
+await getDocs(q);
 
-    }
 
+existing=
+snap.docs.map(d=>({
 
-    /* ==================================================
-       LOAD STUDENTS
-    ================================================== */
+id:d.id,
+...d.data()
 
-    async function loadStudents() {
+}));
 
-      tableBody.innerHTML =
-        `<tr>
-          <td
-            colspan="5"
-            class="empty">
+}
 
-            Loading students...
 
-          </td>
-        </tr>`;
+/* =====================================================
+   STATUS
+===================================================== */
 
+function statusFor(studentId){
 
-      sectionSelect.innerHTML =
-        `<option value="">
-          Loading sections...
-        </option>`;
+if(!selectedSubject)
+return "";
 
+const record=
+existing.find(x=>
 
-      messageBox.innerHTML = "";
+x.studentId===studentId &&
+x.subjectId===selectedSubject.id
 
+);
 
-      try {
+return record?.status||"";
 
-        const snapshot =
-          await getDocs(
-            studentsCollection
-          );
+}
 
 
-        console.log(
-          "Firestore students:",
-          snapshot.size
-        );
+/* =====================================================
+   RENDER STUDENTS
+===================================================== */
 
+function renderStudents(){
 
-        students =
-          snapshot.docs.map(
-            documentSnapshot => ({
+if(!students.length){
 
-              documentId:
-                documentSnapshot.id,
+$("students").innerHTML=`
 
-              ...documentSnapshot.data()
+<tr>
 
-            })
-          );
+<td colspan="5" class="empty">
+No students found.
+</td>
 
+</tr>
 
-        /* =========================
-           EMPTY COLLECTION
-        ========================= */
+`;
 
-        if (students.length === 0) {
+$("count").textContent=
+"0 students";
 
-          sectionSelect.innerHTML =
-            `<option value="">
-              No sections found
-            </option>`;
+return;
 
-          tableBody.innerHTML =
-            `<tr>
-              <td
-                colspan="5"
-                class="empty">
+}
 
-                Firestore <b>students</b>
-                collection is empty.
 
-              </td>
-            </tr>`;
+$("students").innerHTML=
 
+students.map((s,i)=>{
 
-          showError(
-            "No student documents were found in the <b>students</b> collection."
-          );
+const status=
+statusFor(s.id);
 
-          return;
+return `
 
-        }
+<tr data-id="${esc(s.id)}">
 
+<td>
+${i+1}
+</td>
 
-        /* =========================
-           GET SECTIONS
-        ========================= */
+<td>
+<b>${esc(s.rollNo||"—")}</b>
+</td>
 
-        const sections =
-          [
-            ...new Set(
+<td>
+${esc(s.name||"Unnamed")}
+</td>
 
-              students
-                .map(
-                  student =>
-                    getStudentSection(student)
-                )
-                .filter(
-                  section => section !== ""
-                )
+<td>
+${esc(s.section||"—")}
+</td>
 
-            )
-          ]
-          .sort();
+<td>
 
+<div class="status-buttons">
 
-        console.log(
-          "Sections:",
-          sections
-        );
+<button
+class="p ${
+status==="P"?"active":""
+}"
+data-status="P">
+P
+</button>
 
+<button
+class="a ${
+status==="A"?"active":""
+}"
+data-status="A">
+A
+</button>
 
-        /* =========================
-           NO SECTION FIELD
-        ========================= */
+</div>
 
-        if (sections.length === 0) {
+</td>
 
-          sectionSelect.innerHTML =
-            `<option value="">
-              No sections found
-            </option>`;
+</tr>
 
+`;
 
-          tableBody.innerHTML =
-            `<tr>
-              <td
-                colspan="5"
-                class="empty">
+}).join("");
 
-                No section field found.
 
-              </td>
-            </tr>`;
+$("count").textContent=
+students.length+" students";
 
 
-          showError(
-            "Students exist, but their documents do not contain a valid <b>section</b> field."
-          );
+document
+.querySelectorAll(
+"#students [data-status]"
+)
+.forEach(button=>{
 
+button.onclick=()=>{
 
-          console.table(students);
+const row=
+button.closest("tr");
 
-          return;
 
-        }
+row
+.querySelectorAll(
+"[data-status]"
+)
+.forEach(b=>
+b.classList.remove("active")
+);
 
 
-        /* =========================
-           ADD SECTIONS
-        ========================= */
+button.classList.add("active");
 
-        sectionSelect.innerHTML =
-          `<option value="">
-            Select section
-          </option>`;
 
+row.dataset.status=
+button.dataset.status;
 
-        sections.forEach(
-          section => {
+};
 
-            const option =
-              document.createElement(
-                "option"
-              );
+});
 
-            option.value =
-              section;
+}
 
-            option.textContent =
-              section;
 
-            sectionSelect.appendChild(
-              option
-            );
+/* =====================================================
+   RELOAD
+===================================================== */
 
-          }
-        );
+async function reload(){
 
+try{
 
-        /* =========================
-           DEFAULT STATUS
-        ========================= */
+$("error").hidden=true;
 
-        attendanceStatus = {};
+await loadSubjects();
 
+await loadStudents();
 
-        students.forEach(
-          student => {
+}catch(e){
 
-            attendanceStatus[
-              student.documentId
-            ] = "P";
+console.error(e);
 
-          }
-        );
+$("error").textContent=
+e.message;
 
+$("error").hidden=false;
 
-        /*
-          If only one section exists,
-          automatically select it.
-        */
+}
 
-        if (sections.length === 1) {
+}
 
-          sectionSelect.value =
-            sections[0];
 
-          renderStudents();
+/* =====================================================
+   SUBJECT CHANGE
+===================================================== */
 
-        }
-        else {
+$("subject").onchange=()=>{
 
-          tableBody.innerHTML =
-            `<tr>
-              <td
-                colspan="5"
-                class="empty">
+selectedSubject=
+subjects.find(
+s=>s.id===$("subject").value
+)||null;
 
-                Select a section
-                to load students.
+renderStudents();
 
-              </td>
-            </tr>`;
+};
 
-        }
 
+/* =====================================================
+   SECTION
+===================================================== */
 
-      }
-      catch (error) {
+$("section").onchange=reload;
 
-        console.error(
-          "Firebase error:",
-          error
-        );
 
+/* =====================================================
+   SEMESTER
+===================================================== */
 
-        showError(
-          "Firebase error: <b>"
-          +
-          escapeHTML(
-            error.message
-          )
-          +
-          "</b>"
-        );
+$("semester").onchange=reload;
 
 
-        tableBody.innerHTML =
-          `<tr>
-            <td
-              colspan="5"
-              class="empty">
+/* =====================================================
+   DATE
+===================================================== */
 
-              Unable to load students.
+$("date").onchange=async()=>{
 
-            </td>
-          </tr>`;
+try{
 
-      }
+await loadExisting();
 
-    }
+renderStudents();
 
+}catch(e){
 
-    /* ==================================================
-       RENDER STUDENTS
-    ================================================== */
+$("error").textContent=
+e.message;
 
-    function renderStudents() {
+$("error").hidden=false;
 
-      const selectedSection =
-        sectionSelect.value;
+}
 
-      const search =
-        searchInput.value
-          .toLowerCase()
-          .trim();
+};
 
 
-      if (!selectedSection) {
+/* =====================================================
+   ALL PRESENT
+===================================================== */
 
-        tableBody.innerHTML =
-          `<tr>
-            <td
-              colspan="5"
-              class="empty">
+$("allPresent").onclick=()=>{
 
-              Select a section
-              to load students.
+if(!selectedSubject){
 
-            </td>
-          </tr>`;
+alert("Please select Subject / Lecture.");
 
-        return;
+return;
 
-      }
+}
 
 
-      const filteredStudents =
-        students.filter(
-          student => {
+document
+.querySelectorAll(
+"#students tr[data-id]"
+)
+.forEach(row=>{
 
-            const studentSection =
-              getStudentSection(
-                student
-              );
+row.dataset.status="P";
 
-            const studentName =
-              getStudentName(
-                student
-              );
 
-            const studentId =
-              getStudentId(
-                student,
-                student.documentId
-              );
+row
+.querySelector(
+'[data-status="P"]'
+)
+.classList.add("active");
 
 
-            const matchesSection =
-              studentSection ===
-              selectedSection;
+row
+.querySelector(
+'[data-status="A"]'
+)
+.classList.remove("active");
 
+});
 
-            const matchesSearch =
-              (
-                studentName
-                +
-                " "
-                +
-                studentId
-              )
-              .toLowerCase()
-              .includes(search);
+};
 
 
-            return (
-              matchesSection
-              &&
-              matchesSearch
-            );
+/* =====================================================
+   ALL ABSENT
+===================================================== */
 
-          }
-        );
+$("allAbsent").onclick=()=>{
 
+if(!selectedSubject){
 
-      /* =========================
-         NO STUDENTS
-      ========================= */
+alert("Please select Subject / Lecture.");
 
-      if (
-        filteredStudents.length === 0
-      ) {
+return;
 
-        tableBody.innerHTML =
-          `<tr>
-            <td
-              colspan="5"
-              class="empty">
+}
 
-              No students found
-              in this section.
 
-            </td>
-          </tr>`;
+document
+.querySelectorAll(
+"#students tr[data-id]"
+)
+.forEach(row=>{
 
-        return;
+row.dataset.status="A";
 
-      }
 
+row
+.querySelector(
+'[data-status="A"]'
+)
+.classList.add("active");
 
-      /* =========================
-         TABLE
-      ========================= */
 
-      tableBody.innerHTML =
-        filteredStudents
-          .map(
-            (student, index) => {
+row
+.querySelector(
+'[data-status="P"]'
+)
+.classList.remove("active");
 
-              const id =
-                student.documentId;
+});
 
-              const studentId =
-                getStudentId(
-                  student,
-                  id
-                );
+};
 
-              const studentName =
-                getStudentName(
-                  student
-                );
 
-              const studentSection =
-                getStudentSection(
-                  student
-                );
+/* =====================================================
+   SAVE ATTENDANCE
+===================================================== */
 
+$("save").onclick=async()=>{
 
-              const status =
-                attendanceStatus[id]
-                || "P";
+try{
 
+$("error").hidden=true;
 
-              return `
+$("success").hidden=true;
 
-                <tr>
 
-                  <td>
-                    ${index + 1}
-                  </td>
+if(!selectedSubject){
 
-                  <td class="student-name">
-                    ${escapeHTML(
-                      studentName
-                    )}
-                  </td>
+alert(
+"Please select Subject / Lecture."
+);
 
-                  <td>
-                    ${escapeHTML(
-                      studentId
-                    )}
-                  </td>
+return;
 
-                  <td>
-                    ${escapeHTML(
-                      studentSection
-                    )}
-                  </td>
+}
 
-                  <td>
 
-                    <button
-                      class="status-btn present
-                      ${status === "P" ? "active" : ""}"
-                      onclick="setAttendance(
-                        '${escapeHTML(id)}',
-                        'P'
-                      )">
+const rows=[
 
-                      P
+...document.querySelectorAll(
+"#students tr[data-id]"
+)
 
-                    </button>
+];
 
 
-                    <button
-                      class="status-btn absent
-                      ${status === "A" ? "active" : ""}"
-                      onclick="setAttendance(
-                        '${escapeHTML(id)}',
-                        'A'
-                      )">
+const marked=
+rows.filter(row=>
 
-                      A
+row.dataset.status==="P" ||
+row.dataset.status==="A"
 
-                    </button>
+);
 
-                  </td>
 
-                </tr>
+if(!marked.length){
 
-              `;
+alert(
+"Please mark P or A for students."
+);
 
-            }
-          )
-          .join("");
+return;
 
-    }
+}
 
 
-    /* ==================================================
-       SET ATTENDANCE
-    ================================================== */
+$("save").disabled=true;
 
-    window.setAttendance =
-      function (
-        documentId,
-        status
-      ) {
 
-        attendanceStatus[
-          documentId
-        ] = status;
+let saved=0;
 
-        renderStudents();
 
-      };
+for(const row of marked){
 
+const student=
+students.find(
+s=>s.id===row.dataset.id
+);
 
-    /* ==================================================
-       SECTION CHANGE
-    ================================================== */
 
-    sectionSelect.addEventListener(
-      "change",
-      function () {
+const id=
+attendanceId(
 
-        renderStudents();
+student.id,
 
-      }
-    );
+$("date").value,
 
+selectedSubject.id
 
-    /* ==================================================
-       SEARCH
-    ================================================== */
+);
 
-    searchInput.addEventListener(
-      "input",
-      function () {
 
-        renderStudents();
+await setDoc(
 
-      }
-    );
+doc(
+db,
+"attendance",
+id
+),
 
+{
 
-    /* ==================================================
-       MARK ALL PRESENT
-    ================================================== */
+studentId:
+student.id,
 
-    document
-      .getElementById(
-        "markAllPresent"
-      )
-      .addEventListener(
-        "click",
-        function () {
+date:
+$("date").value,
 
-          const selectedSection =
-            sectionSelect.value;
+section:
+student.section ||
+$("section").value,
 
+semester:
+student.semester ||
+$("semester").value,
 
-          students
-            .filter(
-              student =>
-                getStudentSection(
-                  student
-                )
-                ===
-                selectedSection
-            )
-            .forEach(
-              student => {
+subjectId:
+selectedSubject.id,
 
-                attendanceStatus[
-                  student.documentId
-                ] = "P";
+subjectCode:
+selectedSubject.code||"",
 
-              }
-            );
+subjectName:
+selectedSubject.name||"",
 
+lectureType:
+selectedSubject.lectureType ||
+"Theory",
 
-          renderStudents();
+status:
+row.dataset.status,
 
-          showToast(
-            "All students marked Present"
-          );
+markedBy:
+currentUser?.uid ||
+currentUser?.id ||
+currentUser?.username ||
+"faculty",
 
-        }
-      );
+updatedAt:
+serverTimestamp()
 
+},
 
-    /* ==================================================
-       MARK ALL ABSENT
-    ================================================== */
+{merge:true}
 
-    document
-      .getElementById(
-        "markAllAbsent"
-      )
-      .addEventListener(
-        "click",
-        function () {
+);
 
-          const selectedSection =
-            sectionSelect.value;
 
+saved++;
 
-          students
-            .filter(
-              student =>
-                getStudentSection(
-                  student
-                )
-                ===
-                selectedSection
-            )
-            .forEach(
-              student => {
+}
 
-                attendanceStatus[
-                  student.documentId
-                ] = "A";
 
-              }
-            );
+/*
+ * IMPORTANT:
+ * createdAt केवल नया record होने पर
+ * अलग से जरूरत हो तो Firestore server timestamp
+ * merge के साथ updateAt भी रहेगा.
+ */
 
 
-          renderStudents();
+await loadExisting();
 
-          showToast(
-            "All students marked Absent"
-          );
+renderStudents();
 
-        }
-      );
 
+$("success").textContent=
+`✓ Attendance saved successfully for ${saved} students.`;
 
-    /* ==================================================
-       SAVE ATTENDANCE
-    ================================================== */
+$("success").hidden=false;
 
-    saveButton.addEventListener(
-      "click",
-      async function () {
 
-        const date =
-          dateInput.value;
+}catch(e){
 
-        const section =
-          sectionSelect.value;
+console.error(e);
 
-        const subject =
-          subjectInput.value.trim();
+$("error").textContent=
+e.message||
+"Unable to save attendance.";
 
-        const type =
-          lectureType.value;
+$("error").hidden=false;
 
+}finally{
 
-        /* =========================
-           VALIDATION
-        ========================= */
+$("save").disabled=false;
 
-        if (!date) {
+}
 
-          showToast(
-            "Please select date"
-          );
+};
 
-          return;
 
-        }
+/* =====================================================
+   REFRESH
+===================================================== */
 
+$("refresh").onclick=reload;
 
-        if (!section) {
 
-          showToast(
-            "Please select section"
-          );
+/* =====================================================
+   INIT
+===================================================== */
 
-          return;
+async function init(){
 
-        }
+if(!currentUser){
 
+$("error").textContent=
+"Please login first.";
 
-        if (!subject) {
+$("error").hidden=false;
 
-          showToast(
-            "Please enter subject"
-          );
+return;
 
-          subjectInput.focus();
+}
 
-          return;
 
-        }
+$("facultyName").textContent=
+currentUser.name ||
+currentUser.username ||
+"Faculty";
 
 
-        const sectionStudents =
-          students.filter(
-            student =>
-              getStudentSection(
-                student
-              )
-              ===
-              section
-          );
+$("date").value=today();
 
 
-        if (
-          sectionStudents.length === 0
-        ) {
+await reload();
 
-          showToast(
-            "No students found"
-          );
+}
 
-          return;
 
-        }
+init();
 
-
-        saveButton.disabled =
-          true;
-
-        saveButton.textContent =
-          "Saving...";
-
-
-        try {
-
-          /*
-            One attendance document
-            per student.
-
-            Example:
-
-            attendance/
-              STU001_2026-09-01_Math
-          */
-
-
-          for (
-            const student
-            of sectionStudents
-          ) {
-
-            const studentId =
-              getStudentId(
-                student,
-                student.documentId
-              );
-
-
-            const studentName =
-              getStudentName(
-                student
-              );
-
-
-            const semester =
-              getField(
-                student,
-                [
-                  "semester",
-                  "Semester",
-                  "sem"
-                ]
-              );
-
-
-            const safeSubject =
-              subject
-                .replace(
-                  /[\/\\#?]/g,
-                  "-"
-                );
-
-
-            const documentId =
-              encodeURIComponent(
-                studentId
-                +
-                "_"
-                +
-                date
-                +
-                "_"
-                +
-                safeSubject
-              );
-
-
-            await setDoc(
-
-              doc(
-                attendanceCollection,
-                documentId
-              ),
-
-              {
-
-                studentId:
-                  studentId,
-
-                studentDocId:
-                  student.documentId,
-
-                studentName:
-                  studentName,
-
-                section:
-                  section,
-
-                semester:
-                  semester,
-
-                date:
-                  date,
-
-                subject:
-                  subject,
-
-                lectureType:
-                  type,
-
-                status:
-                  attendanceStatus[
-                    student.documentId
-                  ]
-                  || "P",
-
-                updatedAt:
-                  serverTimestamp()
-
-              },
-
-              {
-                merge: true
-              }
-
-            );
-
-          }
-
-
-          showSuccess(
-            "Attendance saved successfully for "
-            +
-            sectionStudents.length
-            +
-            " students."
-          );
-
-
-          showToast(
-            "Attendance saved successfully"
-          );
-
-
-        }
-        catch (error) {
-
-          console.error(
-            "Save attendance error:",
-            error
-          );
-
-
-          showError(
-            "Unable to save attendance: <b>"
-            +
-            escapeHTML(
-              error.message
-            )
-            +
-            "</b>"
-          );
-
-        }
-        finally {
-
-          saveButton.disabled =
-            false;
-
-          saveButton.textContent =
-            "💾 Save Attendance";
-
-        }
-
-      }
-    );
-
-
-    /* ==================================================
-       REFRESH
-    ================================================== */
-
-    refreshButton.addEventListener(
-      "click",
-      function () {
-
-        loadStudents();
-
-      }
-    );
-
-
-    /* ==================================================
-       START
-    ================================================== */
-
-    loadStudents();
-
-  </script>
+</script>
 
 </body>
 </html>
