@@ -2,206 +2,711 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Attendance</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef4ff;color:#102654}
-button,input,select{font:inherit}button{cursor:pointer}
-.topbar{height:86px;background:#fff;border-bottom:1px solid #dbe5f4;display:flex;align-items:center;padding:0 32px;gap:26px;position:sticky;top:0;z-index:20}
-.menu,.refresh{border:0;background:none;color:#102654}.menu{font-size:32px}.refresh{font-size:36px}.title{font-size:30px;font-weight:900;flex:1}
-.back{border:0;color:#fff;font-weight:800;font-size:20px;padding:17px 27px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9)}
-.wrap{max-width:1100px;margin:30px auto;padding:0 20px}.card{background:#fff;border-radius:34px;padding:30px;box-shadow:0 7px 30px #8ea5c31d;margin-bottom:26px}
-.filter-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}.filter-title{font-size:23px;font-weight:800}.clear{border:0;background:#fff5f5;color:#e45353;padding:12px 20px;border-radius:18px;font-weight:700}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.field label{display:block;font-weight:800;font-size:18px;margin-bottom:14px}.control{width:100%;height:66px;border:2px solid #dce6f5;border-radius:20px;background:#f5f8fe;padding:0 18px;color:#8e9ab0;font-size:18px;outline:none}.control:focus{border-color:#6aa7eb}
-.summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}.stat{padding:26px 18px;border-radius:24px;text-align:center;border:2px solid #d8e6fb}.stat .num{font-size:32px;font-weight:900;margin:8px}.stat .lab{font-size:17px;color:#9aa6bb}.blue{background:#edf5ff}.green{background:#edf9f3;border-color:#c7eadb}.red{background:#fff0f2;border-color:#f0c7cf}
-.overall{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.card-title{font-size:27px;font-weight:900;margin:0}.muted{color:#8793a9;font-size:18px;margin-top:6px}
-.donut{width:300px;height:300px;border-radius:50%;margin:20px auto;position:relative;background:conic-gradient(#49b978 var(--present),#ed686b 0)}.donut:after{content:"";position:absolute;inset:63px;background:#fff;border-radius:50%}.donut-center{position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.percent{font-size:35px;font-weight:900;color:#e59b55}
-.legend{font-size:18px}.legend-row{display:flex;align-items:center;gap:12px;margin:20px 0}.dot{width:20px;height:20px;border-radius:50%;display:inline-block}.p{background:#2faf6c}.a{background:#e53d42}.t{background:#3a86dc}.legend b{color:#2b3956}
-.warning{display:inline-block;margin-top:8px;padding:12px 20px;border:2px solid #f3d2ae;background:#fff7ec;color:#e49a4b;border-radius:22px;font-weight:800}
-.breakdown .row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #e4e9f1;font-size:19px}.breakdown .value{font-weight:800;color:#3980d9}.details-btn{display:block;margin:25px auto 0;color:#397fd4;font-size:19px;font-weight:800;text-decoration:underline;background:none;border:0}
-.empty{text-align:center;padding:80px 20px}.empty-icon{font-size:62px;color:#3985de}.empty h2{font-size:28px;margin:15px 0 8px}.empty p{color:#8b97aa;font-size:18px}
-.primary{border:0;color:#fff;background:linear-gradient(100deg,#4bc2e8,#2458d9);padding:17px 32px;border-radius:30px;font-weight:800;font-size:18px}
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.show{display:flex}.modal-box{background:#fff;border-radius:30px;width:min(1050px,100%);max-height:90vh;overflow:auto}.modal-head{padding:24px 30px;border-bottom:1px solid #e1e7ef;display:flex;align-items:center}.modal-head h2{flex:1}.close{border:0;background:none;font-size:34px;color:#71809a}
-.table-wrap{overflow:auto;padding:25px 30px}.table{border-collapse:collapse;min-width:760px;width:100%}.table th{background:#edf4fd;text-align:left;padding:16px 20px}.table td{padding:14px 20px;border-bottom:1px solid #e3e7ed}.badge{display:inline-block;padding:8px 12px;border-radius:8px;font-weight:800}.badge.P{background:#e8f7ef;color:#2ca76b}.badge.A{background:#fff0f1;color:#dc4248}
-.loading{text-align:center;padding:50px;color:#71809a}.error{text-align:center;padding:45px;color:#d8434b;background:#fff1f2;border-radius:20px}
-@media(max-width:700px){.topbar{padding:0 15px;height:80px;gap:12px}.title{font-size:25px}.back{font-size:16px;padding:13px 17px}.wrap{margin:20px auto;padding:0 12px}.card{border-radius:27px;padding:22px}.grid,.overall{grid-template-columns:1fr}.summary{gap:9px}.stat{padding:20px 8px}.stat .num{font-size:27px}.donut{width:260px;height:260px}.donut:after{inset:55px}.filter-head{gap:10px}.filter-title{font-size:21px}.field label{font-size:17px}.control{height:60px}}
+*{box-sizing:border-box}
+body{margin:0;background:#eef4ff;color:#102653;font-family:Arial,Helvetica,sans-serif}
+.top{height:85px;background:#fff;display:flex;align-items:center;padding:15px 28px;gap:20px;border-bottom:1px solid #dce5f4;position:sticky;top:0;z-index:20}
+.menu{font-size:30px}
+.title{font-size:29px;font-weight:800;flex:1}
+.back{background:linear-gradient(100deg,#46c4e7,#2057dc);color:#fff;border:0;border-radius:16px;padding:13px 22px;font-size:17px;font-weight:700;cursor:pointer}
+.refresh{border:0;background:none;font-size:30px;color:#102653;cursor:pointer}
+.wrap{max-width:900px;margin:auto;padding:25px}
+.card{background:#fff;border-radius:28px;padding:25px;margin-bottom:22px;box-shadow:0 5px 22px #dce5f2}
+.filter-head{display:flex;justify-content:space-between;align-items:center;font-size:22px;font-weight:800}
+.clear{border:0;background:#fff2f2;color:#db5252;padding:10px 16px;border-radius:20px;cursor:pointer;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.field label{display:block;margin-bottom:8px;font-weight:700}
+.field input,.field select{width:100%;height:56px;border:2px solid #d9e3f1;border-radius:15px;padding:0 13px;background:#f7faff;color:#17335e;font-size:16px}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+.ringbox{position:relative;text-align:center}
+.ring{width:250px;height:250px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:28}
+.ringBg{stroke:#eb6868}
+.ringPresent{stroke:#46b878;stroke-linecap:butt}
+.ringtext{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.pct{font-size:34px;font-weight:800;color:#e79c4d}
+.sub{color:#99a7ba;font-size:17px;margin-top:5px}
+.legend h2{font-size:24px;margin-top:0}
+.legend p{color:#7d899d;font-size:18px}
+.dot{display:inline-block;width:17px;height:17px;border-radius:50%;margin-right:8px}
+.green{background:#27ad6b}.red{background:#e63d3d}.blue{background:#347fe0}
+.legend b{color:#31496e}
+.warning{display:inline-block;background:#fff7ec;color:#e39a47;border:2px solid #f4d4ae;border-radius:20px;padding:10px 15px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.stat{text-align:center;padding:22px;border-radius:22px;background:#e9f2ff;border:2px solid #c8dcfa}
+.stat:nth-child(2){background:#eaf8f2;border-color:#bce3d1}
+.stat:nth-child(3){background:#fff0f1;border-color:#efc6cc}
+.num{font-size:30px;font-weight:800;margin-bottom:8px}
+.lab{color:#98a7bc;font-size:16px}
+.line{display:flex;justify-content:space-between;padding:17px 0;border-top:1px solid #e3e9f2;font-size:18px}
+.line b{color:#3782dd}
+.details{text-align:center;margin-top:20px}
+.link{background:none;border:0;color:#347bd6;text-decoration:underline;font-size:17px;font-weight:700;cursor:pointer}
+.error{background:#ffe8e8;color:#b52f2f;padding:15px;border-radius:13px;margin-bottom:18px}
+.empty{text-align:center;padding:60px 20px}
+.emptyIcon{font-size:55px}
+.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
+.modal[hidden],#content[hidden],#empty[hidden],#error[hidden],#warning[hidden]{display:none}
+.modal-card{background:white;width:min(95vw,900px);max-height:85vh;overflow:auto;border-radius:28px}
+.modal-head{padding:22px 25px;display:flex;justify-content:space-between;border-bottom:1px solid #ddd;font-size:23px;font-weight:800}
+.close{background:none;border:0;font-size:32px;cursor:pointer;color:#73829c}
+.table-scroll{overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:600px}
+th{background:#edf4ff;padding:15px;text-align:left}
+td{padding:14px;border-bottom:1px solid #e1e6ef}
+.badge{display:inline-flex;width:42px;height:34px;align-items:center;justify-content:center;border-radius:8px;font-weight:800}
+.badge.p{background:#e5f7ed;color:#1fa362}
+.badge.a{background:#ffe7e9;color:#dc3943}
+
+@media(max-width:650px){
+.top{height:72px;padding:10px 14px;gap:10px}
+.title{font-size:23px}
+.back{padding:10px 13px;font-size:14px}
+.refresh{font-size:26px}
+.wrap{padding:14px}
+.card{padding:19px;border-radius:23px}
+.grid{grid-template-columns:1fr 1fr;gap:10px}
+.hero{grid-template-columns:1fr}
+.ring{width:210px;height:210px}
+.stats{gap:7px}
+.stat{padding:17px 5px}
+.num{font-size:25px}
+.line{font-size:16px}
+}
 </style>
 </head>
+
 <body>
-<header class="topbar">
-<button class="menu" onclick="history.back()">☰</button>
+
+<header class="top">
+<span class="menu">☰</span>
 <div class="title">Attendance</div>
 <button class="back" onclick="history.back()">‹ Back</button>
-<button class="refresh" onclick="loadAttendance()">↻</button>
+<button class="refresh" id="refresh">↻</button>
 </header>
 
 <main class="wrap">
+
+<div id="error" class="error" hidden></div>
+
 <section class="card">
-<div class="filter-head"><div class="filter-title">☷ &nbsp;Filters</div><button class="clear" onclick="clearFilters()">× Clear all</button></div>
+
+<div class="filter-head">
+<span>☷ &nbsp; Filters</span>
+<button class="clear" id="clear">× Clear all</button>
+</div>
+
 <div class="grid">
-<div class="field"><label>From</label><input id="fromDate" class="control" type="date"></div>
-<div class="field"><label>To</label><input id="toDate" class="control" type="date"></div>
-<div class="field"><label>Section</label><select id="section" class="control"><option value="">All sections</option></select></div>
-<div class="field"><label>Type</label><select id="type" class="control"><option value="Overall">Overall</option><option value="Theory">Theory</option><option value="Practical">Practical</option></select></div>
+
+<div class="field">
+<label>From</label>
+<input type="date" id="from">
+</div>
+
+<div class="field">
+<label>To</label>
+<input type="date" id="to">
+</div>
+
+<div class="field">
+<label>Section</label>
+<select id="section">
+<option value="">All Sections</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+</select>
+</div>
+
+<div class="field">
+<label>Type</label>
+<select id="type">
+<option value="Overall">Overall</option>
+<option value="Theory">Theory</option>
+<option value="Practical">Practical</option>
+</select>
+</div>
+
 </div>
 </section>
-<div id="content"><div class="card loading">Loading attendance…</div></div>
+
+
+<section id="empty" class="card empty" hidden>
+<div class="emptyIcon">☑</div>
+<h2>No Attendance Data</h2>
+<p>Try changing the filters.</p>
+<button class="back" id="clearEmpty">Clear Filters</button>
+</section>
+
+
+<div id="content">
+
+<section class="card">
+
+<div class="hero">
+
+<div class="ringbox">
+
+<svg class="ring" viewBox="0 0 220 220">
+
+<circle class="ringBg" cx="110" cy="110" r="82"></circle>
+
+<circle id="ring" class="ringPresent" cx="110" cy="110" r="82"></circle>
+
+</svg>
+
+<div class="ringtext">
+<div id="percent" class="pct">0.0%</div>
+<div class="sub">Attendance</div>
+</div>
+
+</div>
+
+
+<div class="legend">
+
+<h2>Overall Attendance</h2>
+
+<p id="studentName">Student</p>
+<p id="studentRoll"></p>
+
+<p>
+<span class="dot green"></span>
+Present
+<b id="pLegend">0</b>
+classes
+</p>
+
+<p>
+<span class="dot red"></span>
+Absent
+<b id="aLegend">0</b>
+classes
+</p>
+
+<p>
+<span class="dot blue"></span>
+Total
+<b id="tLegend">0</b>
+classes
+</p>
+
+<div id="warning" class="warning" hidden>
+⚠ Attendance low
+</div>
+
+</div>
+</div>
+</section>
+
+
+<section class="stats">
+
+<div class="stat">
+<div class="num" id="total">0</div>
+<div class="lab">Total</div>
+</div>
+
+<div class="stat">
+<div class="num" id="present">0</div>
+<div class="lab">Present</div>
+</div>
+
+<div class="stat">
+<div class="num" id="absent">0</div>
+<div class="lab">Absent</div>
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>▥ &nbsp; Lecture Breakdown</h2>
+
+<div class="line">
+<span>📖 Theory Lectures</span>
+<b id="theory">0</b>
+</div>
+
+<div class="line">
+<span>⚗ Practical Lectures</span>
+<b id="practical">0</b>
+</div>
+
+<div class="line">
+<span>Semester</span>
+<b id="semester">—</b>
+</div>
+
+<div class="details">
+<button class="link" id="details">
+View Details attendance
+</button>
+</div>
+
+</section>
+
+</div>
 </main>
 
-<div id="modal" class="modal" onclick="if(event.target===this)closeDetails()">
-<div class="modal-box">
-<div class="modal-head"><h2>▥ &nbsp;Attendance Details</h2><button class="close" onclick="closeDetails()">×</button></div>
-<div class="table-wrap"><div id="detailTable"></div></div>
+
+<div class="modal" id="modal" hidden>
+
+<div class="modal-card">
+
+<div class="modal-head">
+
+<span>▥ &nbsp; Attendance Details</span>
+
+<button class="close" id="close">×</button>
+
+</div>
+
+<div id="detailBody" style="padding:25px"></div>
+
 </div>
 </div>
+
 
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getFirestore,collection,getDocs} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+doc,
+getDoc,
+getDocs,
+query,
+where
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
-  apiKey:"AIzaSyCS7fUaY2HAov1ezfLN9_lchZHHUA4lj8g",
-  authDomain:"university-portal-2107e.firebaseapp.com",
-  projectId:"university-portal-2107e",
-  storageBucket:"university-portal-2107e.firebasestorage.app",
-  messagingSenderId:"50848903813",
-  appId:"1:50848903813:web:8296090d0d9268cfd2efec",
-  measurementId:"G-LKTX7C7F0E"
+
+apiKey:"AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+
+authDomain:"university-portal-2107e.firebaseapp.com",
+
+projectId:"university-portal-2107e",
+
+storageBucket:"university-portal-2107e.firebasestorage.app",
+
+messagingSenderId:"50848903813",
+
+appId:"1:50848903813:web:8296090d0d9268cfd2efec",
+
+measurementId:"G-LKTX7C7F0E"
+
 };
 
-const app=initializeApp(firebaseConfig),db=getFirestore(app);
-const attendanceRef=collection(db,"attendance");
-let allRecords=[],resolvedStudentIds=[];
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+
+/* ================= HELPERS ================= */
 
 const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-const today=new Date(),todayStr=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
-$("fromDate").value=new Date(today.getFullYear(),today.getMonth(),today.getDate()-30).toISOString().slice(0,10);
-$("toDate").value=todayStr;
 
-function currentUser(){try{return JSON.parse(localStorage.getItem("currentUser")||"{}")}catch{return {}}}
-function vals(o,keys){return keys.map(k=>o?.[k]).filter(v=>v!==undefined&&v!==null&&String(v).trim()!=="").map(String)}
-function studentIdentifiers(u){
-  return [...new Set(vals(u,["studentId","studentID","rollNumber","rollNo","registrationNo","enrollmentNo","uid","id","email","username"]))];
-}
-function sectionValue(r){return String(r.section??r.Section??"").trim()}
-function statusValue(r){return String(r.status??"").trim().toUpperCase()}
-function dateDisplay(s){if(!s)return"-";const p=s.split("-");return p.length===3?`${p[2]}-${p[1]}-${p[0]}`:s}
+function today(){
 
-async function resolveStudentIds(){
-  const u=currentUser(), ids=studentIdentifiers(u);
-  if(!ids.length)return [];
-  const snap=await getDocs(collection(db,"students"));
-  const found=[];
-  snap.forEach(d=>{
-    const x=d.data();
-    const candidate=vals(x,["studentId","studentID","rollNumber","rollNo","registrationNo","enrollmentNo","uid","id","email","username"]);
-    if(candidate.some(v=>ids.includes(v))) {
-      found.push(...candidate);
-      found.push(d.id);
-    }
-  });
-  return [...new Set([...ids,...found])];
+const d=new Date();
+
+return new Date(
+d.getTime()-d.getTimezoneOffset()*60000
+).toISOString().slice(0,10);
+
 }
 
-async function loadSections(){
-  try{
-    const snap=await getDocs(collection(db,"students")),set=new Set();
-    snap.forEach(d=>{const s=sectionValue(d.data());if(s)set.add(s)});
-    [...set].sort().forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=s;$("section").appendChild(o)});
-  }catch(e){console.warn("Section load:",e)}
+
+function getUser(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("universityUser") ||
+localStorage.getItem("currentUser") ||
+localStorage.getItem("user") ||
+"null"
+);
+
+}catch{
+return null;
 }
 
-async function loadAttendance(){
-  $("content").innerHTML='<div class="card loading">Loading attendance…</div>';
-  try{
-    resolvedStudentIds=await resolveStudentIds();
-    const u=currentUser();
-    const snap=await getDocs(attendanceRef);
-    const raw=snap.docs.map(d=>({id:d.id,...d.data()}));
-
-    // If a logged-in student can be identified, only show that student's records.
-    // If no student identity is present in localStorage, show records so the page
-    // can still be tested/admin-used.
-    if(resolvedStudentIds.length){
-      allRecords=raw.filter(r=>resolvedStudentIds.includes(String(r.studentId))||resolvedStudentIds.includes(String(r.studentDocId)));
-    }else{
-      const sec=u.section||"";
-      allRecords=sec?raw.filter(r=>sectionValue(r)===String(sec)):raw;
-    }
-    render();
-  }catch(e){
-    console.error(e);
-    $("content").innerHTML='<div class="card error"><h2>Unable to load attendance</h2><p>'+esc(e.message)+'</p><p>Check Firestore rules and the Firebase project configuration.</p></div>';
-  }
 }
+
+
+function esc(v){
+
+return String(v??"")
+.replace(/[&<>"']/g,c=>({
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+
+}[c]));
+
+}
+
+
+/* ================= VARIABLES ================= */
+
+let user=null;
+let student=null;
+let attendance=[];
+
+
+/* ================= LOAD ================= */
+
+async function load(){
+
+try{
+
+$("error").hidden=true;
+
+user=getUser();
+
+if(!user)
+throw new Error("Please login first.");
+
+const studentId=
+user.studentId ||
+user.uid ||
+user.id;
+
+if(!studentId)
+throw new Error("Student ID not found.");
+
+
+const studentSnap=
+await getDoc(
+doc(db,"students",studentId)
+);
+
+
+if(!studentSnap.exists())
+throw new Error("Student profile not found.");
+
+
+student={
+id:studentSnap.id,
+...studentSnap.data()
+};
+
+
+const q=query(
+collection(db,"attendance"),
+where("studentId","==",studentId)
+);
+
+
+const snap=await getDocs(q);
+
+
+attendance=snap.docs.map(d=>({
+id:d.id,
+...d.data()
+}));
+
+
+$("studentName").textContent=
+student.name ||
+user.name ||
+"Student";
+
+
+$("studentRoll").textContent=
+student.rollNo
+?"Roll No. "+student.rollNo
+:"";
+
+
+$("semester").textContent=
+student.semester||"—";
+
+
+$("section").value=
+student.section||"";
+
+
+render();
+
+}catch(e){
+
+console.error(e);
+
+$("error").textContent=
+e.message ||
+"Unable to load attendance.";
+
+$("error").hidden=false;
+
+}
+
+}
+
+
+/* ================= FILTER ================= */
 
 function filtered(){
-  const from=$("fromDate").value,to=$("toDate").value,sec=$("section").value,type=$("type").value;
-  return allRecords.filter(r=>{
-    if(from&&String(r.date)<from)return false;
-    if(to&&String(r.date)>to)return false;
-    if(sec&&sectionValue(r)!==sec)return false;
-    if(type!=="Overall"&&String(r.lectureType||"")!==type)return false;
-    return statusValue(r)==="P"||statusValue(r)==="A";
-  });
+
+return attendance.filter(r=>{
+
+if($("from").value &&
+r.date<$("from").value)
+return false;
+
+if($("to").value &&
+r.date>$("to").value)
+return false;
+
+if($("section").value &&
+r.section!==$("section").value)
+return false;
+
+if($("type").value!=="Overall" &&
+r.lectureType!==$("type").value)
+return false;
+
+return true;
+
+});
+
 }
+
+
+/* ================= RENDER ================= */
 
 function render(){
-  const rows=filtered();
-  if(!rows.length){
-    $("content").innerHTML='<section class="card empty"><div class="empty-icon">▣</div><h2>No Attendance Data</h2><p>Try changing the filters or save attendance from Manage Attendance.</p><button class="primary" onclick="clearFilters()">⌁ &nbsp;Clear Filters</button></section>';
-    return;
-  }
-  const present=rows.filter(r=>statusValue(r)==="P").length,absent=rows.filter(r=>statusValue(r)==="A").length,total=present+absent,pct=total?present/total*100:0;
-  const theory=rows.filter(r=>String(r.lectureType||"")!=="Practical").length,practical=rows.filter(r=>String(r.lectureType||"")==="Practical").length;
-  const sec=$("section").value||sectionValue(rows[0])||"—",semester=rows.find(r=>r.semester)?.semester||"—";
-  $("content").innerHTML=`
-  <section class="card"><div class="overall">
-    <div><div style="display:flex;gap:16px;align-items:center"><div style="font-size:40px">◔</div><div><h2 class="card-title">Overall Attendance</h2><div class="muted">${esc(semester)}</div></div></div>
-      <div class="donut" style="--present:${pct*3.6}deg"><div class="donut-center"><div class="percent">${pct.toFixed(1)}%</div><div class="muted">Attendance</div></div></div>
-    </div>
-    <div class="legend">
-      <div class="legend-row"><span class="dot p"></span><span>Present <b>${present} classes</b></span></div>
-      <div class="legend-row"><span class="dot a"></span><span>Absent <b>${absent} classes</b></span></div>
-      <div class="legend-row"><span class="dot t"></span><span>Total <b>${total} classes</b></span></div>
-      ${pct<75?'<span class="warning">⚠ Attendance low</span>':'<span class="warning" style="color:#2ca76b;border-color:#bfe7d2;background:#effbf5">✓ Attendance good</span>'}
-    </div>
-  </div></section>
-  <div class="summary">
-    <div class="stat blue"><div style="font-size:26px">▣</div><div class="num">${total}</div><div class="lab">Total</div></div>
-    <div class="stat green"><div style="font-size:26px">✓</div><div class="num">${present}</div><div class="lab">Present</div></div>
-    <div class="stat red"><div style="font-size:26px">×</div><div class="num">${absent}</div><div class="lab">Absent</div></div>
-  </div>
-  <section class="card breakdown" style="margin-top:26px">
-    <div style="display:flex;gap:16px;align-items:center"><div style="font-size:35px">▥</div><div><h2 class="card-title">Lecture Breakdown</h2></div></div>
-    <div class="row"><span>▣ &nbsp; Theory Lectures</span><span class="value">${theory}</span></div>
-    <div class="row"><span>⚗ &nbsp; Practical Lectures</span><span class="value">${practical}</span></div>
-    <div class="row"><span>🎓 &nbsp; Semester</span><span class="value">${esc(semester)}</span></div>
-    <button class="details-btn" onclick="openDetails()">View Details attendance</button>
-  </section>`;
+
+const data=filtered();
+
+const total=data.length;
+
+const present=
+data.filter(x=>x.status==="P").length;
+
+const absent=
+data.filter(x=>x.status==="A").length;
+
+const percentage=
+total?present/total*100:0;
+
+
+$("total").textContent=total;
+$("present").textContent=present;
+$("absent").textContent=absent;
+
+$("tLegend").textContent=total;
+$("pLegend").textContent=present;
+$("aLegend").textContent=absent;
+
+$("percent").textContent=
+percentage.toFixed(1)+"%";
+
+
+const circumference=2*Math.PI*82;
+
+const presentLength=
+total?circumference*present/total:0;
+
+
+$("ring").style.strokeDasharray=
+`${presentLength} ${circumference-presentLength}`;
+
+
+$("warning").hidden=
+total===0 || percentage>=75;
+
+$("content").hidden=total===0;
+$("empty").hidden=total!==0;
+
+
+const theory=
+new Set(
+data
+.filter(x=>x.lectureType==="Theory")
+.map(x=>x.date)
+).size;
+
+
+const practical=
+new Set(
+data
+.filter(x=>x.lectureType==="Practical")
+.map(x=>x.date)
+).size;
+
+
+$("theory").textContent=
+theory+" days";
+
+$("practical").textContent=
+practical+" days";
+
+
+buildDetails(data);
+
 }
 
-window.clearFilters=()=>{$("fromDate").value="";$("toDate").value="";$("section").value="";$("type").value="Overall";render()};
-window.loadAttendance=loadAttendance;
-window.openDetails=()=>{
-  const rows=filtered().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
-  const subjects=[...new Set(rows.map(r=>r.subject||"Subject").filter(Boolean))];
-  const dates=[...new Set(rows.map(r=>r.date).filter(Boolean))];
-  $("detailTable").innerHTML=`<table class="table"><thead><tr><th>Date</th>${subjects.map(s=>`<th>${esc(s)}</th>`).join("")}</tr></thead><tbody>${
-    dates.map(date=>`<tr><td><b>${dateDisplay(date)}</b></td>${subjects.map(s=>{
-      const rs=rows.filter(x=>x.date===date&&(x.subject||"Subject")===s);
-      const r=rs[0];
-      return `<td>${r?`<span class="badge ${statusValue(r)==="P"?"P":"A"}">${statusValue(r)}</span>`:""}</td>`;
-    }).join("")}</tr>`).join("")
-  }</tbody></table>`;
-  $("modal").classList.add("show");
-};
-window.closeDetails=()=>$("modal").classList.remove("show");
 
-["fromDate","toDate","section","type"].forEach(id=>$(id).addEventListener("change",render));
-await loadSections();
-await loadAttendance();
+/* ================= DETAILS ================= */
+
+function buildDetails(data){
+
+if(!data.length){
+
+$("detailBody").innerHTML=
+"<p>No attendance data.</p>";
+
+return;
+
+}
+
+
+const dates=[
+...new Set(data.map(x=>x.date))
+].sort().reverse();
+
+
+let html=`
+
+<div class="table-scroll">
+
+<table>
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Subject</th>
+<th>Type</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+`;
+
+
+dates.forEach(date=>{
+
+data
+.filter(x=>x.date===date)
+.forEach(r=>{
+
+html+=`
+
+<tr>
+
+<td>
+${esc(
+new Date(r.date+"T00:00:00")
+.toLocaleDateString("en-IN")
+)}
+</td>
+
+<td>
+${esc(r.subjectCode||r.subjectName||"—")}
+</td>
+
+<td>
+${esc(r.lectureType||"Theory")}
+</td>
+
+<td>
+
+<span class="badge ${
+r.status==="P"?"p":"a"
+}">
+
+${esc(r.status)}
+
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+});
+
+
+html+=`
+
+</tbody>
+</table>
+</div>
+`;
+
+$("detailBody").innerHTML=html;
+
+}
+
+
+/* ================= EVENTS ================= */
+
+$("from").onchange=render;
+$("to").onchange=render;
+$("section").onchange=render;
+$("type").onchange=render;
+
+$("clear").onclick=()=>{
+
+$("from").value="";
+$("to").value=today();
+$("section").value=student?.section||"";
+$("type").value="Overall";
+
+render();
+
+};
+
+$("clearEmpty").onclick=()=>$("clear").click();
+
+$("refresh").onclick=load;
+
+$("details").onclick=()=>$("modal").hidden=false;
+
+$("close").onclick=()=>$("modal").hidden=true;
+
+$("modal").onclick=e=>{
+
+if(e.target.id==="modal")
+$("modal").hidden=true;
+
+};
+
+
+/* ================= START ================= */
+
+$("to").value=today();
+
+const d=new Date();
+d.setMonth(d.getMonth()-2);
+
+$("from").value=
+d.toISOString().slice(0,10);
+
+load();
+
 </script>
+
 </body>
 </html>
