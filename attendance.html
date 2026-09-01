@@ -265,212 +265,236 @@ async function loadStudentsForAttendance(){
 async function resolveStudent(){
 
     /*
-     * Different login pages may store the student identity under
-     * different localStorage keys. We try all common keys first.
+     * UID-FIRST ATTENDANCE
+     *
+     * The logged-in user's Firebase UID is the primary identity.
+     * Attendance is read using userUid, not roll number/name.
      */
-    const keys = [
-        "studentId",
-        "studentID",
-        "student_id",
-        "userId",
-        "userID",
-        "userUid",
-        "uid",
-        "username",
-        "userName",
-        "userEmail",
-        "rollNo",
-        "roll",
-        "email"
-    ];
+    const loginUid =
+        (
+            localStorage.getItem("userUid") ||
+            localStorage.getItem("uid") ||
+            localStorage.getItem("userId") ||
+            ""
+        ).trim();
 
-    const values = [];
-    keys.forEach(key=>{
-        const value = localStorage.getItem(key);
-        if(value && value.trim()){
-            values.push({
-                key,
-                value:value.trim()
-            });
-        }
-    });
+    console.log("Logged-in USER UID:", loginUid);
+
+    if(!loginUid){
+        return null;
+    }
 
     /*
-     * Also support a saved currentUser object.
+     * 1. First try students collection where uid/userUid/userId
+     *    equals the logged-in UID.
      */
-    ["currentUser","user","loggedInUser"].forEach(key=>{
-        try{
-            const raw = localStorage.getItem(key);
-            if(!raw) return;
+    const studentSnap =
+        await getDocs(collection(db,"students"));
 
-            const obj = JSON.parse(raw);
+    const students =
+        studentSnap.docs.map(d=>({
+            id:d.id,
+            ...d.data()
+        }));
 
-            if(obj && typeof obj === "object"){
-                [
-                    ["id",obj.id],
-                    ["studentId",obj.studentId],
-                    ["uid",obj.uid],
-                    ["username",obj.username],
-                    ["rollNo",obj.rollNo],
-                    ["email",obj.email]
-                ].forEach(([k,v])=>{
-                    if(v !== undefined && v !== null && String(v).trim()){
-                        values.push({
-                            key:k,
-                            value:String(v).trim()
-                        });
-                    }
-                });
-            }
-        }catch(e){}
-    });
+    let student =
+        students.find(s =>
+            String(s.uid || "").trim() === loginUid ||
+            String(s.userUid || "").trim() === loginUid ||
+            String(s.userId || "").trim() === loginUid
+        );
 
     /*
-     * First: exact Firestore student document ID.
+     * 2. If students document ID itself is the UID.
      */
-    for(const item of values){
+    if(!student){
+        student =
+            students.find(s =>
+                String(s.id).trim() === loginUid
+            );
+    }
 
-        const direct =
-            allStudents.find(s =>
-                String(s.id) === String(item.value)
+    /*
+     * 3. Resolve through users collection using UID.
+     * This supports a setup where users/{uid} contains studentId,
+     * rollNo or username.
+     */
+    if(!student){
+
+        const userRef =
+            await getDocs(
+                query(
+                    collection(db,"users"),
+                    where("__name__","==",loginUid)
+                )
             );
 
-        if(direct){
-            return direct;
-        }
-    }
+        if(!userRef.empty){
 
-    /*
-     * Second: match username / roll / email / name-like fields.
-     */
-    for(const item of values){
-
-        const needle = norm(item.value);
-
-        const found =
-            allStudents.find(s => {
-
-                const candidates = [
-                    s.username,
-                    s.email,
-                    s.rollNo,
-                    s.roll,
-                    s.studentId,
-                    s.uid,
-                    s.userId,
-                    s.userUid,
-                    s.userName,
-                    s.studentName
-                ];
-
-                return candidates.some(v =>
-                    norm(v) === needle
-                );
-            });
-
-        if(found){
-            return found;
-        }
-    }
-
-    /*
-     * Login page stores userName. If the student document has
-     * only "name", match that value too.
-     */
-    const loggedName =
-        localStorage.getItem("userName") ||
-        localStorage.getItem("name") ||
-        "";
-
-    if(loggedName){
-        const foundByName =
-            allStudents.find(s =>
-                norm(s.name) === norm(loggedName) ||
-                norm(s.studentName) === norm(loggedName)
-            );
-
-        if(foundByName){
-            return foundByName;
-        }
-    }
-
-    /*
-     * Third: inspect users collection and resolve a student.
-     * This makes the page work even when login stores only
-     * the user's username/email/UID.
-     */
-    try{
-
-        const userSnap =
-            await getDocs(collection(db,"users"));
-
-        for(const userDoc of userSnap.docs){
-
-            const u = userDoc.data();
-
-            const candidates = [
-                userDoc.id,
-                u.id,
-                u.uid,
-                u.username,
-                u.userName,
-                u.name,
-                u.email,
-                u.studentId,
-                u.rollNo,
-                u.roll
-            ];
-
-            const matched =
-                values.some(item =>
-                    candidates.some(v =>
-                        norm(v) === norm(item.value)
-                    )
-                );
-
-            if(!matched) continue;
+            const user =
+                userRef.docs[0].data();
 
             const studentRef =
-                u.studentId ||
-                u.studentID ||
-                u.student_id ||
-                u.rollNo ||
-                u.roll ||
-                u.username;
+                user.studentId ||
+                user.studentID ||
+                user.student_id ||
+                user.rollNo ||
+                user.roll ||
+                user.username;
 
             if(studentRef){
 
-                const student =
-                    allStudents.find(s =>
-                        [
-                            s.id,
-                            s.studentId,
-                            s.rollNo,
-                            s.roll,
-                            s.username,
-                            s.email,
-                            s.name,
-                            s.studentName,
-                            s.uid,
-                            s.userId
-                        ].some(v =>
-                            norm(v) === norm(studentRef)
-                        )
-                    );
-
-                if(student){
-                    return student;
-                }
+                student =
+                    students.find(s =>
+                    [
+                        s.id,
+                        s.studentId,
+                        s.rollNo,
+                        s.roll,
+                        s.username,
+                        s.email
+                    ].some(v =>
+                        norm(v) === norm(studentRef)
+                    )
+                );
             }
         }
-
-    }catch(e){
-        console.warn("Users lookup skipped:",e.message);
     }
 
-    return null;
+    if(student){
+        console.log("UID MATCHED STUDENT:", student);
+    }
+
+    return student || null;
 }
 
+
+/*
+=====================================================
+LOAD SUBJECTS
+=====================================================
+*/
+
+async function loadSubjects(){
+
+    const snap =
+        await getDocs(
+            collection(db,"subjects")
+        );
+
+    subjects =
+        snap.docs.map(d=>({
+            id:d.id,
+            ...d.data()
+        }));
+
+    renderSubjectOptions();
+}
+
+
+/*
+=====================================================
+LOAD ATTENDANCE BY USER UID
+=====================================================
+*/
+
+async function loadAttendance(){
+
+    clearError();
+
+    const loginUid =
+        (
+            localStorage.getItem("userUid") ||
+            localStorage.getItem("uid") ||
+            localStorage.getItem("userId") ||
+            ""
+        ).trim();
+
+    if(!loginUid){
+
+        $("studentName").textContent =
+            "User UID not found";
+
+        $("attendanceTableBody").innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    <div class="empty-icon">🔐</div>
+                    <b>Firebase User UID nahi mila.</b>
+                    <br><br>
+                    Logout karke dobara login karein.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    /*
+     * PRIMARY QUERY:
+     * attendance.userUid == logged-in Firebase UID
+     */
+    let snap =
+        await getDocs(
+            query(
+                collection(db,"attendance"),
+                where("userUid","==",loginUid)
+            )
+        );
+
+    attendanceRecords =
+        snap.docs.map(d=>({
+            id:d.id,
+            ...d.data()
+        }));
+
+    /*
+     * Existing old attendance records may have only studentId.
+     * If no UID records exist yet, resolve the student and load
+     * its old records as a compatibility fallback.
+     */
+    if(!attendanceRecords.length){
+
+        const student =
+            await resolveStudent();
+
+        if(student){
+
+            $("studentName").textContent =
+                student.name ||
+                student.studentName ||
+                student.rollNo ||
+                "Student";
+
+            snap =
+                await getDocs(
+                    query(
+                        collection(db,"attendance"),
+                        where("studentId","==",student.id)
+                    )
+                );
+
+            attendanceRecords =
+                snap.docs.map(d=>({
+                    id:d.id,
+                    ...d.data()
+                }));
+        }
+    }else{
+
+        $("studentName").textContent =
+            attendanceRecords[0]?.studentName ||
+            "Student";
+    }
+
+    console.log(
+        "ATTENDANCE BY USER UID:",
+        loginUid,
+        "Records:",
+        attendanceRecords.length
+    );
+
+    renderAttendance();
+}
 
 /*
 =====================================================
