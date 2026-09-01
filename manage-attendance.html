@@ -52,7 +52,7 @@ const firebaseConfig={
 };
 
 const app=initializeApp(firebaseConfig),db=getFirestore(app);
-const studentsRef=collection(db,"students"),attendanceRef=collection(db,"attendance");
+const studentsRef=collection(db, "students"),attendanceRef=collection(db,"attendance");
 let students=[],status={};
 
 const $=id=>document.getElementById(id);
