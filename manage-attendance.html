@@ -5,18 +5,34 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Manage Attendance</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef4ff;color:#102654}button,input,select{font:inherit}
-.topbar{height:86px;background:#fff;border-bottom:1px solid #dbe5f4;display:flex;align-items:center;padding:0 32px;gap:25px;position:sticky;top:0;z-index:10}.menu{font-size:32px;border:0;background:none;color:#102654}.title{font-size:29px;font-weight:900;flex:1}.back{border:0;color:#fff;font-weight:800;font-size:19px;padding:16px 25px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9)}.refresh{border:0;background:none;font-size:35px;color:#102654}
-.wrap{max-width:1200px;margin:28px auto;padding:0 18px}.card{background:#fff;border-radius:30px;padding:28px;box-shadow:0 8px 30px #8ea5c31e;margin-bottom:22px}.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.head h2{margin:0;font-size:24px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.field label{display:block;font-weight:800;margin-bottom:9px}.control{width:100%;height:57px;border:2px solid #dce6f5;border-radius:16px;background:#f7f9fd;padding:0 14px;outline:none}.control:focus{border-color:#6ca9ed}
-.toolbar{display:flex;gap:12px;flex-wrap:wrap}.btn{border:0;padding:13px 20px;border-radius:15px;font-weight:800}.primary{background:linear-gradient(100deg,#4bc2e8,#2458d9);color:#fff}.secondary{background:#eaf3ff;color:#2e78d0}.success{background:#e9f8f0;color:#24995f}.danger{background:#fff0f2;color:#dc444b}
-.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:800px}.table th{background:#edf4fd;padding:15px;text-align:left;white-space:nowrap}.table td{padding:12px 15px;border-bottom:1px solid #e5eaf1}.student{min-width:180px}.status-btn{min-width:45px;padding:9px 12px;border-radius:9px;border:2px solid #dce4ef;background:#fff;font-weight:900}.status-btn.P{background:#e8f7ef;color:#20a163;border-color:#bde5d0}.status-btn.A{background:#fff0f1;color:#dc4047;border-color:#f1c4ca}.status-btn.N{color:#9aa5b7}
-.notice{padding:13px 17px;border-radius:14px;background:#eef7ff;color:#3c73a9;margin-bottom:18px}.search{height:50px;width:260px;border:2px solid #dce6f5;border-radius:14px;padding:0 14px}.empty{text-align:center;padding:50px;color:#8390a5}.toast{position:fixed;right:20px;bottom:20px;background:#12264e;color:#fff;padding:15px 20px;border-radius:14px;display:none;z-index:50}.toast.show{display:block}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef4ff;color:#102654}
+button,input,select{font:inherit}button{cursor:pointer}
+.topbar{height:86px;background:#fff;border-bottom:1px solid #dbe5f4;display:flex;align-items:center;padding:0 32px;gap:25px;position:sticky;top:0;z-index:20}
+.menu,.refresh{border:0;background:none;color:#102654}.menu{font-size:32px}.refresh{font-size:35px}.title{font-size:29px;font-weight:900;flex:1}
+.back{border:0;color:#fff;font-weight:800;font-size:19px;padding:16px 25px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9);box-shadow:0 7px 18px #3978d52d}
+.wrap{max-width:1200px;margin:28px auto;padding:0 18px}.card{background:#fff;border-radius:30px;padding:28px;box-shadow:0 8px 30px #8ea5c31e;margin-bottom:22px}
+.head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.head h2{margin:0;font-size:24px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.field label{display:block;font-weight:800;margin-bottom:9px}.control{width:100%;height:57px;border:2px solid #dce6f5;border-radius:16px;background:#f7f9fd;padding:0 14px;outline:none;color:#182b55}
+.control:focus{border-color:#6ca9ed}.toolbar{display:flex;gap:12px;flex-wrap:wrap}.btn{border:0;padding:13px 20px;border-radius:15px;font-weight:800}
+.primary{background:linear-gradient(100deg,#4bc2e8,#2458d9);color:#fff}.secondary{background:#eaf3ff;color:#2e78d0}.danger{background:#fff0f2;color:#dc444b}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th{background:#edf4fd;padding:15px;text-align:left;white-space:nowrap}.table td{padding:12px 15px;border-bottom:1px solid #e5eaf1}
+.student{min-width:220px}.status-btn{min-width:48px;padding:9px 12px;border-radius:9px;border:2px solid #dce4ef;background:#fff;font-weight:900;margin-right:5px}
+.status-btn.P{background:#e8f7ef;color:#20a163;border-color:#bde5d0}.status-btn.A{background:#fff0f1;color:#dc4047;border-color:#f1c4ca}.status-btn.N{color:#9aa5b7}
+.notice{padding:13px 17px;border-radius:14px;background:#eef7ff;color:#3c73a9;margin-bottom:18px}.search{height:50px;width:260px;border:2px solid #dce6f5;border-radius:14px;padding:0 14px}
+.empty{text-align:center;padding:50px;color:#8390a5}.error{color:#d8434b;background:#fff1f2;padding:16px;border-radius:14px}
+.progress{display:none;margin-top:14px;color:#3b75cf;font-weight:700}.toast{position:fixed;right:20px;bottom:20px;background:#12264e;color:#fff;padding:15px 20px;border-radius:14px;display:none;z-index:50;max-width:90%}.toast.show{display:block}
 @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.topbar{padding:0 15px}.title{font-size:23px}.wrap{padding:0 10px}.card{padding:20px;border-radius:25px}}
-@media(max-width:500px){.grid{grid-template-columns:1fr}.back{font-size:15px;padding:12px 16px}.search{width:100%}}
+@media(max-width:500px){.grid{grid-template-columns:1fr}.back{font-size:15px;padding:12px 16px}.search{width:100%}.head{align-items:stretch;flex-direction:column}}
 </style>
 </head>
 <body>
-<header class="topbar"><button class="menu" onclick="history.back()">☰</button><div class="title">Manage Attendance</div><button class="back" onclick="history.back()">‹ Back</button><button class="refresh" onclick="loadStudents()">↻</button></header>
+<header class="topbar">
+<button class="menu" onclick="history.back()">☰</button>
+<div class="title">Manage Attendance</div>
+<button class="back" onclick="history.back()">‹ Back</button>
+<button class="refresh" onclick="initialLoad()">↻</button>
+</header>
+
 <main class="wrap">
 <section class="card">
 <div class="head"><h2>📋 Attendance Setup</h2></div>
@@ -24,81 +40,148 @@
 <div class="field"><label>Date</label><input id="date" class="control" type="date"></div>
 <div class="field"><label>Section</label><select id="section" class="control"><option value="">Select section</option></select></div>
 <div class="field"><label>Subject</label><input id="subject" class="control" placeholder="e.g. V-Lecture"></div>
-<div class="field"><label>Lecture Type</label><select id="lectureType" class="control"><option>Theory</option><option>Practical</option></select></div>
+<div class="field"><label>Lecture Type</label><select id="lectureType" class="control"><option value="Theory">Theory</option><option value="Practical">Practical</option></select></div>
 </div>
 </section>
 
 <section class="card">
 <div class="head"><h2>👥 Student Attendance</h2><input id="search" class="search" placeholder="Search student…"></div>
-<div class="notice">Tap <b>P</b> for Present, <b>A</b> for Absent. Then press <b>Save Attendance</b>. Records are saved to the same Firestore collection used by <b>attendance.html</b>.</div>
-<div class="toolbar"><button class="btn secondary" onclick="markAll('P')">✓ Mark All Present</button><button class="btn danger" onclick="markAll('A')">× Mark All Absent</button><button class="btn primary" onclick="saveAttendance()">💾 Save Attendance</button></div>
-<div class="table-wrap" style="margin-top:20px"><table class="table"><thead><tr><th>#</th><th class="student">Student</th><th>Student ID</th><th>Status</th></tr></thead><tbody id="studentsBody"><tr><td colspan="4" class="empty">Select a section to load students.</td></tr></tbody></table></div>
+<div class="notice">Select a section. Students are loaded directly from the <b>students</b> collection. Tap <b>P</b> for Present or <b>A</b> for Absent, then save.</div>
+<div id="message"></div>
+<div class="toolbar">
+<button class="btn secondary" onclick="markAll('P')">✓ Mark All Present</button>
+<button class="btn danger" onclick="markAll('A')">× Mark All Absent</button>
+<button id="saveBtn" class="btn primary" onclick="saveAttendance()">💾 Save Attendance</button>
+</div>
+<div id="progress" class="progress">Saving attendance…</div>
+<div class="table-wrap" style="margin-top:20px">
+<table class="table">
+<thead><tr><th>#</th><th class="student">Student</th><th>Student ID</th><th>Status</th></tr></thead>
+<tbody id="studentsBody"><tr><td colspan="4" class="empty">Select a section to load students.</td></tr></tbody>
+</table>
+</div>
 </section>
 </main>
 <div id="toast" class="toast"></div>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getFirestore,collection,getDocs,addDoc,query,where} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import {firebaseConfig} from "./firebase-config.js";
+import {getFirestore,collection,getDocs,doc,setDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
+  authDomain:"university-portal-2107e.firebaseapp.com",
+  projectId:"university-portal-2107e",
+  storageBucket:"university-portal-2107e.firebasestorage.app",
+  messagingSenderId:"50848903813",
+  appId:"1:50848903813:web:8296090d0d9268cfd2efec",
+  measurementId:"G-LKTX7C7F0E"
+};
+
 const app=initializeApp(firebaseConfig),db=getFirestore(app);
 const studentsRef=collection(db,"students"),attendanceRef=collection(db,"attendance");
 let students=[],statusMap={};
-const today=new Date().toISOString().slice(0,10);document.getElementById("date").value=today;
 
+const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-function show(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2800)}
-function currentUser(){return JSON.parse(localStorage.getItem("currentUser")||"{}")}
+const today=new Date();
+$("date").value=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
+
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),3200)}
+function currentUser(){try{return JSON.parse(localStorage.getItem("currentUser")||"{}")}catch{return {}}}
+function getValue(o,keys){for(const k of keys){if(o&&o[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=="")return String(o[k]).trim()}return ""}
+function studentKey(s){return s.studentId||s.rollNumber||s.rollNo||s.registrationNo||s.enrollmentNo||s.id}
+function sectionValue(s){return getValue(s,["section","Section","classSection","class_section","branchSection"])}
+function nameValue(s){return getValue(s,["name","studentName","fullName","displayName"])||"Unnamed Student"}
 
 async function loadSections(){
+  $("section").innerHTML='<option value="">Select section</option>';
   try{
-    const snap=await getDocs(studentsRef);const set=new Set();
-    snap.forEach(d=>{const x=d.data();if(x.section)set.add(x.section)});
-    const sel=document.getElementById("section");sel.innerHTML='<option value="">Select section</option>';
-    [...set].sort().forEach(s=>sel.insertAdjacentHTML("beforeend",`<option value="${esc(s)}">${esc(s)}</option>`));
-    const u=currentUser();if(u.section)sel.value=u.section;
-  }catch(e){show("Could not load sections: "+e.message)}
+    const snap=await getDocs(studentsRef);
+    const sections=new Set();
+    snap.forEach(d=>{const s=d.data();const sec=sectionValue(s);if(sec)sections.add(sec)});
+    [...sections].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).forEach(sec=>{
+      const op=document.createElement("option");op.value=sec;op.textContent=sec;$("section").appendChild(op);
+    });
+    const u=currentUser(), saved=getValue(u,["section"]);
+    if(saved && sections.has(saved)){$("section").value=saved;await loadStudents()}
+    if(!sections.size) $("message").innerHTML='<div class="error">No section field was found in the students collection. Check that each student document has a <b>section</b> field.</div>';
+  }catch(e){
+    console.error(e);$("message").innerHTML='<div class="error">Firebase error while loading students/sections: '+esc(e.message)+'</div>';
+  }
 }
+
 async function loadStudents(){
-  const section=document.getElementById("section").value;
-  if(!section){document.getElementById("studentsBody").innerHTML='<tr><td colspan="4" class="empty">Select a section to load students.</td></tr>';return}
-  document.getElementById("studentsBody").innerHTML='<tr><td colspan="4" class="empty">Loading students…</td></tr>';
+  const sec=$("section").value;
+  $("search").value="";
+  if(!sec){students=[];statusMap={};$("studentsBody").innerHTML='<tr><td colspan="4" class="empty">Select a section to load students.</td></tr>';return}
+  $("studentsBody").innerHTML='<tr><td colspan="4" class="empty">Loading students…</td></tr>';
   try{
-    const snap=await getDocs(query(studentsRef,where("section","==",section)));
-    students=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||"")));
-    statusMap={};students.forEach(s=>statusMap[s.id]="P");renderStudents();
-  }catch(e){document.getElementById("studentsBody").innerHTML=`<tr><td colspan="4" class="empty">${esc(e.message)}</td></tr>`}
+    const snap=await getDocs(studentsRef);
+    students=snap.docs.map(d=>({id:d.id,...d.data()})).filter(s=>sectionValue(s)===sec)
+      .sort((a,b)=>nameValue(a).localeCompare(nameValue(b)));
+    statusMap={};students.forEach(s=>statusMap[s.id]="P");
+    renderStudents();
+    if(!students.length) $("message").innerHTML='<div class="error">No students found for section <b>'+esc(sec)+'</b>.</div>';
+    else $("message").innerHTML="";
+  }catch(e){
+    console.error(e);$("studentsBody").innerHTML='<tr><td colspan="4" class="empty">'+esc(e.message)+'</td></tr>';
+  }
 }
+
 function renderStudents(){
-  const q=document.getElementById("search").value.toLowerCase();
-  const list=students.filter(s=>`${s.name||""} ${s.studentId||s.id||""}`.toLowerCase().includes(q));
-  document.getElementById("studentsBody").innerHTML=list.length?list.map((s,i)=>`
-  <tr><td>${i+1}</td><td class="student"><b>${esc(s.name||"Unnamed")}</b></td><td>${esc(s.studentId||s.id)}</td>
-  <td><button class="status-btn ${statusMap[s.id]==="P"?"P":"N"}" onclick="setStatus('${esc(s.id)}','P')">P</button>
-  <button class="status-btn ${statusMap[s.id]==="A"?"A":"N"}" onclick="setStatus('${esc(s.id)}','A')">A</button></td></tr>`).join(""):'<tr><td colspan="4" class="empty">No students found.</td></tr>';
+  const q=$("search").value.trim().toLowerCase();
+  const list=students.filter(s=>(nameValue(s)+" "+studentKey(s)).toLowerCase().includes(q));
+  $("studentsBody").innerHTML=list.length?list.map((s,i)=>{
+    const st=statusMap[s.id]||"P";
+    return `<tr>
+      <td>${i+1}</td>
+      <td class="student"><b>${esc(nameValue(s))}</b></td>
+      <td>${esc(studentKey(s))}</td>
+      <td>
+        <button class="status-btn ${st==="P"?"P":"N"}" onclick="setStatus('${esc(s.id)}','P')">P</button>
+        <button class="status-btn ${st==="A"?"A":"N"}" onclick="setStatus('${esc(s.id)}','A')">A</button>
+      </td>
+    </tr>`;
+  }).join(""):'<tr><td colspan="4" class="empty">No students found.</td></tr>';
 }
-window.setStatus=(id,status)=>{statusMap[id]=status;renderStudents()};
-window.markAll=status=>{students.forEach(s=>statusMap[s.id]=status);renderStudents()};
-window.loadStudents=loadStudents;
+
+window.setStatus=(id,st)=>{statusMap[id]=st;renderStudents()};
+window.markAll=st=>{if(!students.length){toast("Load a section first.");return}students.forEach(s=>statusMap[s.id]=st);renderStudents()};
+
 window.saveAttendance=async()=>{
-  const date=document.getElementById("date").value,section=document.getElementById("section").value,subject=document.getElementById("subject").value.trim(),lectureType=document.getElementById("lectureType").value;
-  if(!date||!section||!subject){show("Date, section and subject are required.");return}
-  if(!students.length){show("No students to save.");return}
-  const u=currentUser();let count=0;
+  const date=$("date").value,section=$("section").value,subject=$("subject").value.trim(),lectureType=$("lectureType").value;
+  if(!date||!section||!subject){toast("Date, section and subject are required.");return}
+  if(!students.length){toast("No students loaded.");return}
+  const u=currentUser(),saveBtn=$("saveBtn");
+  saveBtn.disabled=true;$("progress").style.display="block";
   try{
-    for(const s of students){
-      await addDoc(attendanceRef,{
-        studentId:s.studentId||s.id,studentName:s.name||"",section,date,subject,lectureType,
-        status:statusMap[s.id]||"P",semester:s.semester||u.semester||"",markedBy:u.uid||u.id||"",createdAt:new Date().toISOString()
-      });count++;
+    for(let i=0;i<students.length;i++){
+      const s=students[i], sid=studentKey(s), cleanSubject=subject.replace(/[\/#?]/g,"-");
+      const recordId=encodeURIComponent(sid+"_"+date+"_"+cleanSubject);
+      const data={
+        studentId:sid,studentDocId:s.id,studentName:nameValue(s),
+        section,semester:getValue(s,["semester","Semester","sem"])||getValue(u,["semester","Semester"])||"",
+        date,subject,lectureType,status:statusMap[s.id]||"P",
+        markedBy:getValue(u,["uid","id","email","username"])||"faculty",
+        updatedAt:serverTimestamp()
+      };
+      await setDoc(doc(attendanceRef,recordId),data,{merge:true});
     }
-    show(`Saved attendance for ${count} students.`);
-  }catch(e){show("Save failed: "+e.message)}
+    toast("Attendance saved successfully for "+students.length+" students.");
+  }catch(e){
+    console.error(e);toast("Save failed: "+e.message);
+  }finally{
+    saveBtn.disabled=false;$("progress").style.display="none";
+  }
 };
-document.getElementById("section").addEventListener("change",loadStudents);
-document.getElementById("search").addEventListener("input",renderStudents);
-await loadSections();
-if(document.getElementById("section").value) await loadStudents();
+
+$("section").addEventListener("change",loadStudents);
+$("search").addEventListener("input",renderStudents);
+$("date").addEventListener("change",()=>{});
+async function initialLoad(){await loadSections()}
+window.initialLoad=initialLoad;
+await initialLoad();
 </script>
 </body>
 </html>
