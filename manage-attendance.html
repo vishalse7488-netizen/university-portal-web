@@ -1411,6 +1411,68 @@ function getStatus(studentId){
   return String(r?.status || "").toUpperCase();
 }
 
+async function resolveStudentUserUid(student){
+
+    /*
+     * Prefer UID already stored on the student document.
+     */
+    const directUid =
+        student.userUid ||
+        student.uid ||
+        student.userId;
+
+    if(directUid){
+        return String(directUid);
+    }
+
+    /*
+     * If the student document does not have UID, try users collection.
+     * Match by studentId / rollNo / username.
+     */
+    try{
+
+        const userSnap =
+            await getDocs(collection(db,"users"));
+
+        const match =
+            userSnap.docs.find(userDoc => {
+
+                const user = userDoc.data();
+
+                const studentRefs = [
+                    user.studentId,
+                    user.studentID,
+                    user.student_id,
+                    user.rollNo,
+                    user.roll,
+                    user.username
+                ];
+
+                return [
+                    student.id,
+                    student.studentId,
+                    student.rollNo,
+                    student.roll,
+                    student.username,
+                    student.email
+                ].some(studentValue =>
+                    studentRefs.some(userValue =>
+                        norm(studentValue) === norm(userValue)
+                    )
+                );
+            });
+
+        if(match){
+            return match.id;
+        }
+
+    }catch(error){
+        console.warn("UID lookup failed:", error.message);
+    }
+
+    return "";
+}
+
 function attendanceId(studentId,date,subjectId){
   return `${studentId}_${date}_${subjectId}`
     .replace(/[\/\\#?\[\]\s]/g,"_");
@@ -1506,6 +1568,9 @@ $("saveAttendance").onclick=async()=>{
 
       if(!student) continue;
 
+      const userUid =
+        await resolveStudentUserUid(student);
+
       await setDoc(
         doc(
           db,
@@ -1518,6 +1583,12 @@ $("saveAttendance").onclick=async()=>{
         ),
         {
           studentId:student.id,
+
+          /*
+           * PRIMARY IDENTITY FOR STUDENT ATTENDANCE
+           */
+          userUid:userUid || "",
+
           studentName:student.name || student.studentName || "",
           rollNo:student.rollNo || student.roll || "",
           date:$("date").value,
