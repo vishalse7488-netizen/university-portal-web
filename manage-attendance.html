@@ -6,32 +6,14 @@
 <title>Manage Attendance</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef4ff;color:#102654}
-button,input,select{font:inherit}button{cursor:pointer}
-.topbar{height:86px;background:#fff;border-bottom:1px solid #dbe5f4;display:flex;align-items:center;padding:0 32px;gap:25px;position:sticky;top:0;z-index:20}
-.menu,.refresh{border:0;background:none;color:#102654}.menu{font-size:32px}.refresh{font-size:35px}.title{font-size:29px;font-weight:900;flex:1}
-.back{border:0;color:#fff;font-weight:800;font-size:19px;padding:16px 25px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9);box-shadow:0 7px 18px #3978d52d}
-.wrap{max-width:1200px;margin:28px auto;padding:0 18px}.card{background:#fff;border-radius:30px;padding:28px;box-shadow:0 8px 30px #8ea5c31e;margin-bottom:22px}
-.head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.head h2{margin:0;font-size:24px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.field label{display:block;font-weight:800;margin-bottom:9px}.control{width:100%;height:57px;border:2px solid #dce6f5;border-radius:16px;background:#f7f9fd;padding:0 14px;outline:none;color:#182b55}
-.control:focus{border-color:#6ca9ed}.toolbar{display:flex;gap:12px;flex-wrap:wrap}.btn{border:0;padding:13px 20px;border-radius:15px;font-weight:800}
-.primary{background:linear-gradient(100deg,#4bc2e8,#2458d9);color:#fff}.secondary{background:#eaf3ff;color:#2e78d0}.danger{background:#fff0f2;color:#dc444b}
-.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th{background:#edf4fd;padding:15px;text-align:left;white-space:nowrap}.table td{padding:12px 15px;border-bottom:1px solid #e5eaf1}
-.student{min-width:220px}.status-btn{min-width:48px;padding:9px 12px;border-radius:9px;border:2px solid #dce4ef;background:#fff;font-weight:900;margin-right:5px}
-.status-btn.P{background:#e8f7ef;color:#20a163;border-color:#bde5d0}.status-btn.A{background:#fff0f1;color:#dc4047;border-color:#f1c4ca}.status-btn.N{color:#9aa5b7}
-.notice{padding:13px 17px;border-radius:14px;background:#eef7ff;color:#3c73a9;margin-bottom:18px}.search{height:50px;width:260px;border:2px solid #dce6f5;border-radius:14px;padding:0 14px}
-.empty{text-align:center;padding:50px;color:#8390a5}.error{color:#d8434b;background:#fff1f2;padding:16px;border-radius:14px}
-.progress{display:none;margin-top:14px;color:#3b75cf;font-weight:700}.toast{position:fixed;right:20px;bottom:20px;background:#12264e;color:#fff;padding:15px 20px;border-radius:14px;display:none;z-index:50;max-width:90%}.toast.show{display:block}
-@media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.topbar{padding:0 15px}.title{font-size:23px}.wrap{padding:0 10px}.card{padding:20px;border-radius:25px}}
-@media(max-width:500px){.grid{grid-template-columns:1fr}.back{font-size:15px;padding:12px 16px}.search{width:100%}.head{align-items:stretch;flex-direction:column}}
+button,input,select{font:inherit}button{cursor:pointer}.topbar{height:86px;background:#fff;border-bottom:1px solid #dbe5f4;display:flex;align-items:center;padding:0 32px;gap:25px;position:sticky;top:0;z-index:20}.menu,.refresh{border:0;background:none;color:#102654}.menu{font-size:32px}.refresh{font-size:35px}.title{font-size:29px;font-weight:900;flex:1}.back{border:0;color:#fff;font-weight:800;font-size:19px;padding:16px 25px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9)}
+.wrap{max-width:1200px;margin:28px auto;padding:0 18px}.card{background:#fff;border-radius:30px;padding:28px;box-shadow:0 8px 30px #8ea5c31e;margin-bottom:22px}.head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.head h2{margin:0;font-size:24px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.field label{display:block;font-weight:800;margin-bottom:9px}.control{width:100%;height:57px;border:2px solid #dce6f5;border-radius:16px;background:#f7f9fd;padding:0 14px;outline:none;color:#182b55}.control:focus{border-color:#6ca9ed}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap}.btn{border:0;padding:13px 20px;border-radius:15px;font-weight:800}.primary{background:linear-gradient(100deg,#4bc2e8,#2458d9);color:#fff}.secondary{background:#eaf3ff;color:#2e78d0}.danger{background:#fff0f2;color:#dc444b}.search{height:50px;width:260px;border:2px solid #dce6f5;border-radius:14px;padding:0 14px}.notice{padding:13px 17px;border-radius:14px;background:#eef7ff;color:#3c73a9;margin-bottom:18px}.error{color:#d8434b;background:#fff1f2;padding:15px;border-radius:14px;margin-bottom:15px}.success{color:#238d59;background:#effaf4;padding:15px;border-radius:14px;margin-bottom:15px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th{background:#edf4fd;padding:15px;text-align:left}.table td{padding:12px 15px;border-bottom:1px solid #e5eaf1}.student{min-width:220px}.status-btn{min-width:48px;padding:9px 12px;border-radius:9px;border:2px solid #dce4ef;background:#fff;font-weight:900;margin-right:5px}.status-btn.P{background:#e8f7ef;color:#20a163;border-color:#bde5d0}.status-btn.A{background:#fff0f1;color:#dc4047;border-color:#f1c4ca}.status-btn.N{color:#9aa5b7}.empty{text-align:center;padding:50px;color:#8390a5}.toast{position:fixed;right:20px;bottom:20px;background:#12264e;color:#fff;padding:15px 20px;border-radius:14px;display:none;z-index:50;max-width:90%}.toast.show{display:block}
+@media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.topbar{padding:0 15px}.title{font-size:23px}.wrap{padding:0 10px}.card{padding:20px}}@media(max-width:500px){.grid{grid-template-columns:1fr}.back{font-size:15px;padding:12px 16px}.search{width:100%}.head{align-items:stretch;flex-direction:column}}
 </style>
 </head>
 <body>
-<header class="topbar">
-<button class="menu" onclick="history.back()">☰</button>
-<div class="title">Manage Attendance</div>
-<button class="back" onclick="history.back()">‹ Back</button>
-<button class="refresh" onclick="initialLoad()">↻</button>
-</header>
+<header class="topbar"><button class="menu" onclick="history.back()">☰</button><div class="title">Manage Attendance</div><button class="back" onclick="history.back()">‹ Back</button><button class="refresh" id="refreshBtn">↻</button></header>
 
 <main class="wrap">
 <section class="card">
@@ -40,26 +22,17 @@ button,input,select{font:inherit}button{cursor:pointer}
 <div class="field"><label>Date</label><input id="date" class="control" type="date"></div>
 <div class="field"><label>Section</label><select id="section" class="control"><option value="">Select section</option></select></div>
 <div class="field"><label>Subject</label><input id="subject" class="control" placeholder="e.g. V-Lecture"></div>
-<div class="field"><label>Lecture Type</label><select id="lectureType" class="control"><option value="Theory">Theory</option><option value="Practical">Practical</option></select></div>
+<div class="field"><label>Lecture Type</label><select id="lectureType" class="control"><option>Theory</option><option>Practical</option></select></div>
 </div>
 </section>
 
 <section class="card">
 <div class="head"><h2>👥 Student Attendance</h2><input id="search" class="search" placeholder="Search student…"></div>
-<div class="notice">Select a section. Students are loaded directly from the <b>students</b> collection. Tap <b>P</b> for Present or <b>A</b> for Absent, then save.</div>
+<div class="notice">Students are loaded from Firestore <b>students</b>. Select a section, mark <b>P/A</b>, then save.</div>
 <div id="message"></div>
-<div class="toolbar">
-<button class="btn secondary" onclick="markAll('P')">✓ Mark All Present</button>
-<button class="btn danger" onclick="markAll('A')">× Mark All Absent</button>
-<button id="saveBtn" class="btn primary" onclick="saveAttendance()">💾 Save Attendance</button>
-</div>
-<div id="progress" class="progress">Saving attendance…</div>
-<div class="table-wrap" style="margin-top:20px">
-<table class="table">
-<thead><tr><th>#</th><th class="student">Student</th><th>Student ID</th><th>Status</th></tr></thead>
-<tbody id="studentsBody"><tr><td colspan="4" class="empty">Select a section to load students.</td></tr></tbody>
-</table>
-</div>
+<div class="toolbar"><button class="btn secondary" id="allP">✓ Mark All Present</button><button class="btn danger" id="allA">× Mark All Absent</button><button class="btn primary" id="save">💾 Save Attendance</button></div>
+<div id="loading" class="empty" style="display:none">Loading students…</div>
+<div class="table-wrap"><table class="table"><thead><tr><th>#</th><th class="student">Student</th><th>Student ID</th><th>Section</th><th>Status</th></tr></thead><tbody id="body"><tr><td colspan="5" class="empty">Loading students…</td></tr></tbody></table></div>
 </section>
 </main>
 <div id="toast" class="toast"></div>
@@ -68,120 +41,110 @@ button,input,select{font:inherit}button{cursor:pointer}
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {getFirestore,collection,getDocs,doc,setDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey:"AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
-  authDomain:"university-portal-2107e.firebaseapp.com",
-  projectId:"university-portal-2107e",
-  storageBucket:"university-portal-2107e.firebasestorage.app",
-  messagingSenderId:"50848903813",
-  appId:"1:50848903813:web:8296090d0d9268cfd2efec",
-  measurementId:"G-LKTX7C7F0E"
+const firebaseConfig={
+ apiKey:"AIzaSyCS7fUaY2HAov1ezfLN9_lchZHHUA4lj8g",
+ authDomain:"university-portal-2107e.firebaseapp.com",
+ projectId:"university-portal-2107e",
+ storageBucket:"university-portal-2107e.firebasestorage.app",
+ messagingSenderId:"50848903813",
+ appId:"1:50848903813:web:8296090d0d9268cfd2efec",
+ measurementId:"G-LKTX7C7F0E"
 };
 
 const app=initializeApp(firebaseConfig),db=getFirestore(app);
 const studentsRef=collection(db,"students"),attendanceRef=collection(db,"attendance");
-let students=[],statusMap={};
+let students=[],status={};
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-const today=new Date();
-$("date").value=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
+const value=(x,keys)=>{for(const k of keys){if(x[k]!==undefined&&x[k]!==null&&String(x[k]).trim()!=="")return String(x[k]).trim()}return""};
+const today=new Date();today.setMinutes(today.getMinutes()-today.getTimezoneOffset());$("date").value=today.toISOString().slice(0,10);
 
-function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),3200)}
-function currentUser(){try{return JSON.parse(localStorage.getItem("currentUser")||"{}")}catch{return {}}}
-function getValue(o,keys){for(const k of keys){if(o&&o[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=="")return String(o[k]).trim()}return ""}
-function studentKey(s){return s.studentId||s.rollNumber||s.rollNo||s.registrationNo||s.enrollmentNo||s.id}
-function sectionValue(s){return getValue(s,["section","Section","classSection","class_section","branchSection"])}
-function nameValue(s){return getValue(s,["name","studentName","fullName","displayName"])||"Unnamed Student"}
-
-async function loadSections(){
-  $("section").innerHTML='<option value="">Select section</option>';
-  try{
-    const snap=await getDocs(studentsRef);
-    const sections=new Set();
-    snap.forEach(d=>{const s=d.data();const sec=sectionValue(s);if(sec)sections.add(sec)});
-    [...sections].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).forEach(sec=>{
-      const op=document.createElement("option");op.value=sec;op.textContent=sec;$("section").appendChild(op);
-    });
-    const u=currentUser(), saved=getValue(u,["section"]);
-    if(saved && sections.has(saved)){$("section").value=saved;await loadStudents()}
-    if(!sections.size) $("message").innerHTML='<div class="error">No section field was found in the students collection. Check that each student document has a <b>section</b> field.</div>';
-  }catch(e){
-    console.error(e);$("message").innerHTML='<div class="error">Firebase error while loading students/sections: '+esc(e.message)+'</div>';
-  }
-}
+function sectionOf(x){return value(x,["section","Section","classSection","class_section","class","batch"])}
+function nameOf(x){return value(x,["name","studentName","fullName","displayName"])||"Unnamed Student"}
+function idOf(x,id){return value(x,["studentId","studentID","rollNumber","rollNo","registrationNo","enrollmentNo"])||id}
+function msg(text,type="error"){$("message").innerHTML=`<div class="${type}">${text}</div>`}
+function toast(text){$("toast").textContent=text;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),3000)}
 
 async function loadStudents(){
-  const sec=$("section").value;
-  $("search").value="";
-  if(!sec){students=[];statusMap={};$("studentsBody").innerHTML='<tr><td colspan="4" class="empty">Select a section to load students.</td></tr>';return}
-  $("studentsBody").innerHTML='<tr><td colspan="4" class="empty">Loading students…</td></tr>';
+  $("body").innerHTML='<tr><td colspan="5" class="empty">Loading students…</td></tr>';
   try{
     const snap=await getDocs(studentsRef);
-    students=snap.docs.map(d=>({id:d.id,...d.data()})).filter(s=>sectionValue(s)===sec)
-      .sort((a,b)=>nameValue(a).localeCompare(nameValue(b)));
-    statusMap={};students.forEach(s=>statusMap[s.id]="P");
-    renderStudents();
-    if(!students.length) $("message").innerHTML='<div class="error">No students found for section <b>'+esc(sec)+'</b>.</div>';
-    else $("message").innerHTML="";
-  }catch(e){
-    console.error(e);$("studentsBody").innerHTML='<tr><td colspan="4" class="empty">'+esc(e.message)+'</td></tr>';
-  }
-}
+    console.log("students documents:",snap.size);
+    students=snap.docs.map(d=>({docId:d.id,...d.data()}));
 
-function renderStudents(){
-  const q=$("search").value.trim().toLowerCase();
-  const list=students.filter(s=>(nameValue(s)+" "+studentKey(s)).toLowerCase().includes(q));
-  $("studentsBody").innerHTML=list.length?list.map((s,i)=>{
-    const st=statusMap[s.id]||"P";
-    return `<tr>
-      <td>${i+1}</td>
-      <td class="student"><b>${esc(nameValue(s))}</b></td>
-      <td>${esc(studentKey(s))}</td>
-      <td>
-        <button class="status-btn ${st==="P"?"P":"N"}" onclick="setStatus('${esc(s.id)}','P')">P</button>
-        <button class="status-btn ${st==="A"?"A":"N"}" onclick="setStatus('${esc(s.id)}','A')">A</button>
-      </td>
-    </tr>`;
-  }).join(""):'<tr><td colspan="4" class="empty">No students found.</td></tr>';
-}
-
-window.setStatus=(id,st)=>{statusMap[id]=st;renderStudents()};
-window.markAll=st=>{if(!students.length){toast("Load a section first.");return}students.forEach(s=>statusMap[s.id]=st);renderStudents()};
-
-window.saveAttendance=async()=>{
-  const date=$("date").value,section=$("section").value,subject=$("subject").value.trim(),lectureType=$("lectureType").value;
-  if(!date||!section||!subject){toast("Date, section and subject are required.");return}
-  if(!students.length){toast("No students loaded.");return}
-  const u=currentUser(),saveBtn=$("saveBtn");
-  saveBtn.disabled=true;$("progress").style.display="block";
-  try{
-    for(let i=0;i<students.length;i++){
-      const s=students[i], sid=studentKey(s), cleanSubject=subject.replace(/[\/#?]/g,"-");
-      const recordId=encodeURIComponent(sid+"_"+date+"_"+cleanSubject);
-      const data={
-        studentId:sid,studentDocId:s.id,studentName:nameValue(s),
-        section,semester:getValue(s,["semester","Semester","sem"])||getValue(u,["semester","Semester"])||"",
-        date,subject,lectureType,status:statusMap[s.id]||"P",
-        markedBy:getValue(u,["uid","id","email","username"])||"faculty",
-        updatedAt:serverTimestamp()
-      };
-      await setDoc(doc(attendanceRef,recordId),data,{merge:true});
+    if(!students.length){
+      $("section").innerHTML='<option value="">No students found</option>';
+      $("body").innerHTML='<tr><td colspan="5" class="empty">The students collection is empty.</td></tr>';
+      msg("Firestore <b>students</b> collection has no documents.");
+      return;
     }
-    toast("Attendance saved successfully for "+students.length+" students.");
-  }catch(e){
-    console.error(e);toast("Save failed: "+e.message);
-  }finally{
-    saveBtn.disabled=false;$("progress").style.display="none";
-  }
-};
 
-$("section").addEventListener("change",loadStudents);
-$("search").addEventListener("input",renderStudents);
-$("date").addEventListener("change",()=>{});
-async function initialLoad(){await loadSections()}
-window.initialLoad=initialLoad;
-await initialLoad();
+    const sections=[...new Set(students.map(sectionOf).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+    $("section").innerHTML='<option value="">Select section</option>';
+    sections.forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=s;$("section").appendChild(o)});
+
+    status={};students.forEach(s=>status[s.docId]="P");
+    if(!sections.length){
+      msg("Students were loaded, but no <b>section</b> value was found. Open the browser console to inspect the student data.");
+      $("body").innerHTML='<tr><td colspan="5" class="empty">No section value found in student documents.</td></tr>';
+      return;
+    }
+
+    // If only one section exists, select it automatically.
+    if(sections.length===1){$("section").value=sections[0];render()}
+    else $("body").innerHTML='<tr><td colspan="5" class="empty">Select a section to load students.</td></tr>';
+    $("message").innerHTML="";
+  }catch(e){
+    console.error(e);
+    $("body").innerHTML='<tr><td colspan="5" class="empty">Unable to load students.</td></tr>';
+    msg("Firebase error: <b>"+esc(e.message)+"</b><br><br>Make sure Firestore Rules are published and the project ID is <b>university-portal-2107e</b>.");
+  }
+}
+
+function render(){
+  const sec=$("section").value,q=$("search").value.toLowerCase().trim();
+  if(!sec){$("body").innerHTML='<tr><td colspan="5" class="empty">Select a section to load students.</td></tr>';return}
+  const list=students.filter(s=>sectionOf(s)===sec&&(nameOf(s)+" "+idOf(s,s.docId)).toLowerCase().includes(q));
+  $("body").innerHTML=list.length?list.map((s,i)=>{
+    const st=status[s.docId]||"P";
+    return `<tr><td>${i+1}</td><td class="student"><b>${esc(nameOf(s))}</b></td><td>${esc(idOf(s,s.docId))}</td><td>${esc(sectionOf(s))}</td><td><button class="status-btn ${st==="P"?"P":"N"}" data-id="${esc(s.docId)}" data-status="P">P</button><button class="status-btn ${st==="A"?"A":"N"}" data-id="${esc(s.docId)}" data-status="A">A</button></td></tr>`;
+  }).join(""):'<tr><td colspan="5" class="empty">No students found in this section.</td></tr>';
+
+  document.querySelectorAll(".status-btn").forEach(b=>b.onclick=()=>{status[b.dataset.id]=b.dataset.status;render()});
+}
+
+async function saveAttendance(){
+  const date=$("date").value,sec=$("section").value,subject=$("subject").value.trim(),type=$("lectureType").value;
+  if(!date||!sec||!subject){toast("Date, section and subject are required.");return}
+  const list=students.filter(s=>sectionOf(s)===sec);
+  if(!list.length){toast("No students loaded.");return}
+  $("save").disabled=true;
+  try{
+    for(const s of list){
+      const sid=idOf(s,s.docId);
+      const safeSubject=subject.replace(/[\/#?]/g,"-");
+      const recordId=encodeURIComponent(sid+"_"+date+"_"+safeSubject);
+      await setDoc(doc(attendanceRef,recordId),{
+        studentId:sid,studentDocId:s.docId,studentName:nameOf(s),
+        section:sec,semester:value(s,["semester","Semester","sem"]),
+        date,subject,lectureType:type,status:status[s.docId]||"P",
+        updatedAt:serverTimestamp()
+      },{merge:true});
+    }
+    toast("Attendance saved successfully.");
+  }catch(e){console.error(e);toast("Save failed: "+e.message)}
+  finally{$("save").disabled=false}
+}
+
+$("section").onchange=render;
+$("search").oninput=render;
+$("allP").onclick=()=>{students.filter(s=>sectionOf(s)===$("section").value).forEach(s=>status[s.docId]="P");render()};
+$("allA").onclick=()=>{students.filter(s=>sectionOf(s)===$("section").value).forEach(s=>status[s.docId]="A");render()};
+$("save").onclick=saveAttendance;
+$("refreshBtn").onclick=loadStudents;
+
+loadStudents();
 </script>
 </body>
 </html>
