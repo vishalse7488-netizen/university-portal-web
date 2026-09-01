@@ -55,6 +55,22 @@ tbody tr:hover td{background:#fafcff}
 .summary{grid-template-columns:1fr}
 }
 </style>
+
+<style>
+.filter-required{
+    text-align:center;
+    padding:45px 20px;
+    color:#71809a;
+}
+.filter-required .big{
+    font-size:46px;
+    margin-bottom:10px;
+}
+.filter-required b{
+    color:#18345e;
+}
+</style>
+
 </head>
 
 <body>
@@ -79,7 +95,8 @@ tbody tr:hover td{background:#fafcff}
                 <select id="semester" class="form-control">
                     <option value="Sem-1">Sem-1</option>
                     <option value="Sem-2">Sem-2</option>
-                    <option value="Sem-3" selected>Sem-3</option>
+                    <option value="" selected>Select Semester</option>
+                    <option value="Sem-3">Sem-3</option>
                     <option value="Sem-4">Sem-4</option>
                     <option value="Sem-5">Sem-5</option>
                     <option value="Sem-6">Sem-6</option>
@@ -91,6 +108,7 @@ tbody tr:hover td{background:#fafcff}
             <div class="form-group">
                 <label for="section">Section</label>
                 <select id="section" class="form-control">
+                    <option value="" selected>Select Section</option>
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="C">C</option>
@@ -100,7 +118,7 @@ tbody tr:hover td{background:#fafcff}
             <div class="form-group">
                 <label for="subject">Subject / Lecture</label>
                 <select id="subject" class="form-control">
-                    <option value="">All Subjects</option>
+                    <option value="" selected>Select Subject / Lecture</option>
                 </select>
             </div>
 
@@ -245,21 +263,70 @@ function showSuccess(message){
     }, 3000);
 }
 
-function getCurrentMonth(){
-    const d = new Date();
+
+/* =====================================================
+   STRICT FILTER CHECK
+   IMPORTANT:
+   Attendance MUST NOT LOAD until:
+   Semester + Section + Subject + Month
+   are selected.
+===================================================== */
+
+function filtersReady(){
+
+    const semester =
+        $("semester").value.trim();
+
+    const section =
+        $("section").value.trim();
+
+    const subject =
+        $("subject").value.trim();
+
+    const month =
+        $("month").value.trim();
 
     return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth()+1).padStart(2,"0")
+        semester !== "" &&
+        section !== "" &&
+        subject !== "" &&
+        month !== ""
     );
 }
 
 
+function showFilterRequired(){
+
+    $("studentName").textContent =
+        "Select filters";
+
+    $("totalClasses").textContent = "0";
+    $("presentClasses").textContent = "0";
+    $("attendancePercent").textContent = "0%";
+    $("recordCount").textContent = "0 records";
+
+    $("attendanceTableBody").innerHTML = `
+        <tr>
+            <td colspan="5" class="filter-required">
+
+                <div class="big">🔎</div>
+
+                <b>Select Semester, Section, Subject / Lecture
+                and Month</b>
+
+                <br><br>
+
+                Attendance yahan tabhi dikhegi jab
+                saare filters select hon.
+
+            </td>
+        </tr>
+    `;
+}
+
+
 /* =====================================================
-   GET USER UID
-   PRIMARY = Firebase Authentication UID
-   FALLBACK = localStorage userUid
+   GET LOGGED-IN UID
 ===================================================== */
 
 function getLoggedInUid(){
@@ -327,7 +394,13 @@ function renderSubjectOptions(){
         $("subject");
 
     select.innerHTML =
-        `<option value="">All Subjects</option>`;
+        `<option value="">
+            Select Subject / Lecture
+        </option>`;
+
+    if(!section || !semester){
+        return;
+    }
 
     subjects
         .filter(subject => {
@@ -379,12 +452,64 @@ function renderSubjectOptions(){
 
 
 /* =====================================================
-   LOAD ATTENDANCE STRICTLY BY USER UID
+   LOAD ATTENDANCE
+   STRICTLY UID + ALL SELECTED FILTERS
 ===================================================== */
 
 async function loadAttendance(){
 
     clearError();
+
+    /*
+     * VERY IMPORTANT:
+     * Do NOT query Firestore before all filters
+     * have been selected.
+     */
+    if(!filtersReady()){
+
+        allAttendance = [];
+
+        showFilterRequired();
+
+        return;
+    }
+
+
+    currentUid =
+        getLoggedInUid();
+
+
+    if(!currentUid){
+
+        allAttendance = [];
+
+        $("studentName").textContent =
+            "Student login required";
+
+        $("totalClasses").textContent = "0";
+        $("presentClasses").textContent = "0";
+        $("attendancePercent").textContent = "0%";
+        $("recordCount").textContent = "0 records";
+
+        $("attendanceTableBody").innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+
+                    <div class="empty-icon">🔐</div>
+
+                    Firebase User UID nahi mila.
+
+                    <br><br>
+
+                    Logout karke dobara login karein.
+
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
 
     $("studentName").textContent =
         "Loading...";
@@ -397,38 +522,12 @@ async function loadAttendance(){
         </tr>
     `;
 
-    currentUid =
-        getLoggedInUid();
-
-    console.log(
-        "ATTENDANCE USER UID:",
-        currentUid
-    );
-
-    if(!currentUid){
-
-        $("studentName").textContent =
-            "Student login required";
-
-        $("attendanceTableBody").innerHTML = `
-            <tr>
-                <td colspan="5" class="empty">
-                    <div class="empty-icon">🔐</div>
-                    <b>Firebase User UID nahi mila.</b>
-                    <br><br>
-                    Logout karke dobara login karein.
-                </td>
-            </tr>
-        `;
-
-        resetSummary();
-        return;
-    }
-
 
     /*
-     * PRIMARY:
-     * attendance.userUid == logged-in Firebase UID
+     * UID is mandatory.
+     *
+     * Only records belonging to the logged-in
+     * Firebase Authentication UID are loaded.
      */
     const uidQuery =
         query(
@@ -440,8 +539,10 @@ async function loadAttendance(){
             )
         );
 
+
     const uidSnap =
         await getDocs(uidQuery);
+
 
     allAttendance =
         uidSnap.docs.map(d => ({
@@ -450,175 +551,12 @@ async function loadAttendance(){
         }));
 
 
-    /*
-     * COMPATIBILITY:
-     * If old attendance records were created before userUid
-     * was added, find the matching student and read studentId
-     * records once. New records should always contain userUid.
-     */
-    if(!allAttendance.length){
-
-        const student =
-            await findStudentByUid(currentUid);
-
-        if(student){
-
-            const oldQuery =
-                query(
-                    collection(db,"attendance"),
-                    where(
-                        "studentId",
-                        "==",
-                        student.id
-                    )
-                );
-
-            const oldSnap =
-                await getDocs(oldQuery);
-
-            allAttendance =
-                oldSnap.docs.map(d => ({
-                    id:d.id,
-                    ...d.data(),
-                    _legacyStudentId:true
-                }));
-
-            $("studentName").textContent =
-                student.name ||
-                student.studentName ||
-                student.rollNo ||
-                "Student";
-        }
-    }
-
-
-    /*
-     * If UID records exist, get name from them.
-     */
-    if(allAttendance.length){
-
-        const first =
-            allAttendance[0];
-
-        $("studentName").textContent =
-            first.studentName ||
-            first.name ||
-            "Student";
-    }
-
-
-    console.log(
-        "UID ATTENDANCE RECORDS:",
-        allAttendance.length
-    );
-
     renderAttendance();
 }
 
 
 /* =====================================================
-   FIND STUDENT BY UID
-===================================================== */
-
-async function findStudentByUid(uid){
-
-    const snap =
-        await getDocs(
-            collection(db,"students")
-        );
-
-    const students =
-        snap.docs.map(d => ({
-            id:d.id,
-            ...d.data()
-        }));
-
-    /*
-     * Most important:
-     * students/{uid}
-     */
-    let student =
-        students.find(s =>
-            s.id === uid
-        );
-
-    if(student){
-        return student;
-    }
-
-    /*
-     * Or student document contains UID field.
-     */
-    student =
-        students.find(s =>
-            String(s.userUid || "").trim() === uid ||
-            String(s.uid || "").trim() === uid ||
-            String(s.userId || "").trim() === uid
-        );
-
-    if(student){
-        return student;
-    }
-
-
-    /*
-     * Last compatibility check:
-     * users/{uid} -> studentId / rollNo / username
-     */
-    try{
-
-        const userSnap =
-            await getDocs(
-                query(
-                    collection(db,"users"),
-                    where("__name__","==",uid)
-                )
-            );
-
-        if(!userSnap.empty){
-
-            const user =
-                userSnap.docs[0].data();
-
-            const ref =
-                user.studentId ||
-                user.studentID ||
-                user.student_id ||
-                user.rollNo ||
-                user.roll ||
-                user.username;
-
-            if(ref){
-
-                return students.find(s =>
-                    [
-                        s.id,
-                        s.studentId,
-                        s.rollNo,
-                        s.roll,
-                        s.username,
-                        s.email
-                    ].some(value =>
-                        norm(value) === norm(ref)
-                    )
-                ) || null;
-            }
-        }
-
-    }catch(error){
-
-        console.warn(
-            "users UID lookup failed:",
-            error.message
-        );
-    }
-
-    return null;
-}
-
-
-/* =====================================================
-   FILTER
+   FILTER RECORDS
 ===================================================== */
 
 function getFilteredRecords(){
@@ -639,18 +577,21 @@ function getFilteredRecords(){
     return allAttendance
         .filter(record => {
 
+            /*
+             * Month is mandatory.
+             */
             if(
-                month &&
-                !String(
-                    record.date || ""
-                ).startsWith(month)
+                !String(record.date || "")
+                    .startsWith(month)
             ){
                 return false;
             }
 
 
+            /*
+             * Specific subject/lecture is mandatory.
+             */
             if(
-                subjectId &&
                 String(record.subjectId || "") !==
                 String(subjectId)
             ){
@@ -658,8 +599,10 @@ function getFilteredRecords(){
             }
 
 
+            /*
+             * Section.
+             */
             if(
-                record.section &&
                 norm(record.section) !==
                 section
             ){
@@ -667,6 +610,9 @@ function getFilteredRecords(){
             }
 
 
+            /*
+             * Semester.
+             */
             const recordSemester =
                 norm(
                     record.semester ||
@@ -674,8 +620,8 @@ function getFilteredRecords(){
                 );
 
             if(
-                recordSemester &&
-                recordSemester !== semester
+                recordSemester !==
+                semester
             ){
                 return false;
             }
@@ -693,26 +639,22 @@ function getFilteredRecords(){
 
 
 /* =====================================================
-   SUMMARY RESET
-===================================================== */
-
-function resetSummary(){
-
-    $("totalClasses").textContent = "0";
-    $("presentClasses").textContent = "0";
-    $("attendancePercent").textContent = "0%";
-    $("recordCount").textContent = "0 records";
-}
-
-
-/* =====================================================
-   RENDER
+   RENDER ATTENDANCE
 ===================================================== */
 
 function renderAttendance(){
 
+    if(!filtersReady()){
+
+        showFilterRequired();
+
+        return;
+    }
+
+
     const records =
         getFilteredRecords();
+
 
     const present =
         records.filter(record => {
@@ -724,10 +666,13 @@ function renderAttendance(){
                 status === "p" ||
                 status === "present"
             );
+
         }).length;
+
 
     const total =
         records.length;
+
 
     const percentage =
         total
@@ -750,13 +695,35 @@ function renderAttendance(){
         total + " records";
 
 
+    /*
+     * Student name comes from the attendance
+     * record only after the UID filter has passed.
+     */
+    if(records.length){
+
+        $("studentName").textContent =
+            records[0].studentName ||
+            records[0].name ||
+            "Student";
+
+    }else{
+
+        $("studentName").textContent =
+            "No attendance found";
+    }
+
+
     if(!records.length){
 
         $("attendanceTableBody").innerHTML = `
             <tr>
                 <td colspan="5" class="empty">
+
                     <div class="empty-icon">📋</div>
-                    No attendance records found.
+
+                    No attendance records found
+                    for the selected filters.
+
                 </td>
             </tr>
         `;
@@ -807,8 +774,8 @@ function renderAttendance(){
                             ? record.subjectCode +
                               " — " +
                               (
-                                  record.subjectName ||
-                                  ""
+                                record.subjectName ||
+                                ""
                               )
                             : (
                                 record.subjectName ||
@@ -842,14 +809,21 @@ function renderAttendance(){
 
 
 /* =====================================================
-   EVENTS
+   FILTER EVENTS
 ===================================================== */
 
 $("semester").addEventListener(
     "change",
-    () => {
+    async () => {
+
+        $("subject").value = "";
 
         renderSubjectOptions();
+
+        /*
+         * Clearing subject forces the page back
+         * to "select all filters" state.
+         */
         renderAttendance();
 
     }
@@ -858,9 +832,12 @@ $("semester").addEventListener(
 
 $("section").addEventListener(
     "change",
-    () => {
+    async () => {
+
+        $("subject").value = "";
 
         renderSubjectOptions();
+
         renderAttendance();
 
     }
@@ -869,9 +846,9 @@ $("section").addEventListener(
 
 $("subject").addEventListener(
     "change",
-    () => {
+    async () => {
 
-        renderAttendance();
+        await loadAttendance();
 
     }
 );
@@ -879,19 +856,32 @@ $("subject").addEventListener(
 
 $("month").addEventListener(
     "change",
-    () => {
+    async () => {
 
-        renderAttendance();
+        await loadAttendance();
 
     }
 );
 
+
+/* =====================================================
+   REFRESH
+===================================================== */
 
 $("refreshBtn").addEventListener(
     "click",
     async () => {
 
         try{
+
+            clearError();
+
+            if(!filtersReady()){
+
+                showFilterRequired();
+
+                return;
+            }
 
             $("refreshBtn").disabled =
                 true;
@@ -914,14 +904,13 @@ $("refreshBtn").addEventListener(
 
             $("refreshBtn").disabled =
                 false;
-
         }
     }
 );
 
 
 /* =====================================================
-   FIREBASE AUTH
+   AUTH
 ===================================================== */
 
 onAuthStateChanged(
@@ -930,29 +919,26 @@ onAuthStateChanged(
 
         try{
 
-            if(user){
+            currentUid =
+                user?.uid ||
+                getLoggedInUid();
 
-                currentUid =
-                    user.uid;
 
-                console.log(
-                    "Firebase Auth UID:",
-                    currentUid
-                );
+            /*
+             * Do not load attendance here unless
+             * the user has actually selected all filters.
+             */
+            await loadSubjects();
+
+            if(filtersReady()){
+
+                await loadAttendance();
 
             }else{
 
-                /*
-                 * If the portal uses its own login/localStorage,
-                 * getLoggedInUid() will still work.
-                 */
-                currentUid =
-                    getLoggedInUid();
-
+                showFilterRequired();
             }
 
-            await loadSubjects();
-            await loadAttendance();
 
         }catch(error){
 
@@ -960,11 +946,65 @@ onAuthStateChanged(
                 "Attendance load error: " +
                 error.message
             );
-
         }
-
     }
 );
+
+
+/* =====================================================
+   INITIAL PAGE STATE
+===================================================== */
+
+async function init(){
+
+    $("semester").value = "";
+    $("section").value = "";
+    $("subject").innerHTML =
+        `<option value="">
+            Select Subject / Lecture
+        </option>`;
+    $("month").value = "";
+
+    resetPage();
+
+    try{
+
+        await loadSubjects();
+
+    }catch(error){
+
+        showError(
+            "Subject load error: " +
+            error.message
+        );
+    }
+}
+
+
+function resetPage(){
+
+    allAttendance = [];
+
+    $("studentName").textContent =
+        "Select filters";
+
+    $("totalClasses").textContent =
+        "0";
+
+    $("presentClasses").textContent =
+        "0";
+
+    $("attendancePercent").textContent =
+        "0%";
+
+    $("recordCount").textContent =
+        "0 records";
+
+    showFilterRequired();
+}
+
+
+init();
 
 </script>
 </body>
