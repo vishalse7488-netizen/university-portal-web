@@ -1,974 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>My Attendance - Sunrise Public School</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-        }
-
-        /* ================= NAVBAR ================= */
-
-        .navbar {
-            background: #007BFF;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-
-        .navbar h1 {
-            margin: 0;
-            font-size: 18px;
-            max-width: 35%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .center-title {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .logout {
-            background: #dc3545;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .logout:hover {
-            background: #c82333;
-        }
-
-
-        /* ================= MENU ================= */
-
-        .menu-bar {
-            background: #0056b3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .menu-bar a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .menu-bar a:hover {
-            color: #FFD700;
-        }
-
-
-        /* ================= CONTAINER ================= */
-
-        .container {
-            width: 90%;
-            max-width: 900px;
-            margin: 35px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            text-align: center;
-            color: #007BFF;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
-
-
-        /* ================= STUDENT INFO ================= */
-
-        .student-info {
-            background: #e9f3ff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .student-info p {
-            margin: 7px 0;
-            color: #444;
-            word-break: break-word;
-        }
-
-
-        /* ================= SUMMARY ================= */
-
-        .summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .summary-box {
-            padding: 18px;
-            border-radius: 8px;
-            text-align: center;
-            background: #f5f5f5;
-        }
-
-        .summary-box h3 {
-            margin: 0 0 8px;
-            font-size: 16px;
-            color: #555;
-        }
-
-        .summary-box strong {
-            font-size: 25px;
-            color: #007BFF;
-        }
-
-
-        /* ================= TABLE ================= */
-
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 450px;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        th {
-            background: #007BFF;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-
-
-        /* ================= STATUS ================= */
-
-        .present {
-            color: green;
-            font-weight: bold;
-        }
-
-        .absent {
-            color: red;
-            font-weight: bold;
-        }
-
-        .unknown {
-            color: #666;
-            font-weight: bold;
-        }
-
-
-        /* ================= LOADING ================= */
-
-        #loading {
-            text-align: center;
-            color: #555;
-            padding: 20px;
-        }
-
-
-        /* ================= MESSAGE ================= */
-
-        #message {
-            display: none;
-            text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-
-        .error {
-            display: block !important;
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .success {
-            display: block !important;
-            background: #d4edda;
-            color: #155724;
-        }
-
-
-        /* ================= BACK BUTTON ================= */
-
-        .back-btn {
-            display: block;
-            width: fit-content;
-            margin: 25px auto 0;
-            padding: 10px 20px;
-            background: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .back-btn:hover {
-            background: #218838;
-        }
-
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 600px) {
-
-            .navbar {
-                padding: 12px;
-            }
-
-            .navbar h1 {
-                font-size: 12px;
-                max-width: 32%;
-            }
-
-            .center-title {
-                font-size: 18px;
-            }
-
-            .logout {
-                padding: 7px 10px;
-                font-size: 12px;
-            }
-
-            .menu-bar {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .container {
-                width: 94%;
-                margin: 20px auto;
-                padding: 15px;
-            }
-
-            .summary {
-                grid-template-columns: 1fr;
-            }
-
-            .summary-box {
-                padding: 15px;
-            }
-
-            th,
-            td {
-                padding: 10px 7px;
-                font-size: 14px;
-            }
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Attendance</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#eef4ff;color:#102654}
+button,input,select{font:inherit}button{cursor:pointer}
+.topbar{height:86px;background:#fff;border-bottom:1px solid #dbe5f4;display:flex;align-items:center;padding:0 32px;gap:26px;position:sticky;top:0;z-index:20}
+.menu{font-size:32px;color:#102654;background:none;border:0}.title{font-size:30px;font-weight:800;flex:1}.back{border:0;color:#fff;font-weight:700;font-size:20px;padding:17px 27px;border-radius:15px;background:linear-gradient(100deg,#4bc2e8,#2458d9);box-shadow:0 7px 18px #3978d52d}.refresh{border:0;background:none;font-size:36px;color:#102654}
+.wrap{max-width:1100px;margin:30px auto;padding:0 20px}
+.card{background:#fff;border-radius:34px;padding:30px;box-shadow:0 7px 30px #8ea5c31d;margin-bottom:26px}
+.filter-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}.filter-title{font-size:23px;font-weight:800}.clear{border:0;background:#fff5f5;color:#e45353;padding:12px 20px;border-radius:18px;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.field label{display:block;font-weight:800;font-size:18px;margin-bottom:14px}.control{width:100%;height:66px;border:2px solid #dce6f5;border-radius:20px;background:#f5f8fe;padding:0 18px;color:#8e9ab0;font-size:18px;outline:none}.control:focus{border-color:#6aa7eb}
+.summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}.stat{padding:26px 18px;border-radius:24px;text-align:center;border:2px solid #d8e6fb}.stat .num{font-size:32px;font-weight:900;margin:8px}.stat .lab{font-size:17px;color:#9aa6bb}.blue{background:#edf5ff}.green{background:#edf9f3;border-color:#c7eadb}.red{background:#fff0f2;border-color:#f0c7cf}
+.overall{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.card-title{font-size:27px;font-weight:900;margin:0}.muted{color:#8793a9;font-size:18px;margin-top:6px}.donut{width:300px;height:300px;border-radius:50%;margin:20px auto;position:relative;background:conic-gradient(#49b978 var(--present),#ed686b 0)}.donut:after{content:"";position:absolute;inset:63px;background:#fff;border-radius:50%}.donut-center{position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.percent{font-size:35px;font-weight:900;color:#e59b55}.legend{font-size:18px}.legend-row{display:flex;align-items:center;gap:12px;margin:20px 0}.dot{width:20px;height:20px;border-radius:50%;display:inline-block}.p{background:#2faf6c}.a{background:#e53d42}.t{background:#3a86dc}.legend b{color:#2b3956}.warning{display:inline-block;margin-top:8px;padding:12px 20px;border:2px solid #f3d2ae;background:#fff7ec;color:#e49a4b;border-radius:22px;font-weight:800}
+.breakdown .row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #e4e9f1;font-size:19px}.breakdown .value{font-weight:800;color:#3980d9}.details-btn{display:block;margin:25px auto 0;color:#397fd4;font-size:19px;font-weight:800;text-decoration:underline;background:none;border:0}
+.empty{text-align:center;padding:80px 20px}.empty-icon{font-size:62px;color:#3985de}.empty h2{font-size:28px;margin:15px 0 8px}.empty p{color:#8b97aa;font-size:18px}.primary{border:0;color:#fff;background:linear-gradient(100deg,#4bc2e8,#2458d9);padding:17px 32px;border-radius:30px;font-weight:800;font-size:18px;box-shadow:0 8px 20px #3978d530}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.show{display:flex}.modal-box{background:#fff;border-radius:30px;width:min(1050px,100%);max-height:90vh;overflow:auto}.modal-head{padding:24px 30px;border-bottom:1px solid #e1e7ef;display:flex;align-items:center}.modal-head h2{flex:1}.close{border:0;background:none;font-size:34px;color:#71809a}.table-wrap{overflow:auto;padding:25px 30px}.table{border-collapse:collapse;min-width:800px;width:100%}.table th{background:#edf4fd;text-align:left;padding:16px 20px}.table td{padding:14px 20px;border-bottom:1px solid #e3e7ed}.badge{display:inline-block;padding:8px 12px;border-radius:8px;font-weight:800}.badge.P{background:#e8f7ef;color:#2ca76b}.badge.A{background:#fff0f1;color:#dc4248}
+.loading{text-align:center;padding:50px;color:#71809a}
+@media(max-width:700px){.topbar{padding:0 15px;height:80px;gap:12px}.title{font-size:25px}.back{font-size:16px;padding:13px 17px}.wrap{margin:20px auto;padding:0 12px}.card{border-radius:27px;padding:22px}.grid,.overall{grid-template-columns:1fr}.summary{gap:9px}.stat{padding:20px 8px}.stat .num{font-size:27px}.donut{width:260px;height:260px}.donut:after{inset:55px}.filter-head{gap:10px}.filter-title{font-size:21px}.clear{padding:10px 12px}.field label{font-size:17px}.control{height:60px}}
+</style>
 </head>
-
-
 <body>
+<header class="topbar">
+<button class="menu" onclick="history.back()">☰</button>
+<div class="title">Attendance</div>
+<button class="back" onclick="history.back()">‹ Back</button>
+<button class="refresh" onclick="loadAttendance()">↻</button>
+</header>
 
+<main class="wrap">
+<section class="card">
+<div class="filter-head"><div class="filter-title">☷ &nbsp;Filters</div><button class="clear" onclick="clearFilters()">× Clear all</button></div>
+<div class="grid">
+<div class="field"><label>From</label><input id="fromDate" class="control" type="date"></div>
+<div class="field"><label>To</label><input id="toDate" class="control" type="date"></div>
+<div class="field"><label>Section</label><select id="section" class="control"><option value="">Select section</option></select></div>
+<div class="field"><label>Type</label><select id="type" class="control"><option value="Overall">Overall</option><option value="Theory">Theory</option><option value="Practical">Practical</option></select></div>
+</div>
+</section>
 
-    <!-- ================= NAVBAR ================= -->
+<div id="content"><div class="loading">Loading attendance…</div></div>
+</main>
 
-    <div class="navbar">
+<div id="modal" class="modal" onclick="if(event.target===this)closeDetails()">
+<div class="modal-box"><div class="modal-head"><h2>▥ &nbsp;Attendance Details</h2><button class="close" onclick="closeDetails()">×</button></div><div class="table-wrap"><div id="detailTable"></div></div></div>
+</div>
 
-        <h1 id="welcome">
-            Welcome 👋
-        </h1>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getFirestore,collection,getDocs,query,where,orderBy} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {firebaseConfig} from "./firebase-config.js";
 
-        <div class="center-title">
-            Attendance
-        </div>
+const app=initializeApp(firebaseConfig), db=getFirestore(app);
+const attendanceRef=collection(db,"attendance");
+let allRecords=[];
 
-        <button
-            id="logoutBtn"
-            class="logout"
-            type="button">
+const today=new Date(), fmt=d=>d.toISOString().slice(0,10);
+document.getElementById("fromDate").value=fmt(new Date(today.getFullYear(),today.getMonth(),today.getDate()-30));
+document.getElementById("toDate").value=fmt(today);
 
-            Logout
+function studentId(){
+  const u=JSON.parse(localStorage.getItem("currentUser")||"{}");
+  return u.studentId||u.uid||u.id||localStorage.getItem("studentId")||"";
+}
+function userSection(){
+  const u=JSON.parse(localStorage.getItem("currentUser")||"{}");
+  return u.section||localStorage.getItem("section")||"";
+}
+function dateDisplay(s){if(!s)return "-";const [y,m,d]=s.split("-");return `${d}-${m}-${y}`}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
-        </button>
+async function loadSections(){
+  try{
+    const snap=await getDocs(collection(db,"students"));
+    const set=new Set();
+    snap.forEach(d=>{const x=d.data();if(x.section)set.add(x.section)});
+    const sel=document.getElementById("section");
+    [...set].sort().forEach(s=>sel.insertAdjacentHTML("beforeend",`<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`));
+    if(userSection())sel.value=userSection();
+  }catch(e){console.warn(e)}
+}
 
+async function loadAttendance(){
+  document.getElementById("content").innerHTML='<div class="card loading">Loading attendance…</div>';
+  try{
+    const sid=studentId();
+    let snap;
+    if(sid){
+      snap=await getDocs(query(attendanceRef,where("studentId","==",sid)));
+    }else{
+      snap=await getDocs(attendanceRef);
+    }
+    allRecords=snap.docs.map(d=>({id:d.id,...d.data()}));
+    render();
+  }catch(e){
+    console.error(e);
+    document.getElementById("content").innerHTML=`<div class="card empty"><div class="empty-icon">⚠</div><h2>Unable to load attendance</h2><p>${escapeHtml(e.message)}</p><button class="primary" onclick="loadAttendance()">Retry</button></div>`;
+  }
+}
+
+function filtered(){
+  const from=document.getElementById("fromDate").value,to=document.getElementById("toDate").value,sec=document.getElementById("section").value,type=document.getElementById("type").value;
+  return allRecords.filter(r=>{
+    if(from&&r.date<from)return false;if(to&&r.date>to)return false;if(sec&&r.section!==sec)return false;
+    if(type!=="Overall"&&r.lectureType!==type)return false;return true;
+  });
+}
+function render(){
+  const rows=filtered();
+  if(!rows.length){
+    document.getElementById("content").innerHTML='<section class="card empty"><div class="empty-icon">▣</div><h2>No Attendance Data</h2><p>Try changing the filters.</p><button class="primary" onclick="clearFilters()">⌁ &nbsp;Clear Filters</button></section>';
+    return;
+  }
+  const present=rows.filter(r=>String(r.status).toUpperCase()==="P").length;
+  const absent=rows.filter(r=>String(r.status).toUpperCase()==="A").length;
+  const total=present+absent, pct=total?((present/total)*100):0;
+  const theory=rows.filter(r=>r.lectureType==="Theory").length, practical=rows.filter(r=>r.lectureType==="Practical").length;
+  const sec=document.getElementById("section").value || rows[0].section || "—";
+  document.getElementById("content").innerHTML=`
+  <section class="card">
+    <div class="overall">
+      <div><div style="display:flex;gap:16px;align-items:center"><div style="font-size:40px">◔</div><div><h2 class="card-title">Overall Attendance</h2><div class="muted">${escapeHtml(sec)}</div></div></div>
+      <div class="donut" style="--present:${pct*3.6}deg"><div class="donut-center"><div class="percent">${pct.toFixed(1)}%</div><div class="muted">Attendance</div></div></div></div>
+      <div class="legend">
+        <div class="legend-row"><span class="dot p"></span><span>Present <b>${present} classes</b></span></div>
+        <div class="legend-row"><span class="dot a"></span><span>Absent <b>${absent} classes</b></span></div>
+        <div class="legend-row"><span class="dot t"></span><span>Total <b>${total} classes</b></span></div>
+        ${pct<75?'<span class="warning">⚠ Attendance low</span>':'<span class="warning" style="color:#2ca76b;border-color:#bfe7d2;background:#effbf5">✓ Attendance good</span>'}
+      </div>
     </div>
-
-
-    <!-- ================= MENU ================= -->
-
-    <div class="menu-bar">
-
-        <a href="dashboard.html">Menu</a>
-
-        <a href="services.html">Services</a>
-
-        <a href="about.html">About</a>
-
-        <a href="location.html">Location</a>
-
-        <a href="feedback.html">Feedback</a>
-
-        <a href="contact.html">Contact Us</a>
-
-    </div>
-
-
-    <!-- ================= MAIN ================= -->
-
-    <div class="container">
-
-        <h2>
-            📊 My Attendance
-        </h2>
-
-
-        <!-- ================= STUDENT INFO ================= -->
-
-        <div class="student-info">
-
-            <p>
-                <strong>Email:</strong>
-                <span id="studentEmail">
-                    Loading...
-                </span>
-            </p>
-
-            <p>
-                <strong>Student:</strong>
-                <span id="studentName">
-                    Loading...
-                </span>
-            </p>
-
-            <p>
-                <strong>Roll No:</strong>
-                <span id="studentRollNo">
-                    Loading...
-                </span>
-            </p>
-
-        </div>
-
-
-        <!-- ================= SUMMARY ================= -->
-
-        <div class="summary">
-
-            <div class="summary-box">
-
-                <h3>
-                    Total Days
-                </h3>
-
-                <strong id="totalDays">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="summary-box">
-
-                <h3>
-                    Present
-                </h3>
-
-                <strong id="presentDays">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="summary-box">
-
-                <h3>
-                    Attendance %
-                </h3>
-
-                <strong id="attendancePercentage">
-                    0%
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <!-- ================= LOADING ================= -->
-
-        <div id="loading">
-            Loading attendance...
-        </div>
-
-
-        <!-- ================= ATTENDANCE TABLE ================= -->
-
-        <div
-            class="table-wrapper"
-            id="tableContainer"
-            style="display: none;">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Date
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="attendanceBody">
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        <!-- ================= MESSAGE ================= -->
-
-        <div id="message"></div>
-
-
-        <!-- ================= BACK ================= -->
-
-        <a
-            href="dashboard.html"
-            class="back-btn">
-
-            ⬅ Back to Dashboard
-
-        </a>
-
-    </div>
-
-
-    <!-- ================= FIREBASE ================= -->
-
-    <script type="module">
-
-        import {
-            initializeApp
-        } from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
-
-        import {
-            getAuth,
-            onAuthStateChanged,
-            signOut
-        } from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-        import {
-            getFirestore,
-            collection,
-            getDocs
-        } from
-        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-        /* =========================================
-           FIREBASE CONFIG
-        ========================================= */
-
-        const firebaseConfig = {
-
-            apiKey:
-                "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
-
-            authDomain:
-                "university-portal-2107e.firebaseapp.com",
-
-            projectId:
-                "university-portal-2107e",
-
-            storageBucket:
-                "university-portal-2107e.firebasestorage.app",
-
-            messagingSenderId:
-                "50848903813",
-
-            appId:
-                "1:50848903813:web:8296090d0d9268cfd2efec",
-
-            measurementId:
-                "G-LKTX7C7F0E"
-
-        };
-
-
-        /* =========================================
-           INITIALIZE FIREBASE
-        ========================================= */
-
-        const app =
-            initializeApp(firebaseConfig);
-
-
-        const auth =
-            getAuth(app);
-
-
-        const db =
-            getFirestore(app);
-
-
-        /* =========================================
-           ELEMENTS
-        ========================================= */
-
-        const welcome =
-            document.getElementById("welcome");
-
-        const studentEmail =
-            document.getElementById("studentEmail");
-
-        const studentName =
-            document.getElementById("studentName");
-
-        const studentRollNo =
-            document.getElementById("studentRollNo");
-
-        const loading =
-            document.getElementById("loading");
-
-        const tableContainer =
-            document.getElementById("tableContainer");
-
-        const attendanceBody =
-            document.getElementById("attendanceBody");
-
-        const message =
-            document.getElementById("message");
-
-        const logoutBtn =
-            document.getElementById("logoutBtn");
-
-
-        /* =========================================
-           AUTH CHECK
-        ========================================= */
-
-        onAuthStateChanged(
-            auth,
-            async (user) => {
-
-                if (!user) {
-
-                    window.location.href =
-                        "login.html";
-
-                    return;
-                }
-
-
-                welcome.textContent =
-                    "Welcome, " +
-                    (user.email || "Student") +
-                    " 👋";
-
-
-                studentEmail.textContent =
-                    user.email ||
-                    "Not available";
-
-
-                await loadAttendance(
-                    user.uid
-                );
-
-            }
-        );
-
-
-        /* =========================================
-           LOAD ATTENDANCE
-        ========================================= */
-
-        async function loadAttendance(userId) {
-
-            try {
-
-                loading.style.display = "block";
-
-                tableContainer.style.display = "none";
-
-                message.style.display = "none";
-
-
-                /*
-                    Get attendance collection
-                */
-
-                const snapshot =
-                    await getDocs(
-                        collection(
-                            db,
-                            "attendance"
-                        )
-                    );
-
-
-                const records = [];
-
-
-                /*
-                    Find current student's UID
-                    inside students map.
-                */
-
-                snapshot.forEach((doc) => {
-
-                    const data =
-                        doc.data();
-
-
-                    if (
-                        !data.students ||
-                        !data.students[userId]
-                    ) {
-                        return;
-                    }
-
-
-                    const student =
-                        data.students[userId];
-
-
-                    records.push({
-
-                        date:
-                            data.date || "",
-
-                        name:
-                            student.name ||
-                            "Student",
-
-                        rollNo:
-                            student.rollNo ??
-                            "",
-
-                        status:
-                            student.status ||
-                            "Not Marked"
-
-                    });
-
-                });
-
-
-                /* =================================
-                   NO RECORD
-                ================================= */
-
-                if (records.length === 0) {
-
-                    loading.textContent =
-                        "No attendance record found.";
-
-                    return;
-                }
-
-
-                /* =================================
-                   STUDENT DETAILS
-                ================================= */
-
-                studentName.textContent =
-                    records[0].name;
-
-
-                studentRollNo.textContent =
-                    records[0].rollNo ||
-                    "Not available";
-
-
-                /* =================================
-                   SORT DATE
-                ================================= */
-
-                records.sort((a, b) => {
-
-                    return String(b.date)
-                        .localeCompare(
-                            String(a.date)
-                        );
-
-                });
-
-
-                /* =================================
-                   SUMMARY
-                ================================= */
-
-                const total =
-                    records.length;
-
-
-                const present =
-                    records.filter(
-                        item =>
-                            String(
-                                item.status
-                            ).toLowerCase()
-                            === "present"
-                    ).length;
-
-
-                const percentage =
-                    total > 0
-                    ? ((present / total) * 100)
-                        .toFixed(1)
-                    : "0.0";
-
-
-                document.getElementById(
-                    "totalDays"
-                ).textContent =
-                    total;
-
-
-                document.getElementById(
-                    "presentDays"
-                ).textContent =
-                    present;
-
-
-                document.getElementById(
-                    "attendancePercentage"
-                ).textContent =
-                    percentage + "%";
-
-
-                /* =================================
-                   TABLE
-                ================================= */
-
-                attendanceBody.innerHTML = "";
-
-
-                records.forEach((record) => {
-
-                    const row =
-                        document.createElement("tr");
-
-
-                    const dateCell =
-                        document.createElement("td");
-
-
-                    const statusCell =
-                        document.createElement("td");
-
-
-                    dateCell.textContent =
-                        formatDate(
-                            record.date
-                        );
-
-
-                    statusCell.textContent =
-                        record.status;
-
-
-                    const status =
-                        String(
-                            record.status
-                        ).toLowerCase();
-
-
-                    if (status === "present") {
-
-                        statusCell.className =
-                            "present";
-
-                    }
-                    else if (status === "absent") {
-
-                        statusCell.className =
-                            "absent";
-
-                    }
-                    else {
-
-                        statusCell.className =
-                            "unknown";
-
-                    }
-
-
-                    row.appendChild(
-                        dateCell
-                    );
-
-
-                    row.appendChild(
-                        statusCell
-                    );
-
-
-                    attendanceBody.appendChild(
-                        row
-                    );
-
-                });
-
-
-                loading.style.display =
-                    "none";
-
-
-                tableContainer.style.display =
-                    "block";
-
-            }
-
-
-            catch (error) {
-
-                console.error(
-                    "Attendance Error:",
-                    error
-                );
-
-
-                loading.style.display =
-                    "none";
-
-
-                message.textContent =
-                    "❌ Attendance load nahi ho paayi.";
-
-
-                message.className =
-                    "error";
-
-            }
-
-        }
-
-
-        /* =========================================
-           DATE FORMAT
-        ========================================= */
-
-        function formatDate(dateString) {
-
-            if (!dateString) {
-                return "Unknown";
-            }
-
-
-            /*
-                YYYY-MM-DD
-            */
-
-            const parts =
-                String(dateString).split("-");
-
-
-            if (parts.length === 3) {
-
-                return (
-                    parts[2] +
-                    "-" +
-                    parts[1] +
-                    "-" +
-                    parts[0]
-                );
-
-            }
-
-
-            return dateString;
-
-        }
-
-
-        /* =========================================
-           LOGOUT
-        ========================================= */
-
-        logoutBtn.addEventListener(
-            "click",
-            async () => {
-
-                try {
-
-                    await signOut(auth);
-
-                    window.location.href =
-                        "login.html";
-
-                }
-
-                catch (error) {
-
-                    console.error(
-                        "Logout Error:",
-                        error
-                    );
-
-                    alert(
-                        "Logout failed. Please try again."
-                    );
-
-                }
-
-            }
-        );
-
-    </script>
-
+  </section>
+  <div class="summary">
+    <div class="stat blue"><div style="font-size:26px">▣</div><div class="num">${total}</div><div class="lab">Total</div></div>
+    <div class="stat green"><div style="font-size:26px">✓</div><div class="num">${present}</div><div class="lab">Present</div></div>
+    <div class="stat red"><div style="font-size:26px">×</div><div class="num">${absent}</div><div class="lab">Absent</div></div>
+  </div>
+  <section class="card breakdown" style="margin-top:26px">
+    <div style="display:flex;gap:16px;align-items:center"><div style="font-size:35px">▥</div><div><h2 class="card-title">Lecture Breakdown</h2></div></div>
+    <div class="row"><span>▣ &nbsp; Theory Lectures</span><span class="value">${theory}</span></div>
+    <div class="row"><span>⚗ &nbsp; Practical Lectures</span><span class="value">${practical}</span></div>
+    <div class="row"><span>🎓 &nbsp; Semester</span><span class="value">${escapeHtml((rows[0].semester||"").toString()||"—")}</span></div>
+    <button class="details-btn" onclick="openDetails()">View Details attendance</button>
+  </section>`;
+}
+window.clearFilters=()=>{document.getElementById("fromDate").value="";document.getElementById("toDate").value="";document.getElementById("section").value="";document.getElementById("type").value="Overall";render()};
+window.loadAttendance=loadAttendance;
+window.openDetails=()=>{
+  const rows=filtered().sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const subjects=[...new Set(rows.map(r=>r.subject).filter(Boolean))];
+  document.getElementById("detailTable").innerHTML=`<table class="table"><thead><tr><th>Date</th>${subjects.map(s=>`<th>${escapeHtml(s)}</th>`).join("")}</tr></thead><tbody>${
+    [...new Set(rows.map(r=>r.date))].map(date=>`<tr><td><b>${dateDisplay(date)}</b></td>${subjects.map(s=>{const r=rows.find(x=>x.date===date&&x.subject===s);return `<td>${r?`<span class="badge ${String(r.status).toUpperCase()==="P"?"P":"A"}">${String(r.status).toUpperCase()}</span>`:""}</td>`}).join("")}</tr>`).join("")
+  }</tbody></table>`;
+  document.getElementById("modal").classList.add("show");
+};
+window.closeDetails=()=>document.getElementById("modal").classList.remove("show");
+["fromDate","toDate","section","type"].forEach(id=>document.getElementById(id).addEventListener("change",render));
+await loadSections(); await loadAttendance();
+</script>
 </body>
-
 </html>
