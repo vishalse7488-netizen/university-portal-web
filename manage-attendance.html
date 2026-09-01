@@ -556,74 +556,57 @@ tbody tr:hover td{
 }
 
 
-/* =====================================================
-   STATUS BUTTONS
-===================================================== */
 
+/* Individual attendance controls */
 .status-buttons{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-
 
 .status-btn{
-
-    width:47px;
-
-    height:39px;
-
-    border:0;
-
-    border-radius:9px;
-
-    cursor:pointer;
-
-    font-size:15px;
-
-    font-weight:800;
-
-    opacity:.35;
-
-    transition:.15s;
-
+  min-width:52px;
+  height:42px;
+  border:2px solid transparent;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:800;
+  transition:.15s ease;
 }
-
 
 .status-btn.present{
-
-    background:#dff5e9;
-
-    color:#15995a;
-
+  background:#dff5e9;
+  color:#15995a;
+  border-color:#bfe8d1;
 }
-
 
 .status-btn.absent{
-
-    background:#ffe3e6;
-
-    color:#db3945;
-
+  background:#ffe3e6;
+  color:#db3945;
+  border-color:#f2c1c6;
 }
 
+.status-btn:hover{
+  transform:translateY(-1px);
+}
 
 .status-btn.active{
-
-    opacity:1;
-
-    transform:scale(1.03);
-
-    box-shadow:
-        0 0 0 2px
-        currentColor;
-
+  opacity:1;
+  transform:scale(1.05);
+  box-shadow:0 0 0 2px currentColor;
 }
 
+.status-btn:not(.active){
+  opacity:.55;
+}
+
+@media(max-width:600px){
+  .status-btn{
+    min-width:48px;
+    height:40px;
+  }
+}
 
 /* =====================================================
    EMPTY
@@ -1075,8 +1058,10 @@ tbody tr:hover td{
 
         <div class="info-box">
 
-            Select date, semester, section and lecture,
-            then mark <b>P</b> or <b>A</b>.
+            Select date, semester, section and lecture.
+            Then mark each student <b>✓ P</b> or <b>✕ A</b>.
+            You can also use <b>Mark All Present</b> or
+            <b>Mark All Absent</b>.
 
         </div>
 
@@ -1262,8 +1247,9 @@ function filteredStudents(){
   return allStudents
     .filter(s=>{
       if(s.active === false) return false;
+      const studentSemester = norm(s.semester || s.semeter || "");
       return norm(s.section) === section &&
-             norm(s.semester) === semester;
+             studentSemester === semester;
     })
     .sort((a,b)=>
       String(a.rollNo || a.roll || "")
@@ -1306,12 +1292,21 @@ function renderStudents(){
         <td>${esc(s.section || "—")}</td>
         <td>
           <div class="status-buttons">
-            <button type="button"
+            <button
+              type="button"
               class="status-btn present ${st==="P"?"active":""}"
-              data-status="P">P</button>
-            <button type="button"
+              data-status="P"
+              aria-label="Mark Present"
+              title="Present"
+            >✓ P</button>
+
+            <button
+              type="button"
               class="status-btn absent ${st==="A"?"active":""}"
-              data-status="A">A</button>
+              data-status="A"
+              aria-label="Mark Absent"
+              title="Absent"
+            >✕ A</button>
           </div>
         </td>
       </tr>`;
