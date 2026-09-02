@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Permissions</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    color:#1f2937;
+}
+
+.header{
+    background:#111827;
+    color:white;
+    padding:18px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.header h1{
+    font-size:22px;
+}
+
+.header p{
+    font-size:13px;
+    color:#cbd5e1;
+    margin-top:4px;
+}
+
+.back-btn{
+    border:0;
+    background:#2563eb;
+    color:white;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.container{
+    max-width:1200px;
+    margin:25px auto;
+    padding:0 15px;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 4px 18px rgba(0,0,0,.07);
+}
+
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.top-row h2{
+    font-size:20px;
+}
+
+.admin-info{
+    color:#64748b;
+    font-size:14px;
+    margin-top:5px;
+}
+
+.buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:0;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.btn-secondary{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.status{
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    display:none;
+}
+
+.status.success{
+    display:block;
+    background:#dcfce7;
+    color:#166534;
+}
+
+.status.error{
+    display:block;
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.status.info{
+    display:block;
+    background:#dbeafe;
+    color:#1e40af;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th,td{
+    padding:13px 10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:center;
+}
+
+th{
+    background:#f8fafc;
+    font-size:13px;
+}
+
+td:first-child{
+    text-align:left;
+    font-weight:bold;
+}
+
+.module-name{
+    display:flex;
+    flex-direction:column;
+}
+
+.module-title{
+    font-size:15px;
+}
+
+.module-desc{
+    font-size:12px;
+    color:#64748b;
+    margin-top:3px;
+    font-weight:normal;
+}
+
+input[type="checkbox"]{
+    width:19px;
+    height:19px;
+    cursor:pointer;
+}
+
+.module-all{
+    accent-color:#2563eb;
+}
+
+.permission-count{
+    background:#eff6ff;
+    color:#1d4ed8;
+    padding:3px 8px;
+    border-radius:20px;
+    font-size:11px;
+    display:inline-block;
+    margin-top:5px;
+}
+
+.search{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    outline:none;
+    font-size:14px;
+}
+
+.search:focus{
+    border-color:#2563eb;
+}
+
+.legend{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:15px;
+    color:#64748b;
+    font-size:13px;
+}
+
+@media(max-width:700px){
+    .header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .top-row{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div>
+        <h1>🔐 Admin Permissions</h1>
+        <p>Manage Admin Panel access permissions</p>
+    </div>
+
+    <button class="back-btn" id="backBtn">
+        ← Admin Dashboard
+    </button>
+
+</header>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="top-row">
+
+            <div>
+                <h2>Admin Access Control</h2>
+
+                <div class="admin-info">
+                    Logged in as:
+                    <strong id="adminName">Checking...</strong>
+                </div>
+            </div>
+
+            <div class="buttons">
+
+                <button class="btn btn-secondary" id="selectAllBtn">
+                    Select All
+                </button>
+
+                <button class="btn btn-secondary" id="clearAllBtn">
+                    Clear All
+                </button>
+
+                <button class="btn btn-success" id="saveBtn">
+                    💾 Save Permissions
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="status" class="status"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <input
+            type="search"
+            id="searchBox"
+            class="search"
+            placeholder="🔎 Search permission/module..."
+        >
+
+        <div class="legend">
+
+            <span>
+                ☑ View
+            </span>
+
+            <span>
+                ➕ Add
+            </span>
+
+            <span>
+                ✏️ Edit
+            </span>
+
+            <span>
+                🗑️ Delete
+            </span>
+
+            <span>
+                📢 Publish
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th style="text-align:left;">
+                            Module
+                        </th>
+
+                        <th>
+                            All
+                        </th>
+
+                        <th>
+                            View
+                        </th>
+
+                        <th>
+                            Add
+                        </th>
+
+                        <th>
+                            Edit
+                        </th>
+
+                        <th>
+                            Delete
+                        </th>
+
+                        <th>
+                            Publish
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="permissionTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+/* =========================================================
+   FIREBASE IMPORTS
+========================================================= */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+/* =========================================================
+   FIREBASE CONFIG
+   APNI EXISTING CONFIG YAHAN PASTE KAREIN
+========================================================= */
+
+const firebaseConfig = {
+
+    apiKey: "YOUR_API_KEY",
+
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+
+    projectId: "YOUR_PROJECT_ID",
+
+    storageBucket: "YOUR_PROJECT.firebasestorage.app",
+
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+
+    appId: "YOUR_APP_ID"
+
+};
+
+
+/* =========================================================
+   INITIALIZE FIREBASE
+========================================================= */
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const table =
+    document.getElementById("permissionTable");
+
+const statusBox =
+    document.getElementById("status");
+
+const adminName =
+    document.getElementById("adminName");
+
+const saveBtn =
+    document.getElementById("saveBtn");
+
+const selectAllBtn =
+    document.getElementById("selectAllBtn");
+
+const clearAllBtn =
+    document.getElementById("clearAllBtn");
+
+const searchBox =
+    document.getElementById("searchBox");
+
+const backBtn =
+    document.getElementById("backBtn");
+
+
+/* =========================================================
+   PERMISSION MODULES
+========================================================= */
+
+const modules = [
+
+    {
+        id:"dashboard",
+        name:"Dashboard",
+        desc:"Admin dashboard and overview",
+        permissions:["view"]
+    },
+
+    {
+        id:"users",
+        name:"Users",
+        desc:"Manage system users and accounts",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"students",
+        name:"Students",
+        desc:"Student records and profiles",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"faculty",
+        name:"Faculty",
+        desc:"Faculty records and profiles",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"admins",
+        name:"Admins",
+        desc:"Manage administrator accounts",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"departments",
+        name:"Departments",
+        desc:"Manage departments",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"courses",
+        name:"Courses",
+        desc:"Manage courses and programs",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"subjects",
+        name:"Subjects",
+        desc:"Manage subjects",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"classes",
+        name:"Classes & Sections",
+        desc:"Manage classes, batches and sections",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"attendance",
+        name:"Attendance",
+        desc:"Manage student attendance",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"attendance_reports",
+        name:"Attendance Reports",
+        desc:"Attendance reports and exports",
+        permissions:["view"]
+    },
+
+    {
+        id:"examinations",
+        name:"Examinations",
+        desc:"Manage examinations",
+        permissions:["view","add","edit","delete","publish"]
+    },
+
+    {
+        id:"marks",
+        name:"Marks",
+        desc:"Manage examination marks",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"results",
+        name:"Results",
+        desc:"Manage and publish results",
+        permissions:["view","add","edit","delete","publish"]
+    },
+
+    {
+        id:"fees",
+        name:"Fees",
+        desc:"Fee structure and payments",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"scholarship",
+        name:"Scholarship",
+        desc:"Scholarship applications",
+        permissions:["view","add","edit","delete","publish"]
+    },
+
+    {
+        id:"services",
+        name:"Services",
+        desc:"Manage student/faculty services",
+        permissions:["view","add","edit","delete","publish"]
+    },
+
+    {
+        id:"applications",
+        name:"Applications",
+        desc:"Manage submitted applications",
+        permissions:["view","add","edit","delete","publish"]
+    },
+
+    {
+        id:"documents",
+        name:"Documents",
+        desc:"Upload and verify documents",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"notices",
+        name:"Notices",
+        desc:"Create and publish notices",
+        permissions:["view","add","edit","delete","publish"]
+    },
+
+    {
+        id:"notifications",
+        name:"Notifications",
+        desc:"Send system notifications",
+        permissions:["view","add","delete","publish"]
+    },
+
+    {
+        id:"events",
+        name:"Events",
+        desc:"Manage college/university events",
+        permissions:["view","add","edit","delete","publish"]
+    },
+
+    {
+        id:"reports",
+        name:"Reports",
+        desc:"System reports and exports",
+        permissions:["view"]
+    },
+
+    {
+        id:"settings",
+        name:"System Settings",
+        desc:"Portal configuration",
+        permissions:["view","edit"]
+    },
+
+    {
+        id:"roles",
+        name:"Roles & Permissions",
+        desc:"Manage roles and access",
+        permissions:["view","add","edit","delete"]
+    },
+
+    {
+        id:"activity_logs",
+        name:"Activity Logs",
+        desc:"View administrator activity",
+        permissions:["view"]
+    },
+
+    {
+        id:"data_management",
+        name:"Data Management",
+        desc:"Import, export and backup data",
+        permissions:["view","add","delete"]
+    }
+
+];
+
+
+/* =========================================================
+   DEFAULT PERMISSIONS
+========================================================= */
+
+let permissionData = {};
+
+
+/* =========================================================
+   CREATE DEFAULT PERMISSION OBJECT
+========================================================= */
+
+function createDefaultPermissions(){
+
+    const data = {};
+
+    modules.forEach(module => {
+
+        data[module.id] = {};
+
+        module.permissions.forEach(permission => {
+
+            data[module.id][permission] = true;
+
+        });
+
+    });
+
+    return data;
+}
+
+
+/* =========================================================
+   SHOW MESSAGE
+========================================================= */
+
+function showMessage(
+    message,
+    type = "info"
+){
+
+    statusBox.textContent =
+        message;
+
+    statusBox.className =
+        "status " + type;
+
+}
+
+
+/* =========================================================
+   RENDER TABLE
+========================================================= */
+
+function renderTable(){
+
+    table.innerHTML = "";
+
+    const search =
+        searchBox.value
+        .trim()
+        .toLowerCase();
+
+
+    modules.forEach(module => {
+
+        const searchable =
+            (
+                module.name +
+                " " +
+                module.desc
+            ).toLowerCase();
+
+
+        if(
+            search &&
+            !searchable.includes(search)
+        ){
+            return;
+        }
+
+
+        const tr =
+            document.createElement("tr");
+
+
+        /* MODULE */
+
+        const moduleTd =
+            document.createElement("td");
+
+        moduleTd.innerHTML = `
+
+            <div class="module-name">
+
+                <span class="module-title">
+                    ${escapeHtml(module.name)}
+                </span>
+
+                <span class="module-desc">
+                    ${escapeHtml(module.desc)}
+                </span>
+
+                <span
+                    class="permission-count"
+                    id="count-${module.id}"
+                >
+                    0 permissions
+                </span>
+
+            </div>
+
+        `;
+
+        tr.appendChild(moduleTd);
+
+
+        /* ALL */
+
+        const allTd =
+            document.createElement("td");
+
+        const allCheckbox =
+            document.createElement("input");
+
+        allCheckbox.type =
+            "checkbox";
+
+        allCheckbox.className =
+            "module-all";
+
+        allCheckbox.dataset.module =
+            module.id;
+
+        allCheckbox.addEventListener(
+            "change",
+            function(){
+
+                module.permissions.forEach(
+                    permission => {
+
+                        const checkbox =
+                            document.querySelector(
+                                `[data-module="${module.id}"][data-permission="${permission}"]`
+                            );
+
+                        if(checkbox){
+                            checkbox.checked =
+                                allCheckbox.checked;
+                        }
+
+                    }
+                );
+
+                updateCount(module.id);
+
+            }
+        );
+
+        allTd.appendChild(
+            allCheckbox
+        );
+
+        tr.appendChild(allTd);
+
+
+        /* PERMISSIONS */
+
+        const permissionTypes =
+            [
+                "view",
+                "add",
+                "edit",
+                "delete",
+                "publish"
+            ];
+
+
+        permissionTypes.forEach(
+            permission => {
+
+                const td =
+                    document.createElement("td");
+
+
+                if(
+                    module.permissions.includes(
+                        permission
+                    )
+                ){
+
+                    const checkbox =
+                        document.createElement(
+                            "input"
+                        );
+
+                    checkbox.type =
+                        "checkbox";
+
+                    checkbox.dataset.module =
+                        module.id;
+
+                    checkbox.dataset.permission =
+                        permission;
+
+
+                    checkbox.checked =
+                        permissionData[
+                            module.id
+                        ]?.[
+                            permission
+                        ] === true;
+
+
+                    checkbox.addEventListener(
+                        "change",
+                        function(){
+
+                            if(
+                                !permissionData[
+                                    module.id
+                                ]
+                            ){
+                                permissionData[
+                                    module.id
+                                ] = {};
+                            }
+
+                            permissionData[
+                                module.id
+                            ][
+                                permission
+                            ] =
+                                checkbox.checked;
+
+
+                            updateCount(
+                                module.id
+                            );
+
+                        }
+                    );
+
+
+                    td.appendChild(
+                        checkbox
+                    );
+
+                }
+                else{
+
+                    td.textContent =
+                        "—";
+
+                }
+
+
+                tr.appendChild(td);
+
+            }
+        );
+
+
+        table.appendChild(tr);
+
+
+        setTimeout(
+            () => updateCount(module.id),
+            0
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   UPDATE COUNT
+========================================================= */
+
+function updateCount(moduleId){
+
+    const module =
+        modules.find(
+            item =>
+                item.id === moduleId
+        );
+
+    if(!module){
+        return;
+    }
+
+
+    let count = 0;
+
+    module.permissions.forEach(
+        permission => {
+
+            const checkbox =
+                document.querySelector(
+                    `[data-module="${moduleId}"][data-permission="${permission}"]`
+                );
+
+            if(
+                checkbox &&
+                checkbox.checked
+            ){
+                count++;
+            }
+
+        }
+    );
+
+
+    const countBox =
+        document.getElementById(
+            `count-${moduleId}`
+        );
+
+
+    if(countBox){
+
+        countBox.textContent =
+            `${count}/${module.permissions.length} permissions`;
+
+    }
+
+
+    const allCheckbox =
+        document.querySelector(
+            `[data-module="${moduleId}"].module-all`
+        );
+
+
+    if(allCheckbox){
+
+        allCheckbox.checked =
+            count === module.permissions.length;
+
+        allCheckbox.indeterminate =
+            count > 0 &&
+            count < module.permissions.length;
+
+    }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   LOAD CURRENT ADMIN PERMISSIONS
+========================================================= */
+
+async function loadPermissions(uid){
+
+    try{
+
+        showMessage(
+            "Loading permissions...",
+            "info"
+        );
+
+
+        const permissionRef =
+            doc(
+                db,
+                "adminPermissions",
+                uid
+            );
+
+
+        const snapshot =
+            await getDoc(
+                permissionRef
+            );
+
+
+        if(
+            snapshot.exists()
+        ){
+
+            const saved =
+                snapshot.data();
+
+
+            permissionData =
+                saved.permissions ||
+                createDefaultPermissions();
+
+        }
+        else{
+
+            permissionData =
+                createDefaultPermissions();
+
+        }
+
+
+        renderTable();
+
+
+        showMessage(
+            "Permissions loaded successfully.",
+            "success"
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "Permissions load nahi ho rahi: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE PERMISSIONS
+========================================================= */
+
+async function savePermissions(uid){
+
+    try{
+
+        saveBtn.disabled =
+            true;
+
+        saveBtn.textContent =
+            "Saving...";
+
+
+        /* Build fresh permission object */
+
+        const finalPermissions = {};
+
+
+        modules.forEach(module => {
+
+            finalPermissions[
+                module.id
+            ] = {};
+
+
+            module.permissions.forEach(
+                permission => {
+
+                    const checkbox =
+                        document.querySelector(
+                            `[data-module="${module.id}"][data-permission="${permission}"]`
+                        );
+
+
+                    finalPermissions[
+                        module.id
+                    ][
+                        permission
+                    ] =
+                        checkbox
+                            ? checkbox.checked
+                            : false;
+
+                }
+            );
+
+        });
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "adminPermissions",
+                uid
+            ),
+
+            {
+
+                uid:uid,
+
+                role:"admin",
+
+                permissions:
+                    finalPermissions,
+
+                updatedAt:
+                    serverTimestamp()
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        permissionData =
+            finalPermissions;
+
+
+        showMessage(
+            "✅ Admin permissions successfully saved.",
+            "success"
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "❌ Save failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+    finally{
+
+        saveBtn.disabled =
+            false;
+
+        saveBtn.textContent =
+            "💾 Save Permissions";
+
+    }
+
+}
+
+
+/* =========================================================
+   SELECT ALL
+========================================================= */
+
+selectAllBtn.addEventListener(
+    "click",
+    function(){
+
+        modules.forEach(
+            module => {
+
+                if(
+                    !permissionData[
+                        module.id
+                    ]
+                ){
+                    permissionData[
+                        module.id
+                    ] = {};
+                }
+
+
+                module.permissions.forEach(
+                    permission => {
+
+                        permissionData[
+                            module.id
+                        ][
+                            permission
+                        ] = true;
+
+                    }
+                );
+
+            }
+        );
+
+
+        renderTable();
+
+
+        showMessage(
+            "All permissions selected. Save karna na bhoolein.",
+            "info"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+clearAllBtn.addEventListener(
+    "click",
+    function(){
+
+        modules.forEach(
+            module => {
+
+                if(
+                    !permissionData[
+                        module.id
+                    ]
+                ){
+                    permissionData[
+                        module.id
+                    ] = {};
+                }
+
+
+                module.permissions.forEach(
+                    permission => {
+
+                        permissionData[
+                            module.id
+                        ][
+                            permission
+                        ] = false;
+
+                    }
+                );
+
+            }
+        );
+
+
+        renderTable();
+
+
+        showMessage(
+            "All permissions cleared. Save karna na bhoolein.",
+            "info"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchBox.addEventListener(
+    "input",
+    renderTable
+);
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+backBtn.addEventListener(
+    "click",
+    function(){
+
+        window.location.href =
+            "admin-dashboard.html";
+
+    }
+);
+
+
+/* =========================================================
+   AUTH + ADMIN CHECK
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async function(user){
+
+        if(!user){
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        try{
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                );
+
+
+            const userSnapshot =
+                await getDoc(
+                    userRef
+                );
+
+
+            if(
+                !userSnapshot.exists()
+            ){
+
+                showMessage(
+                    "Firestore user profile nahi mila.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const userData =
+                userSnapshot.data();
+
+
+            const role =
+                String(
+                    userData.role || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            /* ONLY ADMIN */
+
+            if(
+                role !== "admin"
+            ){
+
+                showMessage(
+                    "❌ Access denied. Sirf Admin permissions manage kar sakta hai.",
+                    "error"
+                );
+
+
+                setTimeout(
+                    function(){
+
+                        window.location.href =
+                            "login.html";
+
+                    },
+                    1500
+                );
+
+
+                return;
+
+            }
+
+
+            adminName.textContent =
+                userData.name ||
+                userData.username ||
+                user.email;
+
+
+            await loadPermissions(
+                user.uid
+            );
+
+
+            saveBtn.addEventListener(
+                "click",
+                function(){
+
+                    savePermissions(
+                        user.uid
+                    );
+
+                }
+            );
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            showMessage(
+                "Access check failed: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
