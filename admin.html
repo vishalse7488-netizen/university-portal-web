@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -11,7 +12,7 @@
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 body{
@@ -225,6 +226,7 @@ input[type="checkbox"]{
 }
 
 @media(max-width:700px){
+
     .header{
         align-items:flex-start;
         flex-direction:column;
@@ -236,152 +238,122 @@ input[type="checkbox"]{
     }
 }
 </style>
+
 </head>
 
 <body>
 
 <header class="header">
 
-    <div>
-        <h1>🔐 Admin Permissions</h1>
-        <p>Manage Admin Panel access permissions</p>
-    </div>
+```
+<div>
+    <h1>🔐 Admin Permissions</h1>
+    <p>Manage Admin Panel access permissions</p>
+</div>
 
-    <button class="back-btn" id="backBtn">
-        ← Admin Dashboard
-    </button>
+<button class="back-btn" id="backBtn">
+    ← Admin Dashboard
+</button>
+```
 
 </header>
 
-
 <div class="container">
 
-    <div class="card">
+```
+<div class="card">
 
-        <div class="top-row">
+    <div class="top-row">
 
-            <div>
-                <h2>Admin Access Control</h2>
+        <div>
 
-                <div class="admin-info">
-                    Logged in as:
-                    <strong id="adminName">Checking...</strong>
-                </div>
-            </div>
+            <h2>Admin Access Control</h2>
 
-            <div class="buttons">
-
-                <button class="btn btn-secondary" id="selectAllBtn">
-                    Select All
-                </button>
-
-                <button class="btn btn-secondary" id="clearAllBtn">
-                    Clear All
-                </button>
-
-                <button class="btn btn-success" id="saveBtn">
-                    💾 Save Permissions
-                </button>
-
+            <div class="admin-info">
+                Logged in as:
+                <strong id="adminName">Checking...</strong>
             </div>
 
         </div>
 
-        <div id="status" class="status"></div>
+        <div class="buttons">
 
-    </div>
+            <button class="btn btn-secondary" id="selectAllBtn">
+                Select All
+            </button>
 
+            <button class="btn btn-secondary" id="clearAllBtn">
+                Clear All
+            </button>
 
-    <div class="card">
-
-        <input
-            type="search"
-            id="searchBox"
-            class="search"
-            placeholder="🔎 Search permission/module..."
-        >
-
-        <div class="legend">
-
-            <span>
-                ☑ View
-            </span>
-
-            <span>
-                ➕ Add
-            </span>
-
-            <span>
-                ✏️ Edit
-            </span>
-
-            <span>
-                🗑️ Delete
-            </span>
-
-            <span>
-                📢 Publish
-            </span>
+            <button class="btn btn-success" id="saveBtn">
+                💾 Save Permissions
+            </button>
 
         </div>
 
     </div>
 
+    <div id="status" class="status"></div>
 
-    <div class="card">
+</div>
 
-        <div class="table-wrap">
+<div class="card">
 
-            <table>
+    <input
+        type="search"
+        id="searchBox"
+        class="search"
+        placeholder="🔎 Search permission/module..."
+    >
 
-                <thead>
+    <div class="legend">
 
-                    <tr>
-
-                        <th style="text-align:left;">
-                            Module
-                        </th>
-
-                        <th>
-                            All
-                        </th>
-
-                        <th>
-                            View
-                        </th>
-
-                        <th>
-                            Add
-                        </th>
-
-                        <th>
-                            Edit
-                        </th>
-
-                        <th>
-                            Delete
-                        </th>
-
-                        <th>
-                            Publish
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="permissionTable">
-
-                </tbody>
-
-            </table>
-
-        </div>
+        <span>☑ View</span>
+        <span>➕ Add</span>
+        <span>✏️ Edit</span>
+        <span>🗑️ Delete</span>
+        <span>📢 Publish</span>
 
     </div>
 
 </div>
 
+<div class="card">
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th style="text-align:left;">
+                        Module
+                    </th>
+
+                    <th>All</th>
+                    <th>View</th>
+                    <th>Add</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Publish</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="permissionTable"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+```
+
+</div>
 
 <script type="module">
 
@@ -391,41 +363,52 @@ input[type="checkbox"]{
 
 import {
     initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
     getAuth,
     onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
     getFirestore,
     doc,
     getDoc,
     setDoc,
+    collection,
+    query,
+    where,
+    getDocs,
     serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 /* =========================================================
    FIREBASE CONFIG
-   APNI EXISTING CONFIG YAHAN PASTE KAREIN
 ========================================================= */
 
 const firebaseConfig = {
 
-    apiKey: "YOUR_API_KEY",
+    apiKey:
+        "AIzaSyCS7fUaY2HAov1ezlFN9_lchZHHUA4lj8g",
 
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    authDomain:
+        "university-portal-2107e.firebaseapp.com",
 
-    projectId: "YOUR_PROJECT_ID",
+    projectId:
+        "university-portal-2107e",
 
-    storageBucket: "YOUR_PROJECT.firebasestorage.app",
+    storageBucket:
+        "university-portal-2107e.firebasestorage.app",
 
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    messagingSenderId:
+        "50848903813",
 
-    appId: "YOUR_APP_ID"
+    appId:
+        "1:50848903813:web:8296090d0d9268cfd2efec",
 
+    measurementId:
+        "G-LKTX7C7F0E"
 };
 
 
@@ -671,14 +654,14 @@ const modules = [
 
 
 /* =========================================================
-   DEFAULT PERMISSIONS
+   PERMISSION DATA
 ========================================================= */
 
 let permissionData = {};
 
 
 /* =========================================================
-   CREATE DEFAULT PERMISSION OBJECT
+   DEFAULT PERMISSIONS
 ========================================================= */
 
 function createDefaultPermissions(){
@@ -705,17 +688,27 @@ function createDefaultPermissions(){
    SHOW MESSAGE
 ========================================================= */
 
-function showMessage(
-    message,
-    type = "info"
-){
+function showMessage(message,type="info"){
 
-    statusBox.textContent =
-        message;
+    statusBox.textContent = message;
 
     statusBox.className =
         "status " + type;
+}
 
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 }
 
 
@@ -732,7 +725,6 @@ function renderTable(){
         .trim()
         .toLowerCase();
 
-
     modules.forEach(module => {
 
         const searchable =
@@ -742,14 +734,12 @@ function renderTable(){
                 module.desc
             ).toLowerCase();
 
-
         if(
             search &&
             !searchable.includes(search)
         ){
             return;
         }
-
 
         const tr =
             document.createElement("tr");
@@ -807,138 +797,113 @@ function renderTable(){
             "change",
             function(){
 
+                if(
+                    !permissionData[module.id]
+                ){
+                    permissionData[module.id] = {};
+                }
+
                 module.permissions.forEach(
                     permission => {
 
-                        const checkbox =
-                            document.querySelector(
-                                `[data-module="${module.id}"][data-permission="${permission}"]`
-                            );
-
-                        if(checkbox){
-                            checkbox.checked =
-                                allCheckbox.checked;
-                        }
+                        permissionData[
+                            module.id
+                        ][permission] =
+                            allCheckbox.checked;
 
                     }
                 );
 
-                updateCount(module.id);
+                renderTable();
 
             }
         );
 
-        allTd.appendChild(
-            allCheckbox
-        );
+        allTd.appendChild(allCheckbox);
 
         tr.appendChild(allTd);
 
 
         /* PERMISSIONS */
 
-        const permissionTypes =
-            [
-                "view",
-                "add",
-                "edit",
-                "delete",
-                "publish"
-            ];
+        const permissionTypes = [
+            "view",
+            "add",
+            "edit",
+            "delete",
+            "publish"
+        ];
 
+        permissionTypes.forEach(permission => {
 
-        permissionTypes.forEach(
-            permission => {
+            const td =
+                document.createElement("td");
 
-                const td =
-                    document.createElement("td");
+            if(
+                module.permissions.includes(permission)
+            ){
 
+                const checkbox =
+                    document.createElement("input");
 
-                if(
-                    module.permissions.includes(
+                checkbox.type =
+                    "checkbox";
+
+                checkbox.dataset.module =
+                    module.id;
+
+                checkbox.dataset.permission =
+                    permission;
+
+                checkbox.checked =
+                    permissionData[
+                        module.id
+                    ]?.[
                         permission
-                    )
-                ){
+                    ] === true;
 
-                    const checkbox =
-                        document.createElement(
-                            "input"
-                        );
+                checkbox.addEventListener(
+                    "change",
+                    function(){
 
-                    checkbox.type =
-                        "checkbox";
-
-                    checkbox.dataset.module =
-                        module.id;
-
-                    checkbox.dataset.permission =
-                        permission;
-
-
-                    checkbox.checked =
-                        permissionData[
-                            module.id
-                        ]?.[
-                            permission
-                        ] === true;
-
-
-                    checkbox.addEventListener(
-                        "change",
-                        function(){
-
-                            if(
-                                !permissionData[
-                                    module.id
-                                ]
-                            ){
-                                permissionData[
-                                    module.id
-                                ] = {};
-                            }
-
+                        if(
+                            !permissionData[
+                                module.id
+                            ]
+                        ){
                             permissionData[
                                 module.id
-                            ][
-                                permission
-                            ] =
-                                checkbox.checked;
-
-
-                            updateCount(
-                                module.id
-                            );
-
+                            ] = {};
                         }
-                    );
 
+                        permissionData[
+                            module.id
+                        ][permission] =
+                            checkbox.checked;
 
-                    td.appendChild(
-                        checkbox
-                    );
+                        updateCount(
+                            module.id
+                        );
 
-                }
-                else{
+                    }
+                );
 
-                    td.textContent =
-                        "—";
-
-                }
-
-
-                tr.appendChild(td);
+                td.appendChild(checkbox);
 
             }
-        );
+            else{
 
+                td.textContent = "—";
+
+            }
+
+            tr.appendChild(td);
+
+        });
 
         table.appendChild(tr);
 
-
-        setTimeout(
-            () => updateCount(module.id),
-            0
-        );
+        updateCount(module.id);
 
     });
 
@@ -953,41 +918,29 @@ function updateCount(moduleId){
 
     const module =
         modules.find(
-            item =>
-                item.id === moduleId
+            item => item.id === moduleId
         );
 
     if(!module){
         return;
     }
 
-
     let count = 0;
 
-    module.permissions.forEach(
-        permission => {
+    module.permissions.forEach(permission => {
 
-            const checkbox =
-                document.querySelector(
-                    `[data-module="${moduleId}"][data-permission="${permission}"]`
-                );
-
-            if(
-                checkbox &&
-                checkbox.checked
-            ){
-                count++;
-            }
-
+        if(
+            permissionData[moduleId]?.[permission] === true
+        ){
+            count++;
         }
-    );
 
+    });
 
     const countBox =
         document.getElementById(
             `count-${moduleId}`
         );
-
 
     if(countBox){
 
@@ -996,12 +949,10 @@ function updateCount(moduleId){
 
     }
 
-
     const allCheckbox =
         document.querySelector(
             `[data-module="${moduleId}"].module-all`
         );
-
 
     if(allCheckbox){
 
@@ -1018,23 +969,7 @@ function updateCount(moduleId){
 
 
 /* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value){
-
-    return String(value || "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   LOAD CURRENT ADMIN PERMISSIONS
+   LOAD PERMISSIONS
 ========================================================= */
 
 async function loadPermissions(uid){
@@ -1046,7 +981,6 @@ async function loadPermissions(uid){
             "info"
         );
 
-
         const permissionRef =
             doc(
                 db,
@@ -1054,20 +988,13 @@ async function loadPermissions(uid){
                 uid
             );
 
-
         const snapshot =
-            await getDoc(
-                permissionRef
-            );
+            await getDoc(permissionRef);
 
-
-        if(
-            snapshot.exists()
-        ){
+        if(snapshot.exists()){
 
             const saved =
                 snapshot.data();
-
 
             permissionData =
                 saved.permissions ||
@@ -1081,9 +1008,7 @@ async function loadPermissions(uid){
 
         }
 
-
         renderTable();
-
 
         showMessage(
             "Permissions loaded successfully.",
@@ -1093,7 +1018,10 @@ async function loadPermissions(uid){
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "Permission Load Error:",
+            error
+        );
 
         showMessage(
             "Permissions load nahi ho rahi: " +
@@ -1114,17 +1042,12 @@ async function savePermissions(uid){
 
     try{
 
-        saveBtn.disabled =
-            true;
+        saveBtn.disabled = true;
 
         saveBtn.textContent =
             "Saving...";
 
-
-        /* Build fresh permission object */
-
         const finalPermissions = {};
-
 
         modules.forEach(module => {
 
@@ -1132,30 +1055,20 @@ async function savePermissions(uid){
                 module.id
             ] = {};
 
+            module.permissions.forEach(permission => {
 
-            module.permissions.forEach(
-                permission => {
-
-                    const checkbox =
-                        document.querySelector(
-                            `[data-module="${module.id}"][data-permission="${permission}"]`
-                        );
-
-
-                    finalPermissions[
+                finalPermissions[
+                    module.id
+                ][permission] =
+                    permissionData[
                         module.id
-                    ][
+                    ]?.[
                         permission
-                    ] =
-                        checkbox
-                            ? checkbox.checked
-                            : false;
+                    ] === true;
 
-                }
-            );
+            });
 
         });
-
 
         await setDoc(
 
@@ -1166,7 +1079,6 @@ async function savePermissions(uid){
             ),
 
             {
-
                 uid:uid,
 
                 role:"admin",
@@ -1176,7 +1088,6 @@ async function savePermissions(uid){
 
                 updatedAt:
                     serverTimestamp()
-
             },
 
             {
@@ -1185,10 +1096,10 @@ async function savePermissions(uid){
 
         );
 
-
         permissionData =
             finalPermissions;
 
+        renderTable();
 
         showMessage(
             "✅ Admin permissions successfully saved.",
@@ -1198,7 +1109,10 @@ async function savePermissions(uid){
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "Save Error:",
+            error
+        );
 
         showMessage(
             "❌ Save failed: " +
@@ -1209,8 +1123,7 @@ async function savePermissions(uid){
     }
     finally{
 
-        saveBtn.disabled =
-            false;
+        saveBtn.disabled = false;
 
         saveBtn.textContent =
             "💾 Save Permissions";
@@ -1228,38 +1141,25 @@ selectAllBtn.addEventListener(
     "click",
     function(){
 
-        modules.forEach(
-            module => {
+        modules.forEach(module => {
 
-                if(
-                    !permissionData[
-                        module.id
-                    ]
-                ){
-                    permissionData[
-                        module.id
-                    ] = {};
-                }
-
-
-                module.permissions.forEach(
-                    permission => {
-
-                        permissionData[
-                            module.id
-                        ][
-                            permission
-                        ] = true;
-
-                    }
-                );
-
+            if(
+                !permissionData[module.id]
+            ){
+                permissionData[module.id] = {};
             }
-        );
 
+            module.permissions.forEach(permission => {
+
+                permissionData[
+                    module.id
+                ][permission] = true;
+
+            });
+
+        });
 
         renderTable();
-
 
         showMessage(
             "All permissions selected. Save karna na bhoolein.",
@@ -1278,38 +1178,25 @@ clearAllBtn.addEventListener(
     "click",
     function(){
 
-        modules.forEach(
-            module => {
+        modules.forEach(module => {
 
-                if(
-                    !permissionData[
-                        module.id
-                    ]
-                ){
-                    permissionData[
-                        module.id
-                    ] = {};
-                }
-
-
-                module.permissions.forEach(
-                    permission => {
-
-                        permissionData[
-                            module.id
-                        ][
-                            permission
-                        ] = false;
-
-                    }
-                );
-
+            if(
+                !permissionData[module.id]
+            ){
+                permissionData[module.id] = {};
             }
-        );
 
+            module.permissions.forEach(permission => {
+
+                permissionData[
+                    module.id
+                ][permission] = false;
+
+            });
+
+        });
 
         renderTable();
-
 
         showMessage(
             "All permissions cleared. Save karna na bhoolein.",
@@ -1339,7 +1226,7 @@ backBtn.addEventListener(
     function(){
 
         window.location.href =
-            "admin-dashboard.html";
+            "admin.html";
 
     }
 );
@@ -1353,10 +1240,16 @@ onAuthStateChanged(
     auth,
     async function(user){
 
+        /*
+         * IMPORTANT:
+         * Firebase session nahi mila to login par bhejenge.
+         */
+
         if(!user){
 
-            window.location.href =
-                "index.html";
+            window.location.replace(
+                "index.html"
+            );
 
             return;
 
@@ -1365,6 +1258,13 @@ onAuthStateChanged(
 
         try{
 
+            let userData = null;
+
+
+            /* =============================================
+               FIRST: users/{uid}
+            ============================================= */
+
             const userRef =
                 doc(
                     db,
@@ -1372,16 +1272,67 @@ onAuthStateChanged(
                     user.uid
                 );
 
-
             const userSnapshot =
-                await getDoc(
-                    userRef
-                );
+                await getDoc(userRef);
 
 
-            if(
-                !userSnapshot.exists()
-            ){
+            if(userSnapshot.exists()){
+
+                userData =
+                    userSnapshot.data();
+
+            }
+
+
+            /* =============================================
+               SECOND: EMAIL SEARCH
+               Aapke existing admin.html ke according
+            ============================================= */
+
+            if(!userData && user.email){
+
+                const usersRef =
+                    collection(
+                        db,
+                        "users"
+                    );
+
+                const q =
+                    query(
+                        usersRef,
+                        where(
+                            "email",
+                            "==",
+                            user.email
+                        )
+                    );
+
+                const snapshot =
+                    await getDocs(q);
+
+                if(!snapshot.empty){
+
+                    snapshot.forEach(docSnap => {
+
+                        if(!userData){
+
+                            userData =
+                                docSnap.data();
+
+                        }
+
+                    });
+
+                }
+
+            }
+
+
+            /* =============================================
+               USER PROFILE NOT FOUND
+            ============================================= */
+
+            if(!userData){
 
                 showMessage(
                     "Firestore user profile nahi mila.",
@@ -1393,9 +1344,9 @@ onAuthStateChanged(
             }
 
 
-            const userData =
-                userSnapshot.data();
-
+            /* =============================================
+               ROLE
+            ============================================= */
 
             const role =
                 String(
@@ -1405,60 +1356,74 @@ onAuthStateChanged(
                 .toLowerCase();
 
 
-            /* ONLY ADMIN */
+            /* =============================================
+               ADMIN CHECK
+            ============================================= */
 
-            if(
-                role !== "admin"
-            ){
+            if(role !== "admin"){
 
                 showMessage(
                     "❌ Access denied. Sirf Admin permissions manage kar sakta hai.",
                     "error"
                 );
 
-
                 setTimeout(
                     function(){
 
-                        window.location.href =
-                            "index.html";
+                        window.location.replace(
+                            "index.html"
+                        );
 
                     },
                     1500
                 );
-
 
                 return;
 
             }
 
 
+            /* =============================================
+               ADMIN NAME
+            ============================================= */
+
             adminName.textContent =
                 userData.name ||
                 userData.username ||
-                user.email;
+                user.displayName ||
+                user.email ||
+                "Admin";
 
+
+            /* =============================================
+               LOAD PERMISSIONS
+            ============================================= */
 
             await loadPermissions(
                 user.uid
             );
 
 
-            saveBtn.addEventListener(
-                "click",
+            /* =============================================
+               SAVE BUTTON
+            ============================================= */
+
+            saveBtn.onclick =
                 function(){
 
                     savePermissions(
                         user.uid
                     );
 
-                }
-            );
+                };
 
         }
         catch(error){
 
-            console.error(error);
+            console.error(
+                "Admin Permission Error:",
+                error
+            );
 
             showMessage(
                 "Access check failed: " +
